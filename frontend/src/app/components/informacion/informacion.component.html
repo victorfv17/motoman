@@ -3,23 +3,30 @@
     <mat-spinner class="spinner-center"></mat-spinner>
 </ng-template>
 <ng-template #table>
-    <table class="table table-bordered table-hover">
-        <thead class=" thead-dark">
-            <tr>
-                <th scope="col">Piloto</th>
-                <th scope="col">Escuderia</th>
+    <mat-card>
+        <table class="table table-bordered table-hover">
+            <thead class=" thead-dark">
+                <tr>
+                    <th scope="col">Piloto</th>
+                    <th scope="col">Escuderia</th>
+                    <th scope="col">Puntos</th>
+                    <th scope="col">Edad</th>
 
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let piloto of pilotos" class="table-dark">
-                <td>{{piloto.nombre}}</td>
-                <td>{{piloto.nombre_escuderia}}</td>
-            </tr>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let piloto of pilotos" class="table-dark">
+                    <td>{{piloto.nombre}}</td>
+                    <td>{{piloto.nombre_escuderia}}</td>
+                    <td>{{piloto.puntos}}</td>
+                    <td>{{piloto.edad}}</td>
+                </tr>
 
 
 
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </mat-card>
+
 </ng-template>

@@ -16,8 +16,8 @@ class CreateTablePilotos extends Migration
         Schema::create('pilotos', function (Blueprint $table) {
             $table->increments('id') ->primary;
 			$table->string('nombre');
-			$table->integer('edad');
-			$table->integer('puntos');
+            $table->integer('edad');
+            $table->integer('puntos');
 			$table->string('pais');
 			$table->integer('numero');
             $table->integer('id_escuderia')->unsigned();
