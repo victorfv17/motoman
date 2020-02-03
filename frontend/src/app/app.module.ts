@@ -7,11 +7,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { InformacionComponent } from './components/informacion/informacion.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './core/material-module';
+import { InformacionDetailComponent } from './components/informacion/informacion-detail/informacion-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    InformacionComponent
+    InformacionComponent,
+    InformacionDetailComponent
   ],
   imports: [
     BrowserModule,
