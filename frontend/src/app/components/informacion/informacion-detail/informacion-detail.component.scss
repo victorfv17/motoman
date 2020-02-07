@@ -1,0 +1,41 @@
+@media (min-width: 600px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(2, auto);
+        div{
+            padding-top:20px;
+        }
+    }
+
+}
+@media (max-width: 599px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(1, auto);
+        div{
+            padding-top:20px;
+        }
+    }
+}
+
+.alinear *{
+    display:flex;
+}
+.container{
+    display:flex;
+    flex-direction: row;
+    
+    align-items:center;
+
+    justify-content: space-evenly;
+
+    
+}
+.space{
+    margin-top:20px;
+}
+.space p{
+    
+    line-height: 1;
+}
+

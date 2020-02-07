@@ -4,17 +4,32 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Pilotos;
+use App\Escuderias;
+
 header('Access-Control-Allow-Origin: *');
 class PilotosController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(){
         return Pilotos::get();
+    }
+    public function join($campo,$direct)
+    {   
+        return Pilotos::join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')->select( 'pilotos.id as id','pilotos.nombre as nombre','puntos','escuderias.nombre as escuderia', 'pais')->orderBy($campo, $direct )->get();
+        
+       // return Pilotos::with('escuderias')->select( 'nombre','puntos','id_escuderia as id')->orderBy(Escuderias::'nombre', $direct )->get();
+        /*$todos =  Escuderias::get();
+        foreach($todos as $esc){
+            echo 
+        }*/
+       //return Pilotos::where('id_escuderia', $esc['id'])->get();
+
+        
     }
 
     /**
@@ -63,9 +78,6 @@ class PilotosController extends Controller
               
             }*/
 
-          
-
-          
         
           /*$piloto->nombre =  $todos[$i]['nombre'];
            $piloto->pais =  $todos[$i]['pais'];
@@ -75,15 +87,6 @@ class PilotosController extends Controller
           // echo $piloto;
        // $piloto->save();
 
-
-  
-
-  
-       
-		
-		
-		
-		
 		
     }
 
@@ -131,4 +134,6 @@ class PilotosController extends Controller
     {
         //
     }
+
+  
 }

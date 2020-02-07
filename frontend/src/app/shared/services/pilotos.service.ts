@@ -12,11 +12,17 @@ export class PilotosService {
 
   }
   public getAll(): Observable<Array<IPilotos>> {
+
     return this.http.get<Array<IPilotos>>('http://127.0.0.1:8000/api/pilotos');
+  }
+  public getAllSort(campo: string, direct: string): Observable<Array<IPilotos>> {
+
+    return this.http.get<Array<IPilotos>>('http://127.0.0.1:8000/api/pilotos/' + campo + '/' + direct);
   }
   public getPiloto(id: number): Observable<IPilotos> {
     return this.http.get<IPilotos>('http://127.0.0.1:8000/api/pilotos/' + id);
   }
+
 
   columnSorted(campo: string, datalist: any[], direction: string): any[] {
 

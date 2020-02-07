@@ -3,7 +3,7 @@ import { PilotosService } from 'src/app/shared/services/pilotos.service';
 import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { IEscuderias } from 'src/app/shared/models/escuderias.model';
 import { EscuderiasService } from 'src/app/shared/services/escuderias.service';
-
+import { mergeMap } from 'rxjs/internal/operators/mergeMap';
 
 @Component({
   selector: 'app-informacion',
@@ -15,54 +15,65 @@ export class InformacionComponent implements OnInit {
   public escuderias: Array<IEscuderias>;
   public escuderia: IEscuderias;
   public piloto: IPilotos;
-  public isLoading = true;
-  public direct: string = 'desc';
+  public isLoading: boolean = true;
+  public isLoadingEscuderias: boolean = true;
+  public direct: string = 'asc';
+  public campo: string = 'nombre';
+  private cont = 0;
   sorted: IPilotos;
   constructor(
     private pilotosService: PilotosService,
-    private escuderiasService: EscuderiasService
+
   ) { }
 
   ngOnInit() {
+
     this.getPilotos();
 
 
 
   }
   public getPilotos() {
-    //peticion que trae todos los pilotos
-    this.pilotosService.getAll().subscribe(pilotos => {
-      this.pilotos = pilotos;
-      this.isLoading = false;
-      //recorro el array de pilotos
-      this.pilotos.forEach(piloto => {
-        //traigo la escuderia correspondiente a ese piloto
 
-        this.escuderiasService.getEscuderia(piloto.id_escuderia).subscribe((escuderia: IEscuderias) => {
-          this.escuderia = escuderia[0];
-          piloto.nombre_escuderia = this.escuderia.nombre;
-          this.isLoading = false;
-        });
-      });
+    this.pilotosService.getAllSort(this.campo, this.direct).subscribe(pilotos => {
+      this.pilotos = pilotos;
+      console.log(this.pilotos)
+      this.isLoading = false;
+      /* this.pilotos.forEach(piloto => {
+ 
+         this.escuderiasService.getEscuderia(piloto.id_escuderia).subscribe((escuderia: IEscuderias) => {
+           this.escuderia = escuderia[0];
+           piloto.nombre_escuderia = this.escuderia.nombre;
+ 
+           this.cont = this.cont + 1;
+           //comprobacion para que no se cargue la pagina hasta que esten todas las escuderias
+           if (this.pilotos.length === this.cont) {
+             this.isLoading = false;
+           }
+ 
+ 
+         });
+ 
+ 
+       });*/
 
     });
+
   }
 
 
-  sort(campo?: any) {
+  sort(campo?: string) {
     if (this.direct === 'asc') {
-      this.direct = 'des';
+      this.direct = 'desc';
     } else {
       this.direct = 'asc';
     }
-    this.pilotosService.columnSorted(campo, this.pilotos, this.direct);
-  }
-  /*detail(piloto: IPilotos) {
-    console.log(piloto)
-    this.pilotosService.getPiloto(piloto.id).subscribe((data) => {
-      this.piloto = data;
+    this.pilotosService.getAllSort(campo, this.direct).subscribe(pilotos => {
+      this.pilotos = pilotos;
+      this.isLoading = false;
+
 
     });
-  }*/
 
+  }
 }

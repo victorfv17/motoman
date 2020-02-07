@@ -8,6 +8,11 @@ class Pilotos extends Model
 {
     protected $table = 'pilotos';
 	protected $fillable = ['nombre','edad','puntos','pais','numero', 'id_escuderia'];
-	
+	/**
+     * Get the escuderia record associated with the piloto.
+     */
+	public function escuderias(){
+		return $this->hasOne('App\Escuderias', 'id');
+	}
 	
 }
