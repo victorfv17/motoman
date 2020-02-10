@@ -6,7 +6,7 @@
     <mat-card style="margin:10px;">
         <table class="table table-bordered table-hover table-striped">
             <thead class=" thead-dark">
-                <tr>
+                <tr class="pointer">
                     <th scope="col" name="piloto">Piloto<mat-icon *ngIf="direct === 'desc'" (click)="sort('nombre')">
                             keyboard_arrow_down</mat-icon>
                         <mat-icon *ngIf="direct === 'asc'" (click)="sort('nombre')">
@@ -32,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let piloto of pilotos" class="table-dark" style="color:#9D0000"
+                <tr *ngFor="let piloto of pilotos" class="table-dark pointer" style="color:#9D0000"
                     routerLink="/informacion/{{piloto.id}}">
                     <td style="text-align: left;"><img src="assets/pilotos/{{piloto.nombre}}.png"
                             alt="{{piloto.nombre}}" height="40" width="40">{{piloto.nombre}}

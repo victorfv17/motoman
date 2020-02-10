@@ -1,4 +1,4 @@
-@media (min-width: 600px) {
+/*@media (min-width: 600px) {
     .grid-container {
         display: grid;
         grid-template-columns: repeat(2, auto);
@@ -16,10 +16,16 @@
             padding-top:20px;
         }
     }
-}
-
-.alinear *{
+}*/
+.card{
     display:flex;
+
+    
+    align-items:center;
+
+    justify-content: center;
+    border-bottom: none;
+    height: 70%;
 }
 .container{
     display:flex;
