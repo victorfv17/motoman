@@ -4,6 +4,7 @@ import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { IEscuderias } from 'src/app/shared/models/escuderias.model';
 import { EscuderiasService } from 'src/app/shared/services/escuderias.service';
 import { mergeMap } from 'rxjs/internal/operators/mergeMap';
+import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 
 @Component({
   selector: 'app-informacion',
@@ -23,13 +24,14 @@ export class InformacionComponent implements OnInit {
   sorted: IPilotos;
   constructor(
     private pilotosService: PilotosService,
+    private authenticationService: AuthenticationService
 
   ) { }
 
   ngOnInit() {
 
     this.getPilotos();
-
+    const user = this.authenticationService.isAuthenticated();
 
 
   }

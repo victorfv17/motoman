@@ -16,12 +16,13 @@
                 <mat-spinner class="spinner-center"></mat-spinner>
             </ng-template>
             <ng-template #login>
-                <form>
+                <form name="user">
                     <mat-form-field>
-                        <input matInput type="text" placeholder="Usuario">
+                        <input matInput type="text" placeholder="Email" name="email" [(ngModel)]="user.email">
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput type="text" placeholder="Contraseña">
+                        <input matInput type="text" placeholder="Contraseña" name="password"
+                            [(ngModel)]="user.password">
                     </mat-form-field>
                 </form>
 
