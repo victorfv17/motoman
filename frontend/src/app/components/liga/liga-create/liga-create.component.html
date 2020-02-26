@@ -1,0 +1,41 @@
+<ng-container *ngIf=" isLoading; then spinner; else form">
+</ng-container>
+<ng-template #spinner>
+    <mat-spinner class="spinner-center" style="margin-bottom: 3em"></mat-spinner>
+</ng-template>
+<ng-template #form>
+    <div class="card">
+        <mat-card style="width:50%;margin:10px;">
+            <mat-card-header>
+                <mat-icon mat-card-avatar>motorcycle</mat-icon>
+                <mat-card-title>Crear liga</mat-card-title>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+
+            <mat-card-content>
+                <form name="createLiga">
+                    <mat-form-field style="width: 100%;">
+                        <input matInput type="text" name="nombre_liga" placeholder="Nombre de la liga"
+                            [(ngModel)]="liga.nombre_liga">
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <input matInput type="number" name="maxParticipantes" placeholder="Máximo participantes"
+                            [(ngModel)]="liga.maxParticipantes">
+                    </mat-form-field>
+
+                </form>
+
+            </mat-card-content>
+            <mat-card-actions style="display: inline;">
+                <button class="btn btn-secondary" style="width:50%; margin-right: 0.5em" type="button" (click)="back()"
+                    [disabled]="isLoading">Volver
+                </button>
+                <button class="btn btn-danger" style="width:50%; margin-right: 0.5em" type="button" (click)="create()"
+                    [disabled]="isLoading">Crear
+                </button>
+
+            </mat-card-actions>
+
+        </mat-card>
+    </div>
+</ng-template>

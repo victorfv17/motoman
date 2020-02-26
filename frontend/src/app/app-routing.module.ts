@@ -12,7 +12,7 @@ import { LigaComponent } from './components/liga/liga.component';
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AutenticacionGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'liga', component: LigaComponent },
+  { path: 'liga', loadChildren: () => import('./components/liga/liga.module').then((m) => m.LigaModule) },
   { path: 'informacion', component: InformacionComponent },
   { path: 'informacion/:id', component: InformacionDetailComponent },
   { path: 'clasificacion', component: ClasificacionComponent }
