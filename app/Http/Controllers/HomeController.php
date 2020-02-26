@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 header('Access-Control-Allow-Origin: *');
 class HomeController extends Controller
-{
-    /**
+
+{    /**
      * Create a new controller instance.
      *
      * @return void

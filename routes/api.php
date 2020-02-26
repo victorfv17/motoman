@@ -29,3 +29,4 @@ Route::group(['prefix'=>'user'],function(){
 Route::get('pilotos/{campo}/{direct}', 'PilotosController@join');
 Route::resource('pilotos','PilotosController');
 Route::resource('escuderias','EscuderiasController');
+Route::resource('ligas','LigasController');
