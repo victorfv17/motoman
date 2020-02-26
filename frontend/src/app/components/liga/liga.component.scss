@@ -1,0 +1,31 @@
+.card{
+    display:flex;
+
+    
+    align-items:center;
+
+    justify-content: center;
+    border-bottom: none;
+    height: 80%;
+}
+.container{
+    display:flex;
+    flex-direction: column;
+    
+    align-items:center;
+
+    justify-content: center;
+
+    
+}
+.container mat-card{
+    margin-top:20px;
+}
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size:x-large;
+  }
+ 

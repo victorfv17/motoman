@@ -11,12 +11,13 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   public isLoading: boolean = false;
   public user: IUser = {};
+  public usuario: string;
   constructor(private authenticationService: AuthenticationService, private router: Router) {
 
   }
 
   ngOnInit() {
-
+    this.usuario = localStorage.getItem('usuario');
 
   }
   public checkLogin() {
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
         console.log(usuario)
         if (usuario) {
           localStorage.setItem('usuario', JSON.stringify(usuario))
-          this.router.navigateByUrl('/informacion');
+          this.router.navigateByUrl('/liga');
         }
 
       });

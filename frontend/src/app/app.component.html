@@ -36,8 +36,8 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="appNavigation" [ngbCollapse]="isCollapsed">
-      <div class="navbar-nav mr-auto">
+    <div *ngIf="user" class="collapse navbar-collapse" id="appNavigation" [ngbCollapse]="isCollapsed">
+      <div *ngIf="location.path()!=='/liga'" class="navbar-nav mr-auto">
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Inicio</a>
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/informacion"
           routerLinkActive="active">Informacion</a>
@@ -51,11 +51,27 @@
           </div>
         </div>
 
+
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Alineacion</a>
-        <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Clasificacion</a>
+        <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/clasificacion"
+          routerLinkActive="active">Clasificacion</a>
+        <a (click)="logout()" class="nav-item nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
+      </div>
+      <div *ngIf="location.path()==='/liga'">
+
+
 
       </div>
+
     </div>
+    <div *ngIf="!user" class="collapse navbar-collapse" id="appNavigation" [ngbCollapse]="isCollapsed">
+
+
+      <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Iniciar Sesión</a>
+      <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Registro</a>
+
+    </div>
+
   </nav>
 
   <router-outlet></router-outlet>

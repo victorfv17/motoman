@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { AuthenticationService } from './shared/services/authentication.service';
+import { IUser } from './shared/models/users.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -8,16 +10,23 @@ import { AuthenticationService } from './shared/services/authentication.service'
 })
 export class AppComponent implements OnInit {
   title = 'frontend';
+  public user: string;
   public isCollapsed = true;
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(private location: Location) { }
 
   ngOnInit() {
-    //this.authenticationService.getUser()
-    console.log(localStorage.getItem('token'));
+    this.user = localStorage.getItem('usuario');
 
+  }
+  ngDoCheck(): void {
+    this.user = localStorage.getItem('usuario');
   }
   toggleMenu() {
     this.isCollapsed = !this.isCollapsed;
+
+  }
+  logout() {
+    localStorage.clear();
   }
 
 

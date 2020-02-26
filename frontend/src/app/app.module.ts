@@ -11,6 +11,8 @@ import { InformacionDetailComponent } from './components/informacion/informacion
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
+import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
+import { LigaComponent } from './components/liga/liga.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { HomeComponent } from './home/home.component';
     InformacionComponent,
     InformacionDetailComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    ClasificacionComponent,
+    LigaComponent
   ],
   imports: [
     BrowserModule,
