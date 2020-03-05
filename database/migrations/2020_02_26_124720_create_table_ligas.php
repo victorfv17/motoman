@@ -14,7 +14,7 @@ class CreateTableLigas extends Migration
     public function up()
     {
         Schema::create('ligas', function (Blueprint $table) {
-            $table->bigIncrements('id_liga');
+            $table->increments('id_liga');
             $table->string('nombre_liga')->nullable();
             $table->integer('maxParticipantes')->nullable();
             $table->integer('numParticipantes')->nullable();

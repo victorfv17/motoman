@@ -20,7 +20,10 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-			$table->string('api_token', 60)->unique()->nullable()->default(null);
+            $table->string('api_token', 60)->unique()->nullable()->default(null);
+            $table->integer('liga_id')->unsigned()->nullable()->default(null);
+            $table->foreign('liga_id')->references('id_liga')->on('ligas');
+
             $table->timestamps();
         });
     }

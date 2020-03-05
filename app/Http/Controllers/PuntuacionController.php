@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Ligas;
-use App\User;
-class LigasController extends Controller
+use App\Puntuacion;
+class PuntuacionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,6 +14,19 @@ class LigasController extends Controller
     public function index()
     {
         //
+    }
+    public function join($liga)
+    {   
+        return Puntuacion::join('users', 'users.id','=','puntuacion.id_usuario')->where('liga_id',$liga)->select('users.name','puntosTotales')->get();
+        
+       // return Pilotos::with('escuderias')->select( 'nombre','puntos','id_escuderia as id')->orderBy(Escuderias::'nombre', $direct )->get();
+        /*$todos =  Escuderias::get();
+        foreach($todos as $esc){
+            echo 
+        }*/
+       //return Pilotos::where('id_escuderia', $esc['id'])->get();
+
+        
     }
 
     /**
@@ -36,25 +47,7 @@ class LigasController extends Controller
      */
     public function store(Request $request)
     {
-        //PARA ARRAYS
-        /*$ligas = $request->all();
-
-        
-        foreach($ligas as $liga){
-            Ligas::create($liga);
-        }*/
-
-        //INDIVIDUALES
-        $liga = new Ligas;
-      
-        $liga->nombre_liga = $request->nombre_liga;
-        $liga->maxParticipantes = $request->maxParticipantes;
-        $liga->numParticipantes = $request->numParticipantes;
-        
-        
-        $liga->save();
-        return $liga;
-        
+        //
     }
 
     /**
@@ -65,7 +58,7 @@ class LigasController extends Controller
      */
     public function show($id)
     {
-        return Ligas::where('id_liga',$id)->get();
+        return Puntuacion::where('id_usuario', $id)->get();
     }
 
     /**

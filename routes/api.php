@@ -25,8 +25,12 @@ Route::group(['middleware' => 'auth:api'], function(){
 Route::group(['prefix'=>'user'],function(){
 	Route::post('/login','AuthController@login');
 	Route::get('/getUser','AuthController@getUser');
+	Route::put('/update','AuthController@update');
+	Route::get('/{liga}','AuthController@getUsersByLiga');
 });
 Route::get('pilotos/{campo}/{direct}', 'PilotosController@join');
 Route::resource('pilotos','PilotosController');
 Route::resource('escuderias','EscuderiasController');
 Route::resource('ligas','LigasController');
+Route::post('puntuacion/{user}', 'PuntuacionController@join');
+Route::resource('puntuacion','PuntuacionController');
