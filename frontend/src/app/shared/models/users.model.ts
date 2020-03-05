@@ -5,4 +5,9 @@ export interface IUser {
     password?: string;
     message?: string;
     token?: string;
+    liga_id?: number;
+
+    //extra
+    usuario?: IUser;
+
 }
