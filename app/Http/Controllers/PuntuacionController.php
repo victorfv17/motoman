@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Puntuacion;
+use App\User;
 class PuntuacionController extends Controller
 {
     /**
@@ -17,6 +18,7 @@ class PuntuacionController extends Controller
     }
     public function join($liga)
     {   
+
         return Puntuacion::join('users', 'users.id','=','puntuacion.id_usuario')->where('liga_id',$liga)->select('users.name','puntosTotales')->get();
         
        // return Pilotos::with('escuderias')->select( 'nombre','puntos','id_escuderia as id')->orderBy(Escuderias::'nombre', $direct )->get();

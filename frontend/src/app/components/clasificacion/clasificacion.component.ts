@@ -24,22 +24,11 @@ export class ClasificacionComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
 
-    this.ligasService.getLiga(this.user.usuario.liga_id).subscribe((liga) => {
-      if (!liga) return;
-      this.liga = liga;
-      this.puntuacionService.getPuntuacionByUser(this.liga[0].id_liga).subscribe(data => {
-        this.usuarios = data;
-        console.log(this.usuarios)
-      });
-      /* this.authenticationService.getUsersByLiga(this.liga[0].id_liga).subscribe(usuarios => {
-         if (usuarios.length === 0) return;
-         this.users = usuarios;*/
 
-
-
-    })
-
-
+    this.puntuacionService.getPuntuacionByUser(this.user.usuario.liga_id).subscribe(usuarios => {
+      this.usuarios = usuarios;
+      console.log(this.usuarios)
+    });
 
   }
 

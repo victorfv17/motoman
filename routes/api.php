@@ -32,5 +32,5 @@ Route::get('pilotos/{campo}/{direct}', 'PilotosController@join');
 Route::resource('pilotos','PilotosController');
 Route::resource('escuderias','EscuderiasController');
 Route::resource('ligas','LigasController');
-Route::post('puntuacion/{user}', 'PuntuacionController@join');
+Route::get('puntuacion/join/{id}', 'PuntuacionController@join');
 Route::resource('puntuacion','PuntuacionController');
