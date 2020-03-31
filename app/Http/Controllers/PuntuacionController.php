@@ -16,10 +16,14 @@ class PuntuacionController extends Controller
     {
         //
     }
-    public function join($liga)
+    public function join($liga, $campo)
     {   
 
-        return Puntuacion::join('users', 'users.id','=','puntuacion.id_usuario')->where('liga_id',$liga)->select('users.name','puntosTotales')->get();
+        return Puntuacion::join('users', 'users.id','=','puntuacion.id_usuario')
+        ->where('liga_id',$liga)
+        ->select('users.name','puntosTotales','puntosMes','puntosGP','puntosCategoria' )
+        ->orderBy($campo,'desc')
+        ->get();
         
        // return Pilotos::with('escuderias')->select( 'nombre','puntos','id_escuderia as id')->orderBy(Escuderias::'nombre', $direct )->get();
         /*$todos =  Escuderias::get();

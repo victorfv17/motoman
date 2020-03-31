@@ -15,6 +15,7 @@ export class ClasificacionComponent implements OnInit {
   public users: Array<IUser> = [];
   public liga: ILigas;
   public usuarios: Array<any> = [];
+  public campo: string = 'puntosTotales';
   constructor(
     private ligasService: LigasService,
     private authenticationService: AuthenticationService,
@@ -25,9 +26,20 @@ export class ClasificacionComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('usuario'));
 
 
-    this.puntuacionService.getPuntuacionByUser(this.user.usuario.liga_id).subscribe(usuarios => {
+    this.puntuacionService.getPuntuacionByUser(this.user.usuario.liga_id, this.campo).subscribe(usuarios => {
       this.usuarios = usuarios;
       console.log(this.usuarios)
+    });
+
+
+  }
+  sort(campo: string) {
+
+    this.puntuacionService.getPuntuacionByUser(this.user.usuario.liga_id, campo).subscribe(usuarios => {
+      this.usuarios = usuarios;
+
+
+
     });
 
   }
