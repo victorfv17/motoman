@@ -13,15 +13,19 @@ class CreateTablePuntuacion extends Migration
      */
     public function up()
     {
+      
+        if (!Schema::hasTable('puntuacion')){
         Schema::create('puntuacion', function (Blueprint $table) {
             $table->integer('puntosGP');
             $table->integer('puntosMes');
             $table->integer('puntosCategoria');
 			$table->integer('puntosTotales');
             $table->bigInteger('id_usuario')->unsigned();
-            $table->foreign('id_usuario')->references('id')->on('users');
             $table->timestamps();
         });
+    }
+     
+        
     }
 
     /**
