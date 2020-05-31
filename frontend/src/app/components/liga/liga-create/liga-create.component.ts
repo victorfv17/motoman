@@ -4,6 +4,7 @@ import { LigasService } from 'src/app/shared/services/ligas.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { IUser } from 'src/app/shared/models/users.model';
 import { ignoreElements } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-liga-create',
@@ -14,7 +15,10 @@ export class LigaCreateComponent implements OnInit {
   public isLoading: boolean = false;
   public liga: ILigas = {};
   public user: IUser;
-  constructor(private ligasService: LigasService, private authenticationService: AuthenticationService) { }
+  constructor(
+    private ligasService: LigasService, 
+    private authenticationService: AuthenticationService,
+    private router: Router) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
@@ -34,6 +38,7 @@ export class LigaCreateComponent implements OnInit {
           usuario: this.user
         }
         localStorage.setItem('usuario', JSON.stringify(usuario));
+        this.router.navigateByUrl('/clasificacion');
         // localStorage.setItem('usuario'['usuario']['liga_id'], JSON.stringify(this.user.liga_id));
       });
     });

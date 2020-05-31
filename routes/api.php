@@ -31,6 +31,7 @@ Route::group(['prefix'=>'user'],function(){
 Route::get('pilotos/{campo}/{direct}', 'PilotosController@join');
 Route::resource('pilotos','PilotosController');
 Route::resource('escuderias','EscuderiasController');
+Route::resource('mercado','MercadoController');
 Route::resource('ligas','LigasController');
 Route::get('puntuacion/join/{id}/{campoOrdenacion}', 'PuntuacionController@join');
 Route::resource('puntuacion','PuntuacionController');

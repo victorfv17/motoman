@@ -1,1 +1,35 @@
-<p>comprar works!</p>
+<ng-container *ngIf="isLoading; then spinner; else table"></ng-container>
+<ng-template #spinner>
+    <mat-spinner class="spinner-center"></mat-spinner>
+</ng-template>
+<ng-template #table>
+    <mat-card style="margin:10px;">
+        <table class="table table-bordered table-hover table-striped">
+            <thead class=" thead-dark">
+                <tr class="pointer">
+                    <th scope="col" name="piloto">Piloto
+                    </th>
+                    <th scope="col" name="piloto" (click)="sort('puntosTotales')">Valor Mercado
+                    </th>
+                    <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puntos
+                    </th>
+                  
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let piloto of pilotos" class="table-dark " style="color:#9D0000">
+                    <td style="text-align: left;"><img src="assets/pilotos/{{piloto.nombre}}.png"
+                        alt="{{piloto.nombre}}" height="40" width="40"> {{piloto.nombre}}</td>
+                    <td style="text-align: left;">{{piloto.valorMercado}}</td>
+                    <td style="text-align: left;">{{piloto.puntos}}</td>
+                    
+<!--hay que meter valor puja como un input y traducciones si es posible-->
+                </tr>
+            </tbody>
+        </table>
+
+
+    </mat-card>
+
+</ng-template>
