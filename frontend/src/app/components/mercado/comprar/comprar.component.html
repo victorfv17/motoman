@@ -6,7 +6,7 @@
     <mat-card style="margin:10px;">
         <table class="table table-bordered table-hover table-striped">
             <thead class=" thead-dark">
-                <tr class="pointer">
+                <tr class="pointer text-align">
                     <th scope="col" name="piloto">Piloto
                     </th>
                     <th scope="col" name="piloto" (click)="sort('puntosTotales')">Valor Mercado
@@ -20,22 +20,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let piloto of pilotos" class="table-dark " style="color:#9D0000">
-                    <td style="text-align: left;"><img src="assets/pilotos/{{piloto.nombre}}.png"
-                        alt="{{piloto.nombre}}" height="40" width="40"> {{piloto.nombre}}</td>
-                    <td style="text-align: left;">{{piloto.valorMercado}}</td>
-                    <td style="text-align: left;">{{piloto.puntos}}</td>
-                    <td style="text-align: left;">
-                        <label class="mdc-text-field mdc-text-field--outlined">
-                            <input type="text" class="mdc-text-field__input" aria-labelledby="my-label-id">
-                            <span class="mdc-notched-outline">
-                              <span class="mdc-notched-outline__leading"></span>
-                              <span class="mdc-notched-outline__notch">
-                                <span class="mdc-floating-label" id="my-label-id">Your Name</span>
-                              </span>
-                              <span class="mdc-notched-outline__trailing"></span>
-                            </span>
-                          </label>
+                <tr *ngFor="let piloto of pilotos" class="table" style="background-color: orange;" >
+                    <td><mat-card class="mx-auto" style="width: 70%;background-color: orange;" ><img src="assets/pilotos/{{piloto.nombre}}.png"
+                        alt="{{piloto.nombre}}" height="40" width="40"> {{piloto.nombre}}</mat-card>
+                        <mat-card class="mx-auto" style="width: 70%;background-color: red;" *ngIf="piloto.nombre === 'Andrea Dovizioso'"><img src="assets/pilotos/{{piloto.nombre}}.png"
+                            alt="{{piloto.nombre}}" height="40" width="40"> {{piloto.nombre}}</mat-card></td>
+                    <td style="text-align: right;"><mat-card class="mx-auto" style="width: 70%;background-color: #9D0000;">{{piloto.valorMercado}}</mat-card></td>
+                    <td style="text-align: right;"><mat-card class="mx-auto" style="width: 70%;background-color: #9D0000;">{{piloto.puntos}}</mat-card></td>
+                    <td >
+                        <div class="form-group mx-auto my-auto" style="width: 70%;">
+                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                          </div></td>
 <!--hay que meter valor puja como un input y traducciones si es posible-->
                 </tr>
             </tbody>

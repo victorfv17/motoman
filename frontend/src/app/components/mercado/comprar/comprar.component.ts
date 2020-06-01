@@ -14,6 +14,7 @@ export class ComprarComponent implements OnInit {
   ngOnInit() {
     this.mercadoService.getPilotosMercado().subscribe(pilotos => {
       this.pilotos = pilotos;
+
     });
   }
 
