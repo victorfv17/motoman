@@ -15,28 +15,40 @@
                     </th>
                     <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puja
                     </th>
-                  
+
 
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let piloto of pilotos" class="table" style="background-color: orange;" >
-                    <td><mat-card class="mx-auto" style="width: 70%;background-color: orange;" ><img src="assets/pilotos/{{piloto.nombre}}.png"
-                        alt="{{piloto.nombre}}" height="40" width="40"> {{piloto.nombre}}</mat-card>
-                        <mat-card class="mx-auto" style="width: 70%;background-color: red;" *ngIf="piloto.nombre === 'Andrea Dovizioso'"><img src="assets/pilotos/{{piloto.nombre}}.png"
-                            alt="{{piloto.nombre}}" height="40" width="40"> {{piloto.nombre}}</mat-card></td>
-                    <td style="text-align: right;"><mat-card class="mx-auto" style="width: 70%;background-color: #9D0000;">{{piloto.valorMercado}}</mat-card></td>
-                    <td style="text-align: right;"><mat-card class="mx-auto" style="width: 70%;background-color: #9D0000;">{{piloto.puntos}}</mat-card></td>
-                    <td >
-                        <div class="form-group mx-auto my-auto" style="width: 70%;">
-                            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                          </div></td>
-<!--hay que meter valor puja como un input y traducciones si es posible-->
+                <tr *ngFor="let piloto of pilotos" class="table">
+
+                    <td>
+                        <mat-card *ngIf="piloto.escuderia !== 'white'" class="mx-auto" style="color:white"
+                            [ngStyle]="{'background-color': piloto.escuderia}"><img
+                                src="assets/pilotos/{{piloto.nombre}}.png" alt="{{piloto.nombre}}" height="40"
+                                width="40"> {{piloto.nombre}}</mat-card>
+                        <mat-card *ngIf="piloto.escuderia === 'white'" class="mx-auto" style="color:black"
+                            [ngStyle]="{'background-color': piloto.escuderia}"><img
+                                src="assets/pilotos/{{piloto.nombre}}.png" alt="{{piloto.nombre}}" height="40"
+                                width="40"> {{piloto.nombre}}</mat-card>
+                    </td>
+                    <td class="align-middle" style="text-align: right">
+                        <mat-card class="mx-auto" style="background-color: grey;">{{piloto.valorMercado}}</mat-card>
+                    </td>
+                    <td class="align-middle" style="text-align: right;">
+                        <mat-card class="mx-auto" style="background-color: grey;">{{piloto.puntos}}</mat-card>
+                    </td>
+                    <td class="align-middle">
+                        <input type="puja" class="form-control mx-auto" style="width: 70%" id="puja"
+                            placeholder="Introducir puja">
+                    </td>
+                    <!--hay que meter valor puja como un input y traducciones si es posible-->
                 </tr>
             </tbody>
         </table>
 
 
     </mat-card>
+
 
 </ng-template>

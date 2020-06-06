@@ -15,7 +15,10 @@ class MercadoController extends Controller
      */
     public function index()
     {
-        return Pilotos::all()->random(10);
+      
+        return Pilotos::join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')->
+        select( 'pilotos.id as id','pilotos.nombre as nombre','puntos','valorMercado','escuderias.nombre as escuderia')
+        ->get()->random(10);
     }
 
     /**
