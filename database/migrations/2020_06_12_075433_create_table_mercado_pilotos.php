@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableMercado extends Migration
+class CreateTableMercadoPilotos extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTableMercado extends Migration
      */
     public function up()
     {
-        Schema::create('table_mercado', function (Blueprint $table) {
+        Schema::create('mercadoPilotos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('piloto');
-            $table->string('escuderia');
+            $table->integer('piloto_id')->unsigned();
             $table->integer('valorMercado');
-            $table->integer('valorPuja');
+            $table->integer('liga_id')->unsigned();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateTableMercado extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_mercado');
+        Schema::dropIfExists('mercadoPilotos');
     }
 }

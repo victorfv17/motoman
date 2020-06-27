@@ -3,6 +3,7 @@
     <mat-spinner class="spinner-center"></mat-spinner>
 </ng-template>
 <ng-template #table>
+    <h1>Comprar pilotos</h1>
     <mat-card style="margin:10px;">
         <table class="table table-bordered table-hover table-striped">
             <thead class=" thead-dark">
@@ -15,13 +16,10 @@
                     </th>
                     <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puja
                     </th>
-
-
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let piloto of pilotos" class="table">
-
                     <td>
                         <mat-card *ngIf="piloto.escuderia !== 'white'" class="mx-auto" style="color:white"
                             [ngStyle]="{'background-color': piloto.escuderia}"><img
@@ -40,15 +38,24 @@
                     </td>
                     <td class="align-middle">
                         <input type="puja" class="form-control mx-auto" style="width: 70%" id="puja"
-                            placeholder="Introducir puja">
+                            placeholder="Introducir puja" [(ngModel)]="piloto.puja"
+                            (ngModelChange)="recopilacion(piloto.id, piloto.puja)">
                     </td>
-                    <!--hay que meter valor puja como un input y traducciones si es posible-->
                 </tr>
+
+
             </tbody>
         </table>
+        <mat-card-actions>
+            <button class="btn btn-secondary submitButton " type="button" (click)="limpiarDatosPujas()">Limpiar
+            </button>
+            <button class="btn btn-danger submitButton " type="button" (click)="enviarPujas()">Enviar
+            </button>
+        </mat-card-actions>
 
 
     </mat-card>
+    <h1>Comprar escuderias</h1>
 
 
 </ng-template>

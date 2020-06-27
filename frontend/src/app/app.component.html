@@ -41,6 +41,8 @@
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Inicio</a>
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/informacion"
           routerLinkActive="active">Informacion</a>
+        <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/clasificacion"
+          routerLinkActive="active">Clasificacion</a>
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/mercado" routerLinkActive="active">Mercado</a>
         <!--div class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" id="dropdownSede" ngbDropdownToggle>Mercado</a>
@@ -54,8 +56,9 @@
 
 
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Alineacion</a>
+
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/clasificacion"
-          routerLinkActive="active">Clasificacion</a>
+          routerLinkActive="active">Apuestas</a>
         <a (click)="logout()" class="nav-item nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
       </div>
       <div *ngIf="location.path()==='/liga'">

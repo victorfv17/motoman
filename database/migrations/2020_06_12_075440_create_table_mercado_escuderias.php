@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTablePilotos extends Migration
+class CreateTableMercadoEscuderias extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,12 @@ class CreateTablePilotos extends Migration
      */
     public function up()
     {
-        Schema::create('pilotos', function (Blueprint $table) {
-            $table->increments('id') ->primary;
-			$table->string('nombre');
-            $table->integer('edad');
-            $table->integer('puntos');
-			$table->string('pais');
-			$table->integer('numero');
-            $table->integer('id_escuderia')->unsigned();
-     
-           
+        Schema::create('mercadoEscuderias', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('escuderia_id')->unsigned();
             $table->integer('valorMercado');
-
             $table->timestamps();
         });
-	
     }
 
     /**
@@ -37,6 +28,6 @@ class CreateTablePilotos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pilotos');
+        Schema::dropIfExists('table_mercado_escuderias');
     }
 }

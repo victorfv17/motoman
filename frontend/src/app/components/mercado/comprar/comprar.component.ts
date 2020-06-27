@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MercadoService } from 'src/app/shared/services/mercado.service';
 import { IMercado } from 'src/app/shared/models/mercado.model';
+import { IUser } from 'src/app/shared/models/users.model';
+import { IPujas } from 'src/app/shared/models/pujas.model';
+import { PujasService } from 'src/app/shared/services/pujas.service';
 
 @Component({
   selector: 'app-comprar',
@@ -9,19 +12,40 @@ import { IMercado } from 'src/app/shared/models/mercado.model';
 })
 export class ComprarComponent implements OnInit {
   public pilotos: any;
-  constructor(private mercadoService: MercadoService) { }
+  public puja: number;
+  private user: IUser;
+  public pujas: Array<IPujas> = [];
+  constructor(private mercadoService: MercadoService, private pujasService: PujasService) { }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('usuario'));
+    this.getPilotosMercado();
+  }
+  public recopilacion(piloto: number, puja: number) {
+    let pilotoPuja: IPujas = {
+      piloto: piloto,
+      puja: puja
+    }
+    this.pujas.push(pilotoPuja);
+    console.log(this.pujas)
+  }
+  private getPilotosMercado() {
     this.mercadoService.getPilotosMercado().subscribe(pilotos => {
-      if (pilotos) {
-
-
-
+      if (pilotos.length === 6) {
         this.checkEscuderia(pilotos);
         this.pilotos = pilotos;
+      } else {
+        this.createPilotosMercado();
+
       }
     });
   }
+
+  private createPilotosMercado() {
+    this.mercadoService.savePilotosMercado(this.user.usuario.liga_id).subscribe(mercado => mercado);
+    this.getPilotosMercado();
+  }
+
   private checkEscuderia(pilotos: any) {
     for (var i = 0; i < pilotos.length; i++) {
 
@@ -66,6 +90,10 @@ export class ComprarComponent implements OnInit {
           break;
       }
     }
+
+  }
+  public enviarPujas() {
+    this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(puja => puja);
   }
 
 }

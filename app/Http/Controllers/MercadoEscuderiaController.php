@@ -3,22 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Mercado;
-use App\Pilotos;
-header('Access-Control-Allow-Origin: *');
-class MercadoController extends Controller
+
+class MercadoEscuderiaController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-      
-        return Pilotos::join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')->
-        select( 'pilotos.id as id','pilotos.nombre as nombre','puntos','valorMercado','escuderias.nombre as escuderia')
-        ->get()->random(10);
+        //
     }
 
     /**
@@ -39,10 +34,8 @@ class MercadoController extends Controller
      */
     public function store(Request $request)
     {
-        var_dump($request);
-	
-        Mercado::create($request);
      
+        
     }
 
     /**
@@ -53,7 +46,7 @@ class MercadoController extends Controller
      */
     public function show($id)
     {
-        
+     //
     }
 
     /**
@@ -90,4 +83,3 @@ class MercadoController extends Controller
         //
     }
 }
-
