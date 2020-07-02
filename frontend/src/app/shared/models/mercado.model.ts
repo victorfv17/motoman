@@ -4,4 +4,5 @@ export interface IMercado {
     escuderia?: string;
     valorMercado?: number;
     valorPuja?: number;
+    fecha?: Date;
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MercadoPiloto extends Model
 {
     protected $table = 'mercadoPilotos';
-    protected $fillable = ['piloto_id','valorMercado', 'liga_id'];
+    protected $fillable = ['piloto_id','valorMercado', 'liga_id', 'fecha'];
 
     /**
      * Get the piloto

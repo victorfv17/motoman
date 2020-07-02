@@ -18,7 +18,7 @@ class CreateTableMercadoPilotos extends Migration
             $table->integer('piloto_id')->unsigned();
             $table->integer('valorMercado');
             $table->integer('liga_id')->unsigned();
-            $table->timestamps();
+            $table->date('fecha');
         });
     }
 

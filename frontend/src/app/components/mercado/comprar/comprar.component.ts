@@ -4,7 +4,9 @@ import { IMercado } from 'src/app/shared/models/mercado.model';
 import { IUser } from 'src/app/shared/models/users.model';
 import { IPujas } from 'src/app/shared/models/pujas.model';
 import { PujasService } from 'src/app/shared/services/pujas.service';
-
+import { DatePipe, formatDate } from '@angular/common';
+import * as moment from 'moment'; // add this 1 of 4
+import { format } from 'url';
 @Component({
   selector: 'app-comprar',
   templateUrl: './comprar.component.html',
@@ -15,7 +17,11 @@ export class ComprarComponent implements OnInit {
   public puja: number;
   private user: IUser;
   public pujas: Array<IPujas> = [];
-  constructor(private mercadoService: MercadoService, private pujasService: PujasService) { }
+
+  constructor(
+    private mercadoService: MercadoService,
+    private pujasService: PujasService,
+  ) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
@@ -30,11 +36,27 @@ export class ComprarComponent implements OnInit {
     console.log(this.pujas)
   }
   private getPilotosMercado() {
+
+    let fechaActual = new Date().toISOString().slice(0, 10);
+    //fechaActual = '2020-06-02';
     this.mercadoService.getPilotosMercado().subscribe(pilotos => {
-      if (pilotos.length === 6) {
-        this.checkEscuderia(pilotos);
-        this.pilotos = pilotos;
+      console.log('pilotos', pilotos.length);
+      if (pilotos && pilotos.length === 6) {
+        console.log('actual', fechaActual);
+        console.log('array', pilotos[0])
+        console.log('comparacion', String(pilotos[0].fecha) === fechaActual)
+        if (String(pilotos[0].fecha) === fechaActual) {
+          console.log('comparacion');
+          this.checkEscuderia(pilotos);
+          this.pilotos = pilotos;
+        } else {
+          console.log('delete');
+          this.deletePilotosMercado();
+        }
+
+
       } else {
+        console.log('crear');
         this.createPilotosMercado();
 
       }
@@ -42,8 +64,12 @@ export class ComprarComponent implements OnInit {
   }
 
   private createPilotosMercado() {
-    this.mercadoService.savePilotosMercado(this.user.usuario.liga_id).subscribe(mercado => mercado);
-    this.getPilotosMercado();
+    this.mercadoService.savePilotosMercado(this.user.usuario.liga_id).subscribe(() => this.getPilotosMercado());
+  }
+
+  private deletePilotosMercado() {
+    this.mercadoService.deletePilotosMercado(this.user.usuario.liga_id).subscribe(() => this.createPilotosMercado());
+
   }
 
   private checkEscuderia(pilotos: any) {
