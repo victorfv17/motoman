@@ -26,12 +26,20 @@ export class LoginComponent implements OnInit {
       this.authenticationService.getUser(this.user).subscribe(usuario => {
         console.log(usuario)
         if (usuario) {
-          localStorage.setItem('usuario', JSON.stringify(usuario))
-          this.router.navigateByUrl('/liga');
+          localStorage.setItem('usuario', JSON.stringify(usuario));
+          this.navigate(usuario);
         }
 
       });
     };
+  }
+  private navigate(usuario: IUser) {
+    console.log('usuario', usuario);
+    if (usuario.usuario.liga_id) {
+      this.router.navigateByUrl('/');
+    } else {
+      this.router.navigateByUrl('/liga');
+    }
   }
 
 

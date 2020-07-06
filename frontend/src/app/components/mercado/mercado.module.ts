@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from 'src/app/core/material-module';
 import { MercadoComponent } from './mercado.component';
+import { VenderComponent } from './vender/vender.component';
 
 
 @NgModule({
-  declarations: [MercadoComponent, ComprarComponent],
+  declarations: [MercadoComponent, ComprarComponent, VenderComponent],
   imports: [
     CommonModule,
     FormsModule,

@@ -5,6 +5,7 @@ use App\MercadoPiloto;
 use App\Pilotos;
 use App\Ligas;
 use App\Pujas;
+use App\Equipo;
 use DateTime;
 use Illuminate\Http\Request;
 
@@ -52,31 +53,22 @@ class MercadoPilotosController extends Controller
     public function store(Request $request)
     {
         
-      
         $liga = $request->liga_id;
-     
-        
-        
-     
-        //$todos = $liga->all();
-
-        /*$pilotos = Pilotos::join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')->
-         select( 'pilotos.id as id','pilotos.nombre as nombre','puntos','valorMercado','escuderias.nombre as escuderia')
-         ->get()->random(2);*/
-        //echo $liga;
-        $pilotos = Pilotos::get()->random(6);
         $fechaActual = new DateTime();
+        $pilotos = Pilotos::whereNotExists(function($query)
+            {
+                $query->select()
+                        ->from('Equipo')
+                        ->whereRaw('equipo.piloto_id = pilotos.id');
+            })->get()->random(6);
         
-         foreach($pilotos as $piloto){
-             MercadoPiloto::insert(['piloto_id' => $piloto['id'] , 'valorMercado' => $piloto['valorMercado'], 'liga_id' =>$liga, 'fecha' => $fechaActual ]);
-         }
-         return $pilotos;
-       /* $todos = $request->all();
+        foreach($pilotos as $piloto){
+            MercadoPiloto::insert(['piloto_id' => $piloto['id'] , 'valorMercado' => $piloto['valorMercado'], 'liga_id' =>$liga, 'fecha' => $fechaActual ]);
+        }
+        return $pilotos;
 
-		var_dump($todos);
-		foreach($todos as $pil){
-            MercadoPiloto::create($pil);
-        }*/
+        
+
         
     }
 

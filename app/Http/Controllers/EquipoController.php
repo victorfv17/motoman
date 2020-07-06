@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Equipo;
 
 class EquipoController extends Controller
 {
@@ -44,9 +45,18 @@ class EquipoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user_id)
     {
-     //
+        $listEquipos = [];
+        $equipos = Equipo::where('usuario_id', $user_id)->get();
+        foreach($equipos as $equipo){
+            array_push($listEquipos, Equipo::join('pilotos', 'pilotos.id','=','equipo.piloto_id')->
+            where('pilotos.id', $equipo['piloto_id']) ->
+            select( 'pilotos.nombre as nombre', 'pilotos.valorMercado as valorMercado', 'pilotos.puntos as puntos')
+            ->get()->first());
+        }
+       
+        return $listEquipos;
     }
 
     /**

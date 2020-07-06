@@ -8,10 +8,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MaterialModule } from 'src/app/core/material-module';
+import { LigaSearchComponent } from './liga-search/liga-search.component';
 
 
 @NgModule({
-  declarations: [LigaComponent, LigaCreateComponent],
+  declarations: [LigaComponent, LigaCreateComponent, LigaSearchComponent],
   imports: [
     CommonModule,
     FormsModule,

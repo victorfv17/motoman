@@ -39,3 +39,4 @@ Route::get('puntuacion/join/{id}/{campoOrdenacion}', 'PuntuacionController@join'
 Route::resource('puntuacion','PuntuacionController');
 Route::resource('pujas','PujasController');
 Route::delete('pujas','PujasController@destroy');
+Route::resource('equipo', 'EquipoController');
