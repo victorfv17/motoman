@@ -1,0 +1,23 @@
+table th{
+    border:none;
+}
+table td{
+    border:none;
+    width: 33%;
+  
+    mat-card {
+        height: 6vh;
+    }
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.actionButtons{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+

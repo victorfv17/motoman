@@ -18,6 +18,7 @@ class CreateTableEquipo extends Migration
             $table->integer('piloto_id')->unsigned()->nullable();
             $table->integer('escuderia_id')->unsigned()->nullable();
             $table->bigInteger('usuario_id')->unsigned();
+            $table->boolean('indicadorEnAlineacion')->default(false);
             $table->timestamps();
         });
     }

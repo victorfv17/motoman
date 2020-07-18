@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Equipo extends Model
 {
     protected $table = 'equipo';
-    protected $fillable = ['piloto_id','escuderia_id','usuario_id'];
+    protected $fillable = ['piloto_id','escuderia_id','usuario_id','indicadorEnAlineacion'];
 
     /**
      * Get the user

@@ -16,7 +16,8 @@ class CreateTableEscuderias extends Migration
             Schema::create('escuderias', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-
+            $table->integer('valorMercado');
+            $table->integer('puntos');
             $table->timestamps();
         });
     }

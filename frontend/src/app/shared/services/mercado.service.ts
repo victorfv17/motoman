@@ -21,5 +21,14 @@ export class MercadoService {
   public deletePilotosMercado(liga: number): Observable<IMercado> {
     return this.http.delete('http://127.0.0.1:8000/api/mercadoPilotos/' + liga);
   }
+  public getEscuderiasMercado(): Observable<Array<IMercado>> {
+    return this.http.get<Array<IMercado>>('http://127.0.0.1:8000/api/mercadoEscuderias');
+  }
+  public saveEscuderiasMercado(liga: number): Observable<IMercado> {
+    return this.http.post('http://127.0.0.1:8000/api/mercadoEscuderias', { liga_id: liga });
+  }
+  public deleteEscuderiasMercado(liga: number): Observable<IMercado> {
+    return this.http.delete('http://127.0.0.1:8000/api/mercadoEscuderias/' + liga);
+  }
 
 }

@@ -1,19 +1,34 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\MercadoEscuderia;
+use DateTime;
+use App\Escuderias;
 use Illuminate\Http\Request;
 
 class MercadoEscuderiaController extends Controller
 {
-     /**
+      /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $escuderias = MercadoEscuderia::
+        join('escuderias', 'mercadoEscuderias.escuderia_id','=','escuderias.id')->
+       
+        select( 'escuderias.id as id','escuderias.nombre as nombre','escuderias.valorMercado', 'fecha')
+        ->get();
+        
+        /*$mercadoPilotos = MercadoPiloto::get();
+        foreach($mercadoPilotos as $mercadoPiloto){
+            $piloto = Pilotos::where('id',$mercadoPiloto['id']);
+            var_dump($piloto);
+        }*/
+        //return 
+        return $escuderias;
+      
     }
 
     /**
@@ -23,7 +38,7 @@ class MercadoEscuderiaController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -34,7 +49,23 @@ class MercadoEscuderiaController extends Controller
      */
     public function store(Request $request)
     {
-     
+        
+        $liga = $request->liga_id;
+        $fechaActual = new DateTime();
+        $escuderias = Escuderias::whereNotExists(function($query)
+            {
+                $query->select()
+                        ->from('Equipo')
+                        ->whereRaw('equipo.escuderia_id = escuderias.id');
+            })->get()->random(4);
+        
+        foreach($escuderias as $escuderia){
+            MercadoEscuderia::insert(['escuderia_id' => $escuderia['id'] , 'valorMercado' => $escuderia['valorMercado'], 'liga_id' =>$liga, 'fecha' => $fechaActual ]);
+        }
+        return $escuderias;
+
+        
+
         
     }
 
@@ -78,8 +109,10 @@ class MercadoEscuderiaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($idLiga)
     {
-        //
+       
+        MercadoEscuderia::where('liga_id',$idLiga)->delete();
+        
     }
 }

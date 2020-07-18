@@ -15,7 +15,17 @@ class LigasController extends Controller
      */
     public function index()
     {
-        //
+        $ligas = Ligas::get();
+       return $ligas;
+       /* foreach($ligas as  $key => $value){
+           
+          if($value['maxParticipantes'] == $value['numParticipantes']){
+           
+               unset($ligas[$key]);
+               return $ligas;
+           } 
+        }*/
+
     }
 
     /**
@@ -56,6 +66,7 @@ class LigasController extends Controller
         return $liga;
         
     }
+   
 
     /**
      * Display the specified resource.

@@ -39,7 +39,7 @@
                     <td class="align-middle">
                         <input type="puja" class="form-control mx-auto" style="width: 70%" id="puja"
                             placeholder="Introducir puja" [(ngModel)]="piloto.puja"
-                            (ngModelChange)="recopilacion(piloto.id, piloto.puja)">
+                            (ngModelChange)="coleccionPujas(piloto.id, piloto.puja)">
                     </td>
                 </tr>
 
@@ -56,6 +56,51 @@
 
     </mat-card>
     <h1>Comprar escuderias</h1>
+    <mat-card style="margin:10px;">
+        <table class="table table-bordered table-hover table-striped">
+            <thead class="thead-dark">
+                <tr class="pointer text-align">
+                    <th scope="col" name="escuderia">Escuderia
+                    </th>
+                    <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Valor Mercado
+                    </th>
+                    <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Puntos
+                    </th>
+                    <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Puja
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let escuderia of escuderias" class="table">
+                    <td>
+                        <mat-card class="mx-auto" style="background-color: grey;">{{escuderia.nombre}}</mat-card>
+                    </td>
+                    <td class="align-middle" style="text-align: right">
+                        <mat-card class="mx-auto" style="background-color: grey;">{{escuderia.valorMercado}}</mat-card>
+                    </td>
+                    <td class="align-middle" style="text-align: right;">
+                        <mat-card class="mx-auto" style="background-color: grey;">{{escuderia.puntos}}</mat-card>
+                    </td>
+                    <td class="align-middle">
+                        <input type="puja" class="form-control mx-auto" style="width: 70%" id="puja"
+                            placeholder="Introducir puja" [(ngModel)]="escuderia.puja"
+                            (ngModelChange)="coleccionPujasEscuderias(escuderia.id, escuderia.puja)">
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+        <mat-card-actions>
+            <button class="btn btn-secondary submitButton " type="button" (click)="limpiarDatosPujas()">Limpiar
+            </button>
+            <button class="btn btn-danger submitButton " type="button" (click)="enviarPujas()">Enviar
+            </button>
+        </mat-card-actions>
+
+
+    </mat-card>
+
 
 
 </ng-template>

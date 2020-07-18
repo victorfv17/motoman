@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
 import { LigaComponent } from './components/liga/liga.component';
 import { MercadoComponent } from './components/mercado/mercado.component';
+import { AlineacionComponent } from './components/alineacion/alineacion.component';
 
 
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'informacion', component: InformacionComponent },
   { path: 'informacion/:id', component: InformacionDetailComponent },
   { path: 'clasificacion', component: ClasificacionComponent },
-  { path: 'mercado', loadChildren: () => import('./components/mercado/mercado.module').then((m) => m.MercadoModule) }
+  { path: 'mercado', loadChildren: () => import('./components/mercado/mercado.module').then((m) => m.MercadoModule) },
+  { path: 'alineacion', component: AlineacionComponent },
 ];
 
 @NgModule({

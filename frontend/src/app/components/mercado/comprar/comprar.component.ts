@@ -14,6 +14,7 @@ import { format } from 'url';
 })
 export class ComprarComponent implements OnInit {
   public pilotos: any;
+  public escuderias: any;
   public puja: number;
   private user: IUser;
   public pujas: Array<IPujas> = [];
@@ -26,13 +27,22 @@ export class ComprarComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
     this.getPilotosMercado();
+    this.getEscuderiasMercado();
   }
-  public recopilacion(piloto: number, puja: number) {
+  public coleccionPujas(piloto: number, puja: number) {
     let pilotoPuja: IPujas = {
       piloto: piloto,
       puja: puja
     }
     this.pujas.push(pilotoPuja);
+    console.log(this.pujas)
+  }
+  public coleccionPujasEscuderias(escuderia: number, puja: number) {
+    let escuderiaPuja: IPujas = {
+      escuderia: escuderia,
+      puja: puja
+    }
+    this.pujas.push(escuderiaPuja);
     console.log(this.pujas)
   }
   private getPilotosMercado() {
@@ -62,6 +72,30 @@ export class ComprarComponent implements OnInit {
       }
     });
   }
+  private getEscuderiasMercado() {
+
+    let fechaActual = new Date().toISOString().slice(0, 10);
+    //fechaActual = '2020-06-02';
+    this.mercadoService.getEscuderiasMercado().subscribe(escuderias => {
+      console.log('escuderias', escuderias);
+      if (escuderias && escuderias.length === 4) {
+        if (String(escuderias[0].fecha) === fechaActual) {
+          //this.checkEscuderia(escuderias);
+          this.escuderias = escuderias;
+
+        } else {
+
+          this.deleteEscuderiasMercado();
+        }
+
+
+      } else {
+
+        this.createEscuderiasMercado();
+
+      }
+    });
+  }
 
   private createPilotosMercado() {
     this.mercadoService.savePilotosMercado(this.user.usuario.liga_id).subscribe(() => this.getPilotosMercado());
@@ -69,6 +103,15 @@ export class ComprarComponent implements OnInit {
 
   private deletePilotosMercado() {
     this.mercadoService.deletePilotosMercado(this.user.usuario.liga_id).subscribe(() => this.createPilotosMercado());
+
+  }
+
+  private createEscuderiasMercado() {
+    this.mercadoService.saveEscuderiasMercado(this.user.usuario.liga_id).subscribe(() => this.getEscuderiasMercado());
+  }
+
+  private deleteEscuderiasMercado() {
+    this.mercadoService.deleteEscuderiasMercado(this.user.usuario.liga_id).subscribe(() => this.createEscuderiasMercado());
 
   }
 

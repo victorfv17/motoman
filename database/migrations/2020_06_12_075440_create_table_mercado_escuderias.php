@@ -17,7 +17,8 @@ class CreateTableMercadoEscuderias extends Migration
             $table->increments('id');
             $table->integer('escuderia_id')->unsigned();
             $table->integer('valorMercado');
-            $table->timestamps();
+            $table->integer('liga_id')->unsigned();
+            $table->date('fecha');
         });
     }
 
@@ -28,6 +29,6 @@ class CreateTableMercadoEscuderias extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_mercado_escuderias');
+        Schema::dropIfExists('mercadoEscuderias');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Ligas;
 use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
@@ -75,6 +76,7 @@ class AuthController extends Controller
 		User::where('id',$request['id'])
 		->update(['liga_id'=> $request['liga_id']]);
 	
+		$liga = Ligas::where('id_liga', $request['liga_id'])->update(['numParticipantes'=> $request['numParticipantes']]);
 	
 		return User::where('id',$request['id'])->first();
 	

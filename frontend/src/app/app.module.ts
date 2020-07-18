@@ -12,6 +12,8 @@ import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
+import { AlineacionComponent } from './components/alineacion/alineacion.component';
+import { AlineacionDialogComponent } from './components/alineacion/alineacion-dialog/alineacion-dialog.component';
 
 
 
@@ -24,6 +26,8 @@ import { ClasificacionComponent } from './components/clasificacion/clasificacion
     LoginComponent,
     HomeComponent,
     ClasificacionComponent,
+    AlineacionComponent,
+    AlineacionDialogComponent,
 
 
 
@@ -39,6 +43,7 @@ import { ClasificacionComponent } from './components/clasificacion/clasificacion
 
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AlineacionDialogComponent]
 })
 export class AppModule { }

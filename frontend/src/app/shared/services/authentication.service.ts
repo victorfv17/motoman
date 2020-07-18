@@ -32,8 +32,9 @@ export class AuthenticationService {
   public getUsersByLiga(liga: ILigas): Observable<Array<IUser>> {
     return this.http.get<Array<IUser>>('http://127.0.0.1:8000/api/user/' + liga);
   }
-  public updateUser(user: IUser, liga: number): Observable<IUser> {
-    return this.http.put<IUser>('http://127.0.0.1:8000/api/user/update', { id: user.usuario.id, liga_id: liga })
+
+  public updateUser(user: IUser, liga: number, participantes?: number): Observable<IUser> {
+    return this.http.put<IUser>('http://127.0.0.1:8000/api/user/update', { id: user.usuario.id, liga_id: liga, numParticipantes: participantes })
       .pipe(map(datos => { return datos }));
   }
 }

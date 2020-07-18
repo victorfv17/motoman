@@ -38,7 +38,6 @@ class EquipoController extends Controller
      
         
     }
-
     /**
      * Display the specified resource.
      *
@@ -47,12 +46,42 @@ class EquipoController extends Controller
      */
     public function show($user_id)
     {
+      
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showPilotos($user_id)
+    {
         $listEquipos = [];
         $equipos = Equipo::where('usuario_id', $user_id)->get();
         foreach($equipos as $equipo){
             array_push($listEquipos, Equipo::join('pilotos', 'pilotos.id','=','equipo.piloto_id')->
             where('pilotos.id', $equipo['piloto_id']) ->
-            select( 'pilotos.nombre as nombre', 'pilotos.valorMercado as valorMercado', 'pilotos.puntos as puntos')
+            select( 'equipo.id','pilotos.nombre as nombre', 'pilotos.valorMercado as valorMercado', 'pilotos.puntos as puntos')
+            ->get()->first());
+        }
+       
+        return $listEquipos;
+    }
+     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showEscuderias($user_id)
+    {
+        $listEquipos = [];
+        $equipos = Equipo::where('usuario_id', $user_id)->get();
+        foreach($equipos as $equipo){
+            array_push($listEquipos, Equipo::join('escuderias', 'escuderias.id','=','equipo.escuderia_id')->
+            where('escuderias.id', $equipo['escuderia_id']) ->
+            select( 'equipo.id','escuderias.nombre as nombre', 'escuderias.valorMercado as valorMercado', 'escuderias.puntos as puntos')
             ->get()->first());
         }
        
@@ -90,6 +119,7 @@ class EquipoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Equipo::where('id',$id)->delete();
+        
     }
 }
