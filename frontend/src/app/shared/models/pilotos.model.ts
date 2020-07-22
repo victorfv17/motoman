@@ -8,4 +8,5 @@ export interface IPilotos {
     id_escuderia: number;
     nombre_escuderia?: string;
     escuderias: IEscuderias;
+    puntos: string;
 }

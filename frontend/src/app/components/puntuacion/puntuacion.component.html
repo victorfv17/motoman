@@ -1,0 +1,62 @@
+<ng-container *ngIf="isLoading; then spinner; else table"></ng-container>
+<ng-template #spinner>
+    <mat-spinner class="spinner-center"></mat-spinner>
+</ng-template>
+<ng-template #table>
+    <mat-card style="margin:10px;">
+        <table class="table table-bordered table-hover table-striped">
+            <thead class=" thead-dark">
+                <tr class="pointer">
+                    <th scope="col" name="piloto">Piloto<mat-icon *ngIf="direct === 'desc'" (click)="sort('nombre')">
+                            keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="direct === 'asc'" (click)="sort('nombre')">
+                            keyboard_arrow_up</mat-icon>
+                    </th>
+                    <th scope="col">Escuderia<mat-icon *ngIf="direct === 'desc'" (click)="sort('escuderia')">
+                            keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="direct === 'asc'" (click)="sort('escuderia')">
+                            keyboard_arrow_up</mat-icon>
+                    </th>
+                    <th scope="col" style="text-align: center;">Puntos<mat-icon *ngIf="direct === 'desc'"
+                            (click)="sort('puntos')">
+                            keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="direct === 'asc'" (click)="sort('puntos')">
+                            keyboard_arrow_up</mat-icon>
+                    </th>
+                    <th scope="col" style="text-align: center;">Pais<mat-icon *ngIf="direct === 'desc'"
+                            (click)="sort('pais')">
+                            keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="direct === 'asc'" (click)="sort('pais')">
+                            keyboard_arrow_up</mat-icon>
+                    </th>
+                    <th scope="col" style="text-align: center;">Puntos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let piloto of pilotos" class="table-dark pointer" style="color:#9D0000">
+                    <td style="text-align: left;"><img src="assets/pilotos/{{piloto.nombre}}.png"
+                            alt="{{piloto.nombre}}" height="40" width="40">{{piloto.nombre}}
+                    </td>
+                    <td style="text-align: left;">{{piloto.escuderia}}</td>
+                    <td style="text-align: center;">{{piloto.puntos}}</td>
+                    <td style="text-align: center;"><img src="assets/paises/{{piloto.pais}}.png" alt="{{piloto.pais}}"
+                            height="40" width="40">
+                    </td>
+                    <td class="align-middle">
+                        <input type="number" class="form-control mx-auto" style="width: 70%" id="puntos"
+                            placeholder="Introducir puntos" [(ngModel)]="piloto.puntos"
+                            (ngModelChange)="puntuacionPiloto(piloto)">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <mat-card-actions>
+            <button class="btn btn-secondary submitButton " type="button" (click)="limpiarDatosPujas()">Limpiar
+            </button>
+            <button class="btn btn-danger submitButton " type="button" (click)="enviarPuntos()">Enviar
+            </button>
+        </mat-card-actions>
+
+    </mat-card>
+
+</ng-template>

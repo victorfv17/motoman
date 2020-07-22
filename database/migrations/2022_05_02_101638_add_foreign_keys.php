@@ -53,6 +53,12 @@ class AddForeignKeys extends Migration
             $table->foreign('mercadoEscuderia_id')->references('id')->on('mercadoEscuderias');
           
         });
+        Schema::table('puntos', function (Blueprint $table) {
+         
+            $table->foreign('id_piloto','nombre_piloto')->references('id','nombre')->on('pilotos');
+            $table->foreign('id_escuderia','nombre_escuderia')->references('id','nombre')->on('escuderias');
+          
+        });
     }
 
     /**

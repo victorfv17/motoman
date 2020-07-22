@@ -14,6 +14,7 @@ import { HomeComponent } from './home/home.component';
 import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
 import { AlineacionComponent } from './components/alineacion/alineacion.component';
 import { AlineacionDialogComponent } from './components/alineacion/alineacion-dialog/alineacion-dialog.component';
+import { PuntuacionComponent } from './components/puntuacion/puntuacion.component';
 
 
 
@@ -28,6 +29,7 @@ import { AlineacionDialogComponent } from './components/alineacion/alineacion-di
     ClasificacionComponent,
     AlineacionComponent,
     AlineacionDialogComponent,
+    PuntuacionComponent,
 
 
 

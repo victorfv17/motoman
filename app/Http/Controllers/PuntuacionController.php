@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Puntuacion;
+use App\Puntos;
 use App\User;
 class PuntuacionController extends Controller
 {
@@ -53,7 +54,16 @@ class PuntuacionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $todos = $request->all();
+       foreach($todos as $row){
+        Puntos::insert([
+            'id_piloto' => array_key_exists('id', $row) ? $row['id'] : null,
+            'id_escuderia' => array_key_exists('id_escuderia', $row)  ? $row['id_escuderia'] : null,
+            'nombre_piloto' => array_key_exists('nombre', $row)  ? $row['nombre'] : null,
+            'nombre_escuderia' => array_key_exists('escuderia', $row)  ? $row['escuderia'] : null,
+            'puntosGP' => $row['puntos'] 
+        ]);
+       }
     }
 
     /**

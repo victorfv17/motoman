@@ -20,7 +20,7 @@ class PilotosController extends Controller
     }
     public function join($campo,$direct)
     {   
-        return Pilotos::join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')->select( 'pilotos.id as id','pilotos.nombre as nombre','puntos','escuderias.nombre as escuderia', 'pais')->orderBy($campo, $direct )->get();
+        return Pilotos::join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')->select( 'pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos','escuderias.nombre as escuderia', 'pais')->orderBy($campo, $direct )->get();
         
        // return Pilotos::with('escuderias')->select( 'nombre','puntos','id_escuderia as id')->orderBy(Escuderias::'nombre', $direct )->get();
         /*$todos =  Escuderias::get();
