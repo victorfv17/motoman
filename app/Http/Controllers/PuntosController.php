@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Puntos;
 use Illuminate\Http\Request;
 
 class PuntosController extends Controller
@@ -14,21 +14,15 @@ class PuntosController extends Controller
      */
     public function store(Request $request)
     {
-        $puntuaciones = $request;
-
-        
-        foreach($puntuaciones as $puntuacion){
-           
-            Puntos::insert(
-                [
-                    'id_piloto' => $puntuacion['id_escuderia'], 
-                    'id_escuderia' => $puntuacion['id_escuderia'], 
-                    'nombre_piloto' => $puntuacion['nombre_piloto'], 
-                    'nombre_escuderia' => $puntuacion['nombre_escuderia'], 
-                    'puntosGP' =>$puntuacion['puntosGP'], 
-
-                ]);
-           
-        }
+        $todos = $request->all();
+       foreach($todos as $row){
+        Puntos::insert([
+            'id_piloto' => array_key_exists('id', $row) ? $row['id'] : null,
+            'id_escuderia' => array_key_exists('id_escuderia', $row)  ? $row['id_escuderia'] : null,
+            'nombre_piloto' => array_key_exists('nombre', $row)  ? $row['nombre'] : null,
+            'nombre_escuderia' => array_key_exists('escuderia', $row)  ? $row['escuderia'] : null,
+            'puntosGP' => $row['puntos'] 
+        ]);
+       }
     }
 }

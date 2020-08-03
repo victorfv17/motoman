@@ -13,12 +13,11 @@ export class PuntuacionService {
 
   }
   public getPuntuacionByUser(liga: number, campoOrdenacion): Observable<Array<IPuntuacion>> {
-    console.log(campoOrdenacion)
-    return this.http.get<Array<IPuntuacion>>('http://127.0.0.1:8000/api/puntuacion/join/' + liga + '/' + campoOrdenacion);
+    return this.http.get<Array<IPuntuacion>>('http://127.0.0.1:8000/api/clasificacion/join/' + liga + '/' + campoOrdenacion);
 
   }
   public addPuntosPiloto(puntuaciones: Array<any>): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/puntuacion', puntuaciones);
+    return this.http.post('http://127.0.0.1:8000/api/clasificacion', puntuaciones);
 
   }
 

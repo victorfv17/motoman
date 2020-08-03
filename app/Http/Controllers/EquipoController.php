@@ -35,8 +35,14 @@ class EquipoController extends Controller
      */
     public function store(Request $request)
     {
-     
-        
+        $usuarioId = $request->usuario;
+        $equipo = $request->equipo;
+      
+        $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['id'])->update(['indicadorEnAlineacion'=> true]);
+  
+       // $equipoEscuderia = Equipo::where('usuario_id', $usuarioId)->where('escuderia_id', $equipo['idEscuderia'])->update(['indicadorEnAlineacion'=> true]);
+       
+       
     }
     /**
      * Display the specified resource.
@@ -58,7 +64,7 @@ class EquipoController extends Controller
     public function showPilotos($user_id)
     {
         $listEquipos = [];
-        $equipos = Equipo::where('usuario_id', $user_id)->get();
+        $equipos = Equipo::where('usuario_id', $user_id)->where('piloto_id', '<>','null')->get();
         foreach($equipos as $equipo){
             array_push($listEquipos, Equipo::join('pilotos', 'pilotos.id','=','equipo.piloto_id')->
             where('pilotos.id', $equipo['piloto_id']) ->

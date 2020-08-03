@@ -43,14 +43,15 @@ class PujasController extends Controller
         
         foreach($pujas as $puja){
             var_dump($puja);
-            if(array_key_exists('piloto',$pujas)){
+            
+            if(array_key_exists('piloto',$puja)){
                 $idMercado = MercadoPiloto::where('piloto_id', $puja['piloto'])->get();
             
             /* $existenPujas = Pujas::where('mercadoPiloto_id', $idMercado[0]['id'])->max('valorPuja');
                 
             var_dump($puja);
                 if($existenPujas < $puja['valorPuja'])*/
-                Pujas::insert(['usuario_id' => 1, 'mercadoPiloto_id' => $idMercado[0]['id'], 'valorPuja' => $puja['puja']]);
+                Pujas::insert(['usuario_id' => 8, 'mercadoPiloto_id' => $idMercado[0]['id'], 'valorPuja' => $puja['puja']]);
             }else{
                 $idMercado = MercadoEscuderia::where('escuderia_id', $puja['escuderia'])->get();
             
@@ -58,7 +59,7 @@ class PujasController extends Controller
                     
                 var_dump($puja);
                     if($existenPujas < $puja['valorPuja'])*/
-                    Pujas::insert(['usuario_id' => 1, 'mercadoEscuderia_id' => $idMercado[0]['id'], 'valorPuja' => $puja['puja']]);
+                    Pujas::insert(['usuario_id' => 8, 'mercadoEscuderia_id' => $idMercado[0]['id'], 'valorPuja' => $puja['puja']]);
             }
         }
         

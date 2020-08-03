@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EquipoService } from 'src/app/shared/services/equipo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlineacionDialogComponent } from './alineacion-dialog/alineacion-dialog.component';
+import { IUser } from 'src/app/shared/models/users.model';
 
 @Component({
   selector: 'app-alineacion',
@@ -10,9 +11,12 @@ import { AlineacionDialogComponent } from './alineacion-dialog/alineacion-dialog
 })
 export class AlineacionComponent implements OnInit {
   equipo = {
+    id: '',
     pilotosMotoGp: '',
     escuderiasMotoGp: ''
   };
+  usuario: IUser = {};
+  equipoModel: any;
   indicadorEnAlineacion = false;
   constructor(
     public dialog: MatDialog,
@@ -20,7 +24,7 @@ export class AlineacionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
+    this.usuario = JSON.parse(localStorage.getItem('usuario'));
   }
   openDialog(cadena: string): void {
 
@@ -32,11 +36,20 @@ export class AlineacionComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.equipo[cadena] = result.nombre;
 
+      this.equipo.id = result.id;
+
+      console.log('this.equipo', this.equipo);
+
     });
   }
   public guardar() {
-    this.indicadorEnAlineacion = true;
-    //this.equipoService.storeAlineacion().subscribe();
+    this.equipoService.storeAlineacion(this.usuario.usuario.id, this.equipo).subscribe();
+    /*{
+      piloto_id:'',
+      escuderia_id:'',
+      usuario:'',
+      indicarod:true
+    }*/
   }
 
 }

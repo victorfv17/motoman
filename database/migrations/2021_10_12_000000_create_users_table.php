@@ -23,7 +23,6 @@ class CreateUsersTable extends Migration
             $table->string('api_token', 60)->unique()->nullable()->default(null);
             $table->integer('liga_id')->unsigned()->nullable()->default(null);
           
-
             $table->timestamps();
         });
       

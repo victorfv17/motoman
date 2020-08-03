@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Puntuacion;
+use App\Clasificacion;
 use App\Puntos;
+use App\Ligas;
+use App\Equipo;
 use App\User;
-class PuntuacionController extends Controller
+class ClasificacionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +22,7 @@ class PuntuacionController extends Controller
     public function join($liga, $campo)
     {   
 
-        return Puntuacion::join('users', 'users.id','=','puntuacion.id_usuario')
+        return Clasificacion::join('users', 'users.id','=','clasificacion.id_usuario')
         ->where('liga_id',$liga)
         ->select('users.name','puntosTotales','puntosMes','puntosGP','puntosCategoria' )
         ->orderBy($campo,'desc')
@@ -46,26 +48,28 @@ class PuntuacionController extends Controller
         //
     }
 
+   
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function updatePuntos()
     {
-        $todos = $request->all();
-       foreach($todos as $row){
-        Puntos::insert([
-            'id_piloto' => array_key_exists('id', $row) ? $row['id'] : null,
-            'id_escuderia' => array_key_exists('id_escuderia', $row)  ? $row['id_escuderia'] : null,
-            'nombre_piloto' => array_key_exists('nombre', $row)  ? $row['nombre'] : null,
-            'nombre_escuderia' => array_key_exists('escuderia', $row)  ? $row['escuderia'] : null,
-            'puntosGP' => $row['puntos'] 
-        ]);
-       }
-    }
+       $ligas = Ligas::get();
+       foreach($ligas as $liga){
+        $usuarios = User::get();
+        foreach($usuarios as $usuario){
+           $equipo = Equipo::where('indicadorEnAlineacion', 0)->get();//cambiar por true
+           foreach($equipo as $row){
+               $puntos = Puntos::where('id_piloto', $row['piloto_id'])->select('puntosGP')->get();
 
+               Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntos[0]['puntosGP']]);
+           }
+        }
+       }
+       return 'correcto';
+    }
     /**
      * Display the specified resource.
      *

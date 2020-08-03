@@ -30,6 +30,6 @@ class CreateTablePuntos extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_puntos');
+        Schema::dropIfExists('puntos');
     }
 }

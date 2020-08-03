@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Ligas;
+use App\Clasificacion;
 use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
@@ -71,6 +72,8 @@ class AuthController extends Controller
 			'password' => Hash::make($data['password']),
 			'api_token' => Str::random(60),
 		]);
+		
+
 	}
 	public function update(Request $request){
 		User::where('id',$request['id'])

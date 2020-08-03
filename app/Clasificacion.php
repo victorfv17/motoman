@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Puntuacion extends Model
+class Clasificacion extends Model
 {
-    protected $table = 'puntuacion';
+    protected $table = 'clasificacion';
 	protected $fillable = ['puntosGP', 'puntosMes', 'puntosCategoria', 'puntosTotales', 'id_usuario'];
 	/**
      * Get the escuderia record associated with the piloto.

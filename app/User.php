@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'liga_id',
+        'name', 'email', 'password', 'liga_id'
     ];
 
     /**
@@ -42,5 +42,6 @@ class User extends Authenticatable
      */
 	public function ligas(){
 		return $this->hasOne('App\Ligas', 'id_liga');
-	}
+    }
+   
 }
