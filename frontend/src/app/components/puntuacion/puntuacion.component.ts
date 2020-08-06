@@ -4,6 +4,7 @@ import { IEscuderias } from 'src/app/shared/models/escuderias.model';
 import { PilotosService } from 'src/app/shared/services/pilotos.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { PuntuacionService } from 'src/app/shared/services/puntuacion.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-puntuacion',
@@ -73,5 +74,8 @@ export class PuntuacionComponent implements OnInit {
 
 
     this.puntuacionService.addPuntosPiloto(this.puntuaciones).subscribe();
+  }
+  public limpiarPuntos(form: NgForm) {
+    form.reset();
   }
 }

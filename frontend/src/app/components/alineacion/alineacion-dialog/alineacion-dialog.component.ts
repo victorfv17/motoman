@@ -42,8 +42,11 @@ export class AlineacionDialogComponent implements OnInit {
   }
   private getEquipo(tipo: string) {
     this.equipoService.getEquipo(this.usuario.usuario.id, tipo).subscribe((equipo) => {
-      this.equipos = equipo;
-      console.log('equipo', this.equipos);
+      if (equipo) {
+        this.equipos = equipo;
+        console.log('equipo', this.equipos);
+      }
+
     });
   }
   public closeDialog(equipo: IEquipo) {

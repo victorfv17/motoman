@@ -39,7 +39,7 @@ Route::resource('ligas','LigasController');
 Route::resource('puntos','PuntosController');
 Route::resource('clasificacion','ClasificacionController');
 Route::get('clasificacion/join/{id}/{campoOrdenacion}', 'ClasificacionController@join');
-Route::put('clasificacion/puntos/{id}', 'ClasificacionController@updatePuntos');
+Route::get('clasificacion/puntos/update', 'ClasificacionController@updatePuntos');
 Route::resource('pujas','PujasController');
 Route::delete('pujas','PujasController@destroy');
 Route::resource('equipo', 'EquipoController');

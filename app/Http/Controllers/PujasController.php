@@ -39,6 +39,7 @@ class PujasController extends Controller
     {
       
         $pujas = $request ->pujas;
+        $usuario = $request ->usuario;
         //var_dump($pujas);
         
         foreach($pujas as $puja){
@@ -51,7 +52,7 @@ class PujasController extends Controller
                 
             var_dump($puja);
                 if($existenPujas < $puja['valorPuja'])*/
-                Pujas::insert(['usuario_id' => 8, 'mercadoPiloto_id' => $idMercado[0]['id'], 'valorPuja' => $puja['puja']]);
+                Pujas::insert(['usuario_id' => $usuario, 'mercadoPiloto_id' => $idMercado[0]['id'], 'valorPuja' => $puja['puja']]);
             }else{
                 $idMercado = MercadoEscuderia::where('escuderia_id', $puja['escuderia'])->get();
             

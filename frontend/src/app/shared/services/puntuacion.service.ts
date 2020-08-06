@@ -17,7 +17,7 @@ export class PuntuacionService {
 
   }
   public addPuntosPiloto(puntuaciones: Array<any>): Observable<any> {
-    return this.http.post('http://127.0.0.1:8000/api/clasificacion', puntuaciones);
+    return this.http.post('http://127.0.0.1:8000/api/puntos', puntuaciones);
 
   }
 

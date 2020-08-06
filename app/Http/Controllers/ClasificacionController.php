@@ -58,13 +58,25 @@ class ClasificacionController extends Controller
     {
        $ligas = Ligas::get();
        foreach($ligas as $liga){
-        $usuarios = User::get();
+        $usuarios = User::where('liga_id',$liga['id_liga'])->get();
         foreach($usuarios as $usuario){
-           $equipo = Equipo::where('indicadorEnAlineacion', 0)->get();//cambiar por true
+           $equipo = Equipo::where('usuario_id',$usuario['id'])->where('indicadorEnAlineacion', 1)->get();//cambiar por true
+         
            foreach($equipo as $row){
-               $puntos = Puntos::where('id_piloto', $row['piloto_id'])->select('puntosGP')->get();
-
-               Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntos[0]['puntosGP']]);
+                $puntos = Puntos::where('id_piloto', $row['piloto_id'])->get();
+                foreach($puntos as $puntuacion){
+                    $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->get();
+                    $puntosTotalesGP = $rowUsuario[0]['puntosGP'] + $puntuacion['puntosGP'];
+                    Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP]);
+                    
+                }
+              
+                   
+                   
+                // $puntosTotalesGP = $puntosGPUsuario['puntosGP'] + $puntuacion['puntosGP'];
+                // Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP]);
+                
+                
            }
         }
        }
@@ -78,7 +90,7 @@ class ClasificacionController extends Controller
      */
     public function show($id)
     {
-        return Puntuacion::where('id_usuario', $id)->get();
+        return Clasificacion::where('id_usuario', $id)->get();
     }
 
     /**

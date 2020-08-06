@@ -34,22 +34,24 @@ export class AlineacionComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.equipo[cadena] = result.nombre;
+      if (result) {
+        this.equipo[cadena] = result.nombre;
 
-      this.equipo.id = result.id;
+        this.equipo.id = result.id;
 
-      console.log('this.equipo', this.equipo);
-
+        console.log('this.equipo', this.equipo);
+      }
     });
   }
   public guardar() {
     this.equipoService.storeAlineacion(this.usuario.usuario.id, this.equipo).subscribe();
-    /*{
-      piloto_id:'',
-      escuderia_id:'',
-      usuario:'',
-      indicarod:true
-    }*/
+  }
+  public borrarAlineacion() {
+    this.equipo = {
+      id: '',
+      pilotosMotoGp: '',
+      escuderiasMotoGp: ''
+    };
   }
 
 }

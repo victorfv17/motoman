@@ -7,6 +7,7 @@ import { PujasService } from 'src/app/shared/services/pujas.service';
 import { DatePipe, formatDate } from '@angular/common';
 import * as moment from 'moment'; // add this 1 of 4
 import { format } from 'url';
+import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-comprar',
   templateUrl: './comprar.component.html',
@@ -29,13 +30,15 @@ export class ComprarComponent implements OnInit {
     this.getPilotosMercado();
     this.getEscuderiasMercado();
   }
-  public coleccionPujas(piloto: number, puja: number) {
+  public coleccionPujas(piloto?: number, puja?: number) {
     let pilotoPuja: IPujas = {
       piloto: piloto,
       puja: puja
     }
     this.pujas.push(pilotoPuja);
     console.log(this.pujas)
+
+
   }
   public coleccionPujasEscuderias(escuderia: number, puja: number) {
     let escuderiaPuja: IPujas = {
@@ -163,6 +166,11 @@ export class ComprarComponent implements OnInit {
   }
   public enviarPujas() {
     this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(puja => puja);
+  }
+
+  public limpiarDatosPujas(form: NgForm) {
+
+    form.reset();
   }
 
 }
