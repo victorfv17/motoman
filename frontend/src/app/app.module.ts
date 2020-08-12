@@ -4,10 +4,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { InformacionComponent } from './components/informacion/informacion.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './core/material-module';
-import { InformacionDetailComponent } from './components/informacion/informacion-detail/informacion-detail.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
@@ -15,6 +13,12 @@ import { ClasificacionComponent } from './components/clasificacion/clasificacion
 import { AlineacionComponent } from './components/alineacion/alineacion.component';
 import { AlineacionDialogComponent } from './components/alineacion/alineacion-dialog/alineacion-dialog.component';
 import { PuntuacionComponent } from './components/puntuacion/puntuacion.component';
+import { DialogEliminarComponent } from './components/pilotos/dialog-eliminar/dialog-eliminar.component';
+import { EscuderiasComponent } from './components/escuderias/escuderias.component';
+import { EscuderiasAddComponent } from './components/escuderias/escuderias-add/escuderias-add.component';
+import { PilotosAddComponent } from './components/pilotos/pilotos-add/pilotos-add.component';
+import { PilotosComponent } from './components/pilotos/pilotos.component';
+import { PilotosDetailComponent } from './components/pilotos/pilotos-detail/pilotos-detail.component';
 
 
 
@@ -22,14 +26,19 @@ import { PuntuacionComponent } from './components/puntuacion/puntuacion.componen
 @NgModule({
   declarations: [
     AppComponent,
-    InformacionComponent,
-    InformacionDetailComponent,
+    PilotosComponent,
+    PilotosDetailComponent,
+    PilotosAddComponent,
     LoginComponent,
     HomeComponent,
     ClasificacionComponent,
     AlineacionComponent,
     AlineacionDialogComponent,
     PuntuacionComponent,
+
+    DialogEliminarComponent,
+    EscuderiasComponent,
+    EscuderiasAddComponent,
 
 
 
@@ -46,6 +55,6 @@ import { PuntuacionComponent } from './components/puntuacion/puntuacion.componen
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [AlineacionDialogComponent]
+  entryComponents: [AlineacionDialogComponent, DialogEliminarComponent]
 })
 export class AppModule { }

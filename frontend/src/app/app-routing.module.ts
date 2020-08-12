@@ -1,27 +1,37 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { InformacionComponent } from './components/informacion/informacion.component';
-import { InformacionDetailComponent } from './components/informacion/informacion-detail/informacion-detail.component';
 import { LoginComponent } from './components/login/login.component';
 import { AutenticacionGuard } from './autenticacion/autenticacion.guard';
 import { HomeComponent } from './home/home.component';
 import { ClasificacionComponent } from './components/clasificacion/clasificacion.component';
-import { LigaComponent } from './components/liga/liga.component';
-import { MercadoComponent } from './components/mercado/mercado.component';
+
 import { AlineacionComponent } from './components/alineacion/alineacion.component';
 import { PuntuacionComponent } from './components/puntuacion/puntuacion.component';
+import { EscuderiasComponent } from './components/escuderias/escuderias.component';
+import { EscuderiasAddComponent } from './components/escuderias/escuderias-add/escuderias-add.component';
+
+import { PilotosComponent } from './components/pilotos/pilotos.component';
+import { PilotosDetailComponent } from './components/pilotos/pilotos-detail/pilotos-detail.component';
+import { PilotosAddComponent } from './components/pilotos/pilotos-add/pilotos-add.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AutenticacionGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'liga', loadChildren: () => import('./components/liga/liga.module').then((m) => m.LigaModule) },
-  { path: 'informacion', component: InformacionComponent },
-  { path: 'informacion/:id', component: InformacionDetailComponent },
+
+  { path: 'escuderias', component: EscuderiasComponent },
+  { path: 'escuderias/:id', component: EscuderiasAddComponent },
+  { path: 'escuderias/nueva/escuderia', component: EscuderiasAddComponent },
   { path: 'clasificacion', component: ClasificacionComponent },
   { path: 'mercado', loadChildren: () => import('./components/mercado/mercado.module').then((m) => m.MercadoModule) },
   { path: 'alineacion', component: AlineacionComponent },
   { path: 'puntuacion', component: PuntuacionComponent },
+  { path: 'pilotos', component: PilotosComponent },
+  { path: 'pilotos/:id', component: PilotosDetailComponent },
+  { path: 'pilotos/nuevo/piloto', component: PilotosAddComponent },
+  { path: 'pilotos/editar/:id', component: PilotosAddComponent },
+
 ];
 
 @NgModule({

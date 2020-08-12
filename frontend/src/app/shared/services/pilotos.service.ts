@@ -22,6 +22,15 @@ export class PilotosService {
   public getPiloto(id: number): Observable<IPilotos> {
     return this.http.get<IPilotos>('http://127.0.0.1:8000/api/pilotos/' + id);
   }
+  public addPiloto(piloto: IPilotos): Observable<IPilotos> {
+    return this.http.post<IPilotos>('http://127.0.0.1:8000/api/pilotos', piloto);
+  }
+  public deletePiloto(id: string): Observable<IPilotos> {
+    return this.http.delete<IPilotos>('http://127.0.0.1:8000/api/pilotos/' + id);
+  }
+  public editPiloto(piloto: IPilotos, id: string): Observable<IPilotos> {
+    return this.http.put<IPilotos>('http://127.0.0.1:8000/api/pilotos/' + id, piloto);
+  }
 
 
   columnSorted(campo: string, datalist: any[], direction: string): any[] {

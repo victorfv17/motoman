@@ -30,6 +30,7 @@ Route::group(['prefix'=>'user'],function(){
 });
 Route::get('pilotos/{campo}/{direct}', 'PilotosController@join');
 Route::resource('pilotos','PilotosController');
+Route::get('escuderias/{campo}/{direct}', 'EscuderiasController@indexSort');
 Route::resource('escuderias','EscuderiasController');
 Route::resource('mercadoPilotos','MercadoPilotosController');
 Route::delete('mercadoPilotos/{liga}','MercadoPilotosController@destroy');

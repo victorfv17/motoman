@@ -7,11 +7,11 @@ import { IEscuderias } from 'src/app/shared/models/escuderias.model';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-informacion-detail',
-  templateUrl: './informacion-detail.component.html',
-  styleUrls: ['./informacion-detail.component.scss']
+  selector: 'app-pilotos-detail',
+  templateUrl: './pilotos-detail.component.html',
+  styleUrls: ['./pilotos-detail.component.scss']
 })
-export class InformacionDetailComponent implements OnInit {
+export class PilotosDetailComponent implements OnInit {
   public idPiloto: number;
   public piloto: IPilotos;
   public escuderia: IEscuderias;

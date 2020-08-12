@@ -4,6 +4,7 @@
 </ng-template>
 <ng-template #table>
     <mat-card style="margin:10px;">
+
         <table class="table table-bordered table-hover table-striped">
             <thead class=" thead-dark">
                 <tr class="pointer">
@@ -29,11 +30,18 @@
                         <mat-icon *ngIf="direct === 'asc'" (click)="sort('pais')">
                             keyboard_arrow_up</mat-icon>
                     </th>
+                    <th style="text-align: center;" routerLink="/pilotos/nuevo/piloto">
+                        <button mat-icon-button>
+                            <mat-icon style="font-size:32px">add_circle</mat-icon>
+                        </button>
+                        <span style="margin-left: 5px;">Añadir</span>
+                    </th>
                 </tr>
+
+
             </thead>
             <tbody>
-                <tr *ngFor="let piloto of pilotos" class="table-dark pointer" style="color:#9D0000"
-                    routerLink="/informacion/{{piloto.id}}">
+                <tr *ngFor="let piloto of pilotos" class="table-dark" style="color:#9D0000">
                     <td style="text-align: left;"><img src="assets/pilotos/{{piloto.nombre}}.png"
                             alt="{{piloto.nombre}}" height="40" width="40">{{piloto.nombre}}
                     </td>
@@ -41,6 +49,25 @@
                     <td style="text-align: center;">{{piloto.puntos}}</td>
                     <td style="text-align: center;"><img src="assets/paises/{{piloto.pais}}.png" alt="{{piloto.pais}}"
                             height="40" width="40" matTooltip="{{piloto.pais}}">
+                    </td>
+                    <td style="text-align: center;">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item routerLink="/pilotos/{{piloto.id}}">
+                                <mat-icon>remove_red_eye</mat-icon>
+                                <span>Ver Detalle</span>
+                            </button>
+                            <button mat-menu-item routerLink="/pilotos/editar/{{piloto.id}}">
+                                <mat-icon>edit</mat-icon>
+                                <span>Editar</span>
+                            </button>
+                            <button mat-menu-item (click)="delete(piloto.id)">
+                                <mat-icon>delete</mat-icon>
+                                <span>Eliminar</span>
+                            </button>
+                        </mat-menu>
                     </td>
                 </tr>
             </tbody>

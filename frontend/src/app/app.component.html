@@ -39,8 +39,7 @@
     <div *ngIf="user" class="collapse navbar-collapse" id="appNavigation" [ngbCollapse]="isCollapsed">
       <div *ngIf="location.path()!=='/liga'" class="navbar-nav mr-auto">
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Inicio</a>
-        <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/informacion"
-          routerLinkActive="active">Informacion</a>
+
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/clasificacion"
           routerLinkActive="active">Clasificacion</a>
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/mercado" routerLinkActive="active">Mercado</a>
@@ -61,6 +60,9 @@
           routerLinkActive="active">Puntos</a>
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/clasificacion"
           routerLinkActive="active">Apuestas</a>
+        <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/pilotos" routerLinkActive="active">Pilotos</a>
+        <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/escuderias"
+          routerLinkActive="active">Escuderias</a>
         <a (click)="logout()" class="nav-item nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
       </div>
       <div *ngIf="location.path()==='/liga'">

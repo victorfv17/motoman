@@ -1,0 +1,34 @@
+<div class="container">
+    <mat-card class="card">
+
+        <mat-card-header>
+            <mat-icon mat-card-avatar>motorcycle</mat-icon>
+            <mat-card-title>Añadir escuderia</mat-card-title>
+        </mat-card-header>
+
+
+        <mat-card-content>
+            <mat-divider></mat-divider>
+            <form class="content">
+                <mat-form-field style="width: 35%;">
+                    <input matInput type="text" name="nombre" placeholder="Nombre" [(ngModel)]="escuderia.nombre">
+                </mat-form-field>
+                <mat-form-field style="width: 35%;">
+                    <input matInput type="text" name="puntos" placeholder="Puntos" [(ngModel)]="escuderia.puntos">
+                </mat-form-field>
+                <mat-form-field style="width: 35%;">
+                    <input matInput type="text" name="valorMercado" placeholder="Valor Mercado"
+                        [(ngModel)]="escuderia.valorMercado">
+                </mat-form-field>
+            </form>
+        </mat-card-content>
+
+        <mat-card-actions class="actions">
+            <button class="btn btn-secondary" style="width:40%" type="button" (click)="back()">Volver
+            </button>
+            <button class="btn btn-danger" style="width:40%" type="button" (click)="submitData()">Enviar
+            </button>
+        </mat-card-actions>
+
+    </mat-card>
+</div>

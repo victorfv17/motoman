@@ -16,6 +16,10 @@ class EscuderiasController extends Controller
     {
         return Escuderias::get();
     }
+    public function indexSort($campo,$direct)
+    {
+        return Escuderias::orderBy($campo, $direct )->get();
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -36,11 +40,9 @@ class EscuderiasController extends Controller
     public function store(Request $request)
     {
         $escuderias = $request->all();
-
+        Escuderias::create($escuderias);
         
-        foreach($escuderias as $escuderia){
-            Escuderias::create($escuderia);
-        }
+       
     }
 
     /**
@@ -74,7 +76,9 @@ class EscuderiasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $query = $request->all();
+        Escuderias::where('id',$id)->update($query);
+        return $query;
     }
 
     /**
@@ -85,6 +89,6 @@ class EscuderiasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Escuderias::where('id',$id)->delete();
     }
 }

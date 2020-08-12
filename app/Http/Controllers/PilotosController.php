@@ -51,43 +51,12 @@ class PilotosController extends Controller
     public function store(Request $request)
     {
 		$todos = $request->all();
-
+        Pilotos::create($todos);
 		
-		foreach($todos as $pil){
-            Pilotos::create($pil);
-        }
+		// foreach($todos as $pil){
+        //     Pilotos::create($pil);
+        // }
      
-        //for($i = 0 ; $i< count($todos);$i++){
-                               /*for($j = 0; $j < count($todos[$i])-1; $j++){
-                               //var_dump($todos[$j]['nombre'],$todos[$j]['pais']);
-
-                               //var_dump($piloto->nombre);
-                                $pilotos[$i]->nombre = $todos[$j]['nombre'];
-                                 $pilotos[$i]->pais = $todos[$j]['pais'];
-                                
-                                 $pilotos[$i]->numero = $todos[$j]['numero'];
-                                
-                               } */
-                             
-                              //no funciona lo del id, si que lo cambia pero no envia dos registros, comprobar arrray
-            /*$ultimo =  Pilotos::latest('id')->first();
-            if($ultimo){
-                 $id =  $ultimo['id'];
-       
-                 $piloto->id  = $id + $i + 1;
-              
-            }*/
-
-        
-          /*$piloto->nombre =  $todos[$i]['nombre'];
-           $piloto->pais =  $todos[$i]['pais'];
-            $piloto->numero =  $todos[$i]['numero'];
-            $piloto->created_at = '2019-01-01';
-            $piloto->updated_at ='2019-01-01';*/
-          // echo $piloto;
-       // $piloto->save();
-
-		
     }
 
     /**
@@ -109,7 +78,7 @@ class PilotosController extends Controller
      */
     public function edit($id)
     {
-        //
+       
     }
 
     /**
@@ -121,7 +90,9 @@ class PilotosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $query = $request->all();
+        Pilotos::where('id',$id)->update($query);
+        return $query;
     }
 
     /**
@@ -132,7 +103,7 @@ class PilotosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Pilotos::where('id',$id)->delete();
     }
 
   

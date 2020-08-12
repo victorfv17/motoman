@@ -1,17 +1,18 @@
-import { Component, OnInit, DefaultIterableDiffer } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PilotosService } from 'src/app/shared/services/pilotos.service';
 import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { IEscuderias } from 'src/app/shared/models/escuderias.model';
-import { EscuderiasService } from 'src/app/shared/services/escuderias.service';
-import { mergeMap } from 'rxjs/internal/operators/mergeMap';
+
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogEliminarComponent } from './dialog-eliminar/dialog-eliminar.component';
 
 @Component({
-  selector: 'app-informacion',
-  templateUrl: './informacion.component.html',
-  styleUrls: ['./informacion.component.scss']
+  selector: 'app-pilotos',
+  templateUrl: './pilotos.component.html',
+  styleUrls: ['./pilotos.component.scss']
 })
-export class InformacionComponent implements OnInit {
+export class PilotosComponent implements OnInit {
   public pilotos: Array<IPilotos> = [];
   public escuderias: Array<IEscuderias>;
   public escuderia: IEscuderias;
@@ -24,8 +25,8 @@ export class InformacionComponent implements OnInit {
   sorted: IPilotos;
   constructor(
     private pilotosService: PilotosService,
-    private authenticationService: AuthenticationService
-
+    private authenticationService: AuthenticationService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -41,26 +42,20 @@ export class InformacionComponent implements OnInit {
       this.pilotos = pilotos;
       console.log(this.pilotos)
       this.isLoading = false;
-      /* this.pilotos.forEach(piloto => {
- 
-         this.escuderiasService.getEscuderia(piloto.id_escuderia).subscribe((escuderia: IEscuderias) => {
-           this.escuderia = escuderia[0];
-           piloto.nombre_escuderia = this.escuderia.nombre;
- 
-           this.cont = this.cont + 1;
-           //comprobacion para que no se cargue la pagina hasta que esten todas las escuderias
-           if (this.pilotos.length === this.cont) {
-             this.isLoading = false;
-           }
- 
- 
-         });
- 
- 
-       });*/
-
     });
 
+  }
+  public delete(pilotoId: string) {
+    const dialogRef = this.dialog.open(DialogEliminarComponent, {
+      width: '500px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.pilotosService.deletePiloto(pilotoId).subscribe(() => {
+          this.getPilotos();
+        });
+      }
+    });
   }
 
 

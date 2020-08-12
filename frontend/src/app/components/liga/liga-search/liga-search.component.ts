@@ -39,7 +39,7 @@ export class LigaSearchComponent implements OnInit {
     this.authenticationService.updateUser(this.user, liga.id_liga, liga.numParticipantes + 1).subscribe(
 
     );
-    this.router.navigateByUrl('/informacion');
+    this.router.navigateByUrl('/pilotos');
   }
 
 }
