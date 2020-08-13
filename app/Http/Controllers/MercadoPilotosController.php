@@ -21,7 +21,7 @@ class MercadoPilotosController extends Controller
         $pilotos = MercadoPiloto::
         join('pilotos', 'mercadoPilotos.piloto_id','=','pilotos.id')->
         join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')->
-        select( 'pilotos.id as id','pilotos.nombre as nombre','pilotos.valorMercado', 'id_escuderia', 'escuderias.nombre as escuderia', 'fecha')
+        select( 'pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos as puntos','pilotos.valorMercado', 'id_escuderia', 'escuderias.nombre as escuderia', 'fecha')
         ->get();
         
         /*$mercadoPilotos = MercadoPiloto::get();

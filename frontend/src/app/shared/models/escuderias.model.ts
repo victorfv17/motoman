@@ -3,6 +3,6 @@ export interface IEscuderias {
     nombre?: string;
     puntos?: number;
     valorMercado?: number;
-
+    color?: string;
 
 }

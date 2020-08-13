@@ -1,19 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { MercadoService } from 'src/app/shared/services/mercado.service';
-import { IMercado } from 'src/app/shared/models/mercado.model';
-import { IUser } from 'src/app/shared/models/users.model';
-import { IPujas } from 'src/app/shared/models/pujas.model';
-import { PujasService } from 'src/app/shared/services/pujas.service';
-import { DatePipe, formatDate } from '@angular/common';
-import * as moment from 'moment'; // add this 1 of 4
-import { format } from 'url';
 import { NgForm } from '@angular/forms';
+import { IPujas } from 'src/app/shared/models/pujas.model';
+import { IUser } from 'src/app/shared/models/users.model';
+import { MercadoService } from 'src/app/shared/services/mercado.service';
+import { PujasService } from 'src/app/shared/services/pujas.service';
+
 @Component({
-  selector: 'app-comprar',
-  templateUrl: './comprar.component.html',
-  styleUrls: ['./comprar.component.scss']
+  selector: 'app-tab-pilotos',
+  templateUrl: './tab-pilotos.component.html',
+  styleUrls: ['./tab-pilotos.component.scss']
 })
-export class ComprarComponent implements OnInit {
+export class TabPilotosComponent implements OnInit {
+
   public pilotos: any;
   public escuderias: any;
   public puja: number;
@@ -28,7 +26,7 @@ export class ComprarComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
     this.getPilotosMercado();
-    this.getEscuderiasMercado();
+
   }
   public coleccionPujas(piloto?: number, puja?: number) {
     let pilotoPuja: IPujas = {
@@ -40,14 +38,7 @@ export class ComprarComponent implements OnInit {
 
 
   }
-  public coleccionPujasEscuderias(escuderia: number, puja: number) {
-    let escuderiaPuja: IPujas = {
-      escuderia: escuderia,
-      puja: puja
-    }
-    this.pujas.push(escuderiaPuja);
-    console.log(this.pujas)
-  }
+
   private getPilotosMercado() {
 
     let fechaActual = new Date().toISOString().slice(0, 10);
@@ -73,30 +64,6 @@ export class ComprarComponent implements OnInit {
       }
     });
   }
-  private getEscuderiasMercado() {
-
-    let fechaActual = new Date().toISOString().slice(0, 10);
-    //fechaActual = '2020-06-02';
-    this.mercadoService.getEscuderiasMercado().subscribe(escuderias => {
-      console.log('escuderias', escuderias);
-      if (escuderias && escuderias.length === 4) {
-        if (String(escuderias[0].fecha) === fechaActual) {
-          this.checkEscuderia(escuderias);
-          this.escuderias = escuderias;
-
-        } else {
-
-          this.deleteEscuderiasMercado();
-        }
-
-
-      } else {
-
-        this.createEscuderiasMercado();
-
-      }
-    });
-  }
 
   private createPilotosMercado() {
     this.mercadoService.savePilotosMercado(this.user.usuario.liga_id).subscribe(() => this.getPilotosMercado());
@@ -107,14 +74,6 @@ export class ComprarComponent implements OnInit {
 
   }
 
-  private createEscuderiasMercado() {
-    this.mercadoService.saveEscuderiasMercado(this.user.usuario.liga_id).subscribe(() => this.getEscuderiasMercado());
-  }
-
-  private deleteEscuderiasMercado() {
-    this.mercadoService.deleteEscuderiasMercado(this.user.usuario.liga_id).subscribe(() => this.createEscuderiasMercado());
-
-  }
 
   private checkPilotoEscuderia(pilotos: any) {
     for (var i = 0; i < pilotos.length; i++) {
@@ -160,51 +119,9 @@ export class ComprarComponent implements OnInit {
       }
     }
   }
-  private checkEscuderia(escuderias: any) {
-    for (var i = 0; i < escuderias.length; i++) {
 
-      switch (escuderias[i].nombre) {
-        case 'Monster Energy Yamaha MotoGP':
-          escuderias[i].color = 'blue';
-          break;
-        case 'Repsol Honda Team':
-          escuderias[i].color = 'orange';
-          break;
-        case 'Ducati Team':
-          escuderias[i].color = 'red';
 
-          break;
-        case 'Team SUZUKI ECSTAR':
-          escuderias[i].color = '#5464BC';
-          break;
-        case 'Reale Avintia Racing':
-          escuderias[i].color = 'white';
 
-          break;
-        case 'Aprilia Racing Team Gresini':
-          escuderias[i].color = 'black';
-          break;
-        case 'LCR Honda':
-          escuderias[i].color = '#CF8080';
-
-          break;
-        case 'Petronas Yamaha SRT':
-          escuderias[i].color = '#AAEFFF';
-          break;
-        case 'Pramac Racing':
-          escuderias[i].color = '#984F49';
-
-          break;
-        case 'Red Bull KTM Factory Racing':
-          escuderias[i].color = '#FF6A00';
-          break;
-        case 'Red Bull KTM Tech 3':
-          escuderias[i].color = '#00064E';
-          break;
-      }
-    }
-
-  }
   public enviarPujas() {
 
     this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(() => {

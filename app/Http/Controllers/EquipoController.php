@@ -83,7 +83,7 @@ class EquipoController extends Controller
     public function showEscuderias($user_id)
     {
         $listEquipos = [];
-        $equipos = Equipo::where('usuario_id', $user_id)->get();
+        $equipos = Equipo::where('usuario_id', $user_id)->where('escuderia_id', '<>','null')->get();
         foreach($equipos as $equipo){
             array_push($listEquipos, Equipo::join('escuderias', 'escuderias.id','=','equipo.escuderia_id')->
             where('escuderias.id', $equipo['escuderia_id']) ->

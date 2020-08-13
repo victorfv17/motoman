@@ -18,7 +18,7 @@ class MercadoEscuderiaController extends Controller
         $escuderias = MercadoEscuderia::
         join('escuderias', 'mercadoEscuderias.escuderia_id','=','escuderias.id')->
        
-        select( 'escuderias.id as id','escuderias.nombre as nombre','escuderias.valorMercado', 'fecha')
+        select( 'escuderias.id as id','escuderias.nombre as nombre','escuderias.puntos as puntos','escuderias.valorMercado', 'fecha')
         ->get();
         
         /*$mercadoPilotos = MercadoPiloto::get();
