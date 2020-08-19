@@ -16,6 +16,7 @@ class CreateTableClasificacion extends Migration
       
         if (!Schema::hasTable('clasificacion')){
         Schema::create('clasificacion', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->integer('puntosGP');
             $table->integer('puntosMes');
             $table->integer('puntosCategoria');

@@ -1,4 +1,18 @@
-<h1>Comprar pilotos</h1>
+<div class="title">
+    <h1>Comprar pilotos</h1>
+    <mat-card class="card" style="margin-top:10px;margin-right: 50px;">
+        <mat-icon style="font-size: 20px;">
+            account_balance
+        </mat-icon>
+        <mat-card-title>
+            Saldo:
+            <span>
+                {{user.usuario.saldo}}
+            </span>
+        </mat-card-title>
+    </mat-card>
+
+</div>
 <form #formPilotos="ngForm">
     <mat-card style="margin:10px;">
         <table class="table table-bordered table-hover table-striped">
@@ -35,9 +49,12 @@
                         </mat-card>
                     </td>
                     <td class="align-middle">
-                        <input type="puja" class="form-control mx-auto" style="width: 70%" id="puja" name="puja"
-                            placeholder="Introducir puja" [(ngModel)]="piloto.puja"
-                            (ngModelChange)="coleccionPujas(piloto.id, piloto.puja)">
+
+                        <input type="number" class="form-control mx-auto" style="width: 70%" id="puja" name="valorPuja"
+                            placeholder="Introducir puja" [(ngModel)]="piloto.valorPuja"
+                            (ngModelChange)="coleccionPujas(piloto, piloto.valorPuja)">
+
+
                     </td>
                 </tr>
 
@@ -48,7 +65,13 @@
             <button class="btn btn-secondary submitButton " type="button"
                 (click)="limpiarDatosPujas(formPilotos)">Limpiar
             </button>
-            <button class=" btn btn-danger submitButton " type=" button" (click)="enviarPujas(formPilotos)">Enviar
+            <button [disabled]="formInvalid" class=" btn btn-danger submitButton " type=" button"
+                (click)="enviarPujas(formPilotos)">
+                <span matTooltip="Puja inválida" [matTooltipDisabled]="!formInvalid">
+                    Enviar
+                </span>
+
+
             </button>
         </mat-card-actions>
 

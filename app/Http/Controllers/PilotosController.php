@@ -51,11 +51,11 @@ class PilotosController extends Controller
     public function store(Request $request)
     {
 		$todos = $request->all();
-        Pilotos::create($todos);
+        //Pilotos::create($todos);
 		
-		// foreach($todos as $pil){
-        //     Pilotos::create($pil);
-        // }
+		foreach($todos as $pil){
+            Pilotos::create($pil);
+        }
      
     }
 
@@ -67,7 +67,7 @@ class PilotosController extends Controller
      */
     public function show($id)
     {
-        return Pilotos::where('id',$id)->get();
+        return Pilotos::where('id',$id)->first();
     }
 
     /**

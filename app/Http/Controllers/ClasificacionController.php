@@ -65,16 +65,15 @@ class ClasificacionController extends Controller
            foreach($equipo as $row){
                 $puntos = Puntos::where('id_piloto', $row['piloto_id'])->get();
                 foreach($puntos as $puntuacion){
-                    $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->get();
-                    $puntosTotalesGP = $rowUsuario[0]['puntosGP'] + $puntuacion['puntosGP'];
+                    $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->first();
+                    $puntosTotalesGP = $rowUsuario['puntosGP'] + $puntuacion['puntosGP'];
                     Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP]);
-                    
+                    $saldoPorPuntos = $puntuacion['puntosGP']  * 20000;
+                    $saldo = $usuario['saldo'] + $saldoPorPuntos;
+                    User::where('id', $usuario['id'])->update(['saldo'=> $saldo]);
                 }
               
-                   
-                   
-                // $puntosTotalesGP = $puntosGPUsuario['puntosGP'] + $puntuacion['puntosGP'];
-                // Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP]);
+        
                 
                 
            }

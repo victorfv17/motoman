@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, Form } from '@angular/forms';
 import { IPujas } from 'src/app/shared/models/pujas.model';
 import { IUser } from 'src/app/shared/models/users.model';
 import { MercadoService } from 'src/app/shared/services/mercado.service';
@@ -11,7 +11,7 @@ import { PujasService } from 'src/app/shared/services/pujas.service';
   styleUrls: ['./tab-pilotos.component.scss']
 })
 export class TabPilotosComponent implements OnInit {
-
+  formInvalid = false;
   public pilotos: any;
   public escuderias: any;
   public puja: number;
@@ -25,30 +25,34 @@ export class TabPilotosComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
+
     this.getPilotosMercado();
 
   }
-  public coleccionPujas(piloto?: number, puja?: number) {
-    let pilotoPuja: IPujas = {
-      piloto: piloto,
-      puja: Number(puja)
+  public coleccionPujas(piloto?: any, puja?: number) {
+    if (puja < piloto.valorMercado) {
+      this.formInvalid = true;
+    } else {
+      this.formInvalid = false;
+      let pilotoPuja: IPujas = {
+        piloto: piloto,
+        puja: Number(puja)
+      }
+      this.pujas.push(pilotoPuja);
+      console.log(this.pujas)
     }
-    this.pujas.push(pilotoPuja);
-    console.log(this.pujas)
-
 
   }
+
+
 
   private getPilotosMercado() {
 
     let fechaActual = new Date().toISOString().slice(0, 10);
     //fechaActual = '2020-06-02';
     this.mercadoService.getPilotosMercado().subscribe(pilotos => {
-      console.log('pilotos', pilotos.length);
+
       if (pilotos && pilotos.length === 6) {
-        console.log('actual', fechaActual);
-        console.log('array', pilotos[0])
-        console.log('comparacion', String(pilotos[0].fecha) === fechaActual)
         if (String(pilotos[0].fecha) === fechaActual) {
           this.checkPilotoEscuderia(pilotos);
           this.pilotos = pilotos;
@@ -135,3 +139,5 @@ export class TabPilotosComponent implements OnInit {
   }
 
 }
+
+

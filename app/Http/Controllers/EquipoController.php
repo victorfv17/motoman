@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Equipo;
-
+use App\User;
+use App\Pilotos;
+use App\Escuderias;
 class EquipoController extends Controller
 {
       /**
@@ -124,7 +126,18 @@ class EquipoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    { 
+        $equipo = Equipo::where('id',$id)->first();
+        $rowUser = User::where('id', $equipo['usuario_id'])->first();
+        if($equipo['piloto_id']){
+            $piloto = Pilotos::where('id',$equipo['piloto_id'])->first();
+            $saldo = $rowUser['saldo'] + $piloto['valorMercado'];
+        }else{
+            $escuderia = Escuderias::where('id',$equipo['escuderia_id'])->first();
+            $saldo = $rowUser['saldo'] + $escuderia['valorMercado'];
+        }
+        
+        User::where('id', $rowUser['id'])->update(['saldo' => $saldo]);
         Equipo::where('id',$id)->delete();
         
     }

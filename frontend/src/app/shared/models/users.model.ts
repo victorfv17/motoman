@@ -6,6 +6,7 @@ export interface IUser {
     message?: string;
     token?: string;
     liga_id?: number;
+    saldo?: number;
 
     //extra
     usuario?: IUser;

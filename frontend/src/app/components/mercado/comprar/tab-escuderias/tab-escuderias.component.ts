@@ -11,7 +11,7 @@ import { PujasService } from 'src/app/shared/services/pujas.service';
   styleUrls: ['./tab-escuderias.component.scss']
 })
 export class TabEscuderiasComponent implements OnInit {
-
+  formInvalid = false;
   public escuderias: any;
   public puja: number;
   private user: IUser;
@@ -28,13 +28,18 @@ export class TabEscuderiasComponent implements OnInit {
     this.getEscuderiasMercado();
   }
 
-  public coleccionPujasEscuderias(escuderia: number, puja: number) {
-    let escuderiaPuja: IPujas = {
-      escuderia: escuderia,
-      puja: puja
+  public coleccionPujasEscuderias(escuderia: any, puja: number) {
+    if (puja < escuderia.valorMercado) {
+      this.formInvalid = true;
+    } else {
+      this.formInvalid = false;
+      let escuderiaPuja: IPujas = {
+        escuderia: escuderia,
+        puja: puja
+      }
+      this.pujas.push(escuderiaPuja);
+      console.log(this.pujas)
     }
-    this.pujas.push(escuderiaPuja);
-    console.log(this.pujas)
   }
 
   private getEscuderiasMercado() {

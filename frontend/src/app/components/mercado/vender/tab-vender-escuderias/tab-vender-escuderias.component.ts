@@ -26,6 +26,8 @@ export class TabVenderEscuderiasComponent implements OnInit {
   }
   public venderEscuderia(escuderia: any) {
     this.equipoService.venderEscuderia(escuderia.id).subscribe(() => {
+      this.usuario.usuario.saldo = this.usuario.usuario.saldo + escuderia.valorMercado;
+      localStorage.setItem('usuario', JSON.stringify(this.usuario));
       this.equipos = [];
       this.getEquipo();
     });
