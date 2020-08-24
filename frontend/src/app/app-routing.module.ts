@@ -13,6 +13,7 @@ import { EscuderiasAddComponent } from './components/escuderias/escuderias-add/e
 import { PilotosComponent } from './components/pilotos/pilotos.component';
 import { PilotosDetailComponent } from './components/pilotos/pilotos-detail/pilotos-detail.component';
 import { PilotosAddComponent } from './components/pilotos/pilotos-add/pilotos-add.component';
+import { RegistroComponent } from './components/registro/registro.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'pilotos/:id', component: PilotosDetailComponent },
   { path: 'pilotos/nuevo/piloto', component: PilotosAddComponent },
   { path: 'pilotos/editar/:id', component: PilotosAddComponent },
+  { path: 'registro', component: RegistroComponent },
 
 ];
 

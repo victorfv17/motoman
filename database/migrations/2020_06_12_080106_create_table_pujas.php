@@ -19,6 +19,7 @@ class CreateTablePujas extends Migration
             $table->integer('mercadoPiloto_id')->unsigned()->nullable();
             $table->integer('mercadoEscuderia_id')->unsigned()->nullable();
             $table->integer('valorPuja')->unsigned();
+            $table->boolean('visible')->default('N');
             $table->timestamps();
         });
     }

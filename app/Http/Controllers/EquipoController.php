@@ -14,9 +14,26 @@ class EquipoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function showVentas()
     {
-        //
+        $equipo = [];
+        $pilotos = Equipo::where('indicadorEnAlineacion','2')
+        ->join('pilotos', 'pilotos.id','=','equipo.piloto_id')
+        ->join('users', 'users.id','=','equipo.usuario_id')
+        ->select('nombre as piloto', 'users.name as usuario', 'valorMercado as valor')
+        ->get();
+        $escuderias = Equipo::where('indicadorEnAlineacion','2')
+        ->join('escuderias', 'escuderias.id','=','equipo.escuderia_id')
+        ->join('users', 'users.id','=','equipo.usuario_id')
+        ->select('nombre as escuderia', 'users.name as usuario', 'valorMercado as valor')
+        ->get();
+        foreach($pilotos as $piloto){
+            array_push($equipo, $piloto);
+        }
+        foreach($escuderias as $escuderia){
+            array_push($equipo, $escuderia);
+        }
+        return $equipo;
     }
 
     /**
@@ -127,6 +144,7 @@ class EquipoController extends Controller
      */
     public function destroy($id)
     { 
+        Equipo::where('id',$id)->update(['indicadorEnAlineacion'=> '2']);
         $equipo = Equipo::where('id',$id)->first();
         $rowUser = User::where('id', $equipo['usuario_id'])->first();
         if($equipo['piloto_id']){
@@ -138,7 +156,7 @@ class EquipoController extends Controller
         }
         
         User::where('id', $rowUser['id'])->update(['saldo' => $saldo]);
-        Equipo::where('id',$id)->delete();
+       // Equipo::where('id',$id)->delete();
         
     }
 }

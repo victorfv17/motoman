@@ -24,7 +24,7 @@ export class VenderComponent implements OnInit {
     });
   }
   public venderPiloto(piloto: any) {
-    this.equipoService.venderPiloto(piloto.id).subscribe(() => {
+    this.equipoService.venta(piloto.id).subscribe(() => {
       this.equipos = [];
       this.getEquipo();
     });

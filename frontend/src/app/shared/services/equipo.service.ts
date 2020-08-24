@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { IEquipo } from '../models/equipo.model';
 import { IUser } from '../models/users.model';
@@ -11,6 +11,7 @@ export class EquipoService {
 
   constructor(private http: HttpClient) { }
 
+
   public getEquipo(user: string, tipo?: string): Observable<Array<IEquipo>> {
     if (tipo === 'pilotos') {
       return this.http.get<Array<IEquipo>>('http://127.0.0.1:8000/api/equipo/pilotos/' + user);
@@ -19,10 +20,13 @@ export class EquipoService {
     }
 
   }
-  public venderPiloto(id: number): Observable<any> {
-    return this.http.delete<any>('http://127.0.0.1:8000/api/equipo/' + id);
+  public getVentas(): Observable<Array<IEquipo>> {
+
+    return this.http.get<Array<IEquipo>>('http://127.0.0.1:8000/api/equipo/ventas/todas');
+
   }
-  public venderEscuderia(id: number): Observable<any> {
+
+  public venta(id: number): Observable<any> {
     return this.http.delete<any>('http://127.0.0.1:8000/api/equipo/' + id);
   }
   public storeAlineacion(usuario: number, equipo: any): Observable<any> {

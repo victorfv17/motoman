@@ -3,6 +3,7 @@ export interface IUser {
     name?: string;
     email?: string;
     password?: string;
+    c_password?: string;
     message?: string;
     token?: string;
     liga_id?: number;

@@ -19,6 +19,7 @@ import { EscuderiasAddComponent } from './components/escuderias/escuderias-add/e
 import { PilotosAddComponent } from './components/pilotos/pilotos-add/pilotos-add.component';
 import { PilotosComponent } from './components/pilotos/pilotos.component';
 import { PilotosDetailComponent } from './components/pilotos/pilotos-detail/pilotos-detail.component';
+import { RegistroComponent } from './components/registro/registro.component';
 
 
 
@@ -39,6 +40,7 @@ import { PilotosDetailComponent } from './components/pilotos/pilotos-detail/pilo
     DialogEliminarComponent,
     EscuderiasComponent,
     EscuderiasAddComponent,
+    RegistroComponent,
 
 
 

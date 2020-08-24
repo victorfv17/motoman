@@ -32,7 +32,10 @@ export class AuthenticationService {
   public getUsersByLiga(liga: ILigas): Observable<Array<IUser>> {
     return this.http.get<Array<IUser>>('http://127.0.0.1:8000/api/user/' + liga);
   }
-
+  public createUser(user: IUser): Observable<IUser> {
+    return this.http.post<IUser>('http://127.0.0.1:8000/api/user/create', user)
+      .pipe(map(datos => { return datos }));
+  }
   public updateUser(user: IUser, liga: number, participantes?: number, saldo?: number): Observable<IUser> {
     return this.http.put<IUser>('http://127.0.0.1:8000/api/user/update', { id: user.usuario.id, liga_id: liga, numParticipantes: participantes, saldo: user.usuario.saldo })
       .pipe(map(datos => { return datos }));

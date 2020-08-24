@@ -1,1 +1,85 @@
-<p>home works!</p>
+<h1>Noticias</h1>
+<mat-card *ngIf="pujasMasAltas.length > 0">
+    <mat-card-header>
+        <mat-card-title>
+            Compras del día
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="table-center">
+        <table class="table table-bordered table-hover table-striped" style="width: 50%;">
+            <thead class=" thead-dark">
+                <tr class="pointer text-align">
+                    <th scope="col" name="nombre">Nombre
+                    </th>
+                    <th scope="col" name="valorPuja">Valor Puja
+                    </th>
+                    <th scope="col" name="usuario">Usuario
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let puja of pujasMasAltas">
+                    <td>
+                        <mat-card *ngIf="puja.piloto">{{puja.piloto}}
+                        </mat-card>
+                        <mat-card *ngIf="puja.escuderia">{{puja.escuderia}}
+                        </mat-card>
+                    </td>
+                    <td>
+                        <mat-card>{{puja.puja}}
+                        </mat-card>
+                    </td>
+                    <td>
+                        <mat-card>{{puja.usuario}}
+                        </mat-card>
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </mat-card-content>
+
+</mat-card>
+<mat-card *ngIf="ventas.length > 0">
+    <mat-card-header>
+        <mat-card-title>
+            Ventas del día
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="table-center">
+        <table class="table table-bordered table-hover table-striped" style="width: 50%;">
+            <thead class=" thead-dark">
+                <tr class="pointer text-align">
+                    <th scope="col" name="nombre">Nombre
+                    </th>
+                    <th scope="col" name="valor">Valor
+                    </th>
+                    <th scope="col" name="usuario">Usuario
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let venta of ventas">
+                    <td>
+                        <mat-card>{{venta.piloto}}
+                        </mat-card>
+                    </td>
+                    <td>
+                        <mat-card>{{venta.valor}}
+                        </mat-card>
+                    </td>
+                    <td>
+                        <mat-card>{{venta.usuario}}
+                        </mat-card>
+                    </td>
+                </tr>
+
+
+            </tbody>
+        </table>
+    </mat-card-content>
+</mat-card>
+<mat-card *ngIf="ventas.length === 0 && pujasMasAltas.length === 0">
+    No hay noticias nuevas en el día de hoy
+</mat-card>

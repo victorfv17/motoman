@@ -16,7 +16,7 @@ export class LigaCreateComponent implements OnInit {
   public liga: ILigas = {};
   public user: IUser;
   constructor(
-    private ligasService: LigasService, 
+    private ligasService: LigasService,
     private authenticationService: AuthenticationService,
     private router: Router) { }
 
@@ -24,7 +24,7 @@ export class LigaCreateComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('usuario'));
   }
   public create(): void {
-    this.ligasService.createLiga(this.liga).subscribe((data) => {
+    this.ligasService.createLiga(this.liga, this.user).subscribe((data) => {
       console.log(data.id)
       this.authenticationService.updateUser(this.user, data.id).subscribe((user) => {
         if (!user) return;

@@ -1,0 +1,21 @@
+
+.container{
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    height: 60%;
+    
+}
+.card{
+   width:80%;
+}
+.content{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+}
+.actions{
+    display: flex;
+    justify-content: space-evenly;
+}

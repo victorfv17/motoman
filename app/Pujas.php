@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pujas extends Model
 {
     protected $table = 'pujas';
-    protected $fillable = ['usuario_id','mercadoPiloto_id', 'mercadoEscuderia_id', 'valorPuja'];
+    protected $fillable = ['usuario_id','mercadoPiloto_id', 'mercadoEscuderia_id', 'valorPuja', 'visible'];
 
     /**
      * Get the user

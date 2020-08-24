@@ -58,6 +58,7 @@ export class TabPilotosComponent implements OnInit {
           this.pilotos = pilotos;
           console.log(this.pilotos)
         } else {
+          this.borrarPujas();
           this.deletePilotosMercado();
         }
 
@@ -76,6 +77,9 @@ export class TabPilotosComponent implements OnInit {
   private deletePilotosMercado() {
     this.mercadoService.deletePilotosMercado(this.user.usuario.liga_id).subscribe(() => this.createPilotosMercado());
 
+  }
+  private borrarPujas() {
+    this.pujasService.deletePujas().subscribe();
   }
 
 

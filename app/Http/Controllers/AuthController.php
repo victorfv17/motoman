@@ -6,12 +6,14 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Ligas;
 use App\Clasificacion;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     
    public function register(Request $request)
    {
+	   
        $validator = Validator::make($request->all(), [
            'name' => 'required',
            'email' => 'required|email',
@@ -26,7 +28,7 @@ class AuthController extends Controller
        $user = User::create($input);
        $success['token'] =  $user->createToken('MyApp')->accessToken;
        $success['name'] =  $user->name;
-       return response()->json(['success'=>$success], $this->successStatus);
+       return response()->json(['success'=>$success]);
    }
     public function getUser()
    {
@@ -80,7 +82,7 @@ class AuthController extends Controller
 		->update(['liga_id'=> $request['liga_id']]);
 	
 		$liga = Ligas::where('id_liga', $request['liga_id'])->update(['numParticipantes'=> $request['numParticipantes']]);
-	
+		Clasificacion::insert(['puntosGP'=> 0, 'puntosMes'=> 0, 'puntosCategoria' => 0, 'puntosTotales' => 0, 'id_usuario' => $request['id']]);
 		return User::where('id',$request['id'])->first();
 	
 	}

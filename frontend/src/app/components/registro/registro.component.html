@@ -1,0 +1,38 @@
+<div class="container">
+    <mat-card class="card">
+
+        <mat-card-header>
+            <mat-icon mat-card-avatar>motorcycle</mat-icon>
+            <mat-card-title>Registro</mat-card-title>
+        </mat-card-header>
+
+
+        <mat-card-content>
+            <mat-divider></mat-divider>
+            <form class="content">
+                <mat-form-field style="width: 35%;">
+                    <input matInput type="text" name="name" placeholder="Nombre" [(ngModel)]="usuario.name">
+                </mat-form-field>
+                <mat-form-field style="width: 35%;">
+                    <input matInput type="text" name="email" placeholder="Email" [(ngModel)]="usuario.email">
+                </mat-form-field>
+
+                <mat-form-field style="width: 35%;">
+                    <input matInput type="text" name="password" placeholder="Contraseña" [(ngModel)]="usuario.password">
+                </mat-form-field>
+                <mat-form-field style="width: 35%;">
+                    <input matInput type="text" name="confirmPassword" placeholder="Confirmar contraseña"
+                        [(ngModel)]="usuario.c_password">
+                </mat-form-field>
+            </form>
+        </mat-card-content>
+
+        <mat-card-actions class="actions">
+            <button class="btn btn-secondary" style="width:40%" type="button" (click)="back()">Volver
+            </button>
+            <button class="btn btn-danger" style="width:40%" type="button" (click)="submitData()">Enviar
+            </button>
+        </mat-card-actions>
+
+    </mat-card>
+</div>>

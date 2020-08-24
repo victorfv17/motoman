@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Ligas;
 use App\User;
+use App\Clasificacion;
 class LigasController extends Controller
 {
     /**
@@ -60,9 +61,10 @@ class LigasController extends Controller
         $liga->nombre_liga = $request->nombre_liga;
         $liga->maxParticipantes = $request->maxParticipantes;
         $liga->numParticipantes = $request->numParticipantes;
-        
-        
+        $usuario = $request->usuario;
         $liga->save();
+        Clasificacion::insert(['puntosGP'=> 0, 'puntosMes'=> 0, 'puntosCategoria' => 0, 'puntosTotales' => 0, 'id_usuario' => $usuario]);
+        
         return $liga;
         
     }
@@ -99,7 +101,9 @@ class LigasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
+        
+
     }
 
     /**
