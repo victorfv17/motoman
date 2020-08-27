@@ -10,12 +10,14 @@ import { Location } from '@angular/common';
 })
 export class AppComponent implements OnInit {
   title = 'frontend';
-  public user: string;
+  public user: any;
   public isCollapsed = true;
   constructor(private location: Location) { }
 
   ngOnInit() {
     this.user = localStorage.getItem('usuario');
+    this.user = this.user.usuario;
+
 
   }
   ngDoCheck(): void {

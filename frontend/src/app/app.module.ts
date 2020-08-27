@@ -20,6 +20,7 @@ import { PilotosAddComponent } from './components/pilotos/pilotos-add/pilotos-ad
 import { PilotosComponent } from './components/pilotos/pilotos.component';
 import { PilotosDetailComponent } from './components/pilotos/pilotos-detail/pilotos-detail.component';
 import { RegistroComponent } from './components/registro/registro.component';
+import { PrediccionesComponent } from './components/predicciones/predicciones.component';
 
 
 
@@ -41,6 +42,7 @@ import { RegistroComponent } from './components/registro/registro.component';
     EscuderiasComponent,
     EscuderiasAddComponent,
     RegistroComponent,
+    PrediccionesComponent,
 
 
 

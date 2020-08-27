@@ -14,6 +14,7 @@ import { PilotosComponent } from './components/pilotos/pilotos.component';
 import { PilotosDetailComponent } from './components/pilotos/pilotos-detail/pilotos-detail.component';
 import { PilotosAddComponent } from './components/pilotos/pilotos-add/pilotos-add.component';
 import { RegistroComponent } from './components/registro/registro.component';
+import { PrediccionesComponent } from './components/predicciones/predicciones.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'pilotos/:id', component: PilotosDetailComponent },
   { path: 'pilotos/nuevo/piloto', component: PilotosAddComponent },
   { path: 'pilotos/editar/:id', component: PilotosAddComponent },
+  { path: 'predicciones', component: PrediccionesComponent },
   { path: 'registro', component: RegistroComponent },
 
 ];

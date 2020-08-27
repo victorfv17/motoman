@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Puntos extends Model
 {
     protected $table = 'puntos';
-    protected $fillable = ['id_piloto','id_escuderia', 'nombre_piloto', 'nombre_escuderia', 'puntosGP'];
+    protected $fillable = ['id_piloto','id_escuderia', 'nombre_piloto', 'nombre_escuderia', 'puntosGP','posicion'];
 
     /**
      * Get the user

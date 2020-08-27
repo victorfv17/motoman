@@ -20,6 +20,7 @@ class CreateTablePuntos extends Migration
             $table->string('nombre_piloto')->nullable();
             $table->string('nombre_escuderia')->nullable();
             $table->integer('puntosGP');
+            $table->integer('posicion');
         });
     }
 

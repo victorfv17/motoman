@@ -48,3 +48,6 @@ Route::resource('equipo', 'EquipoController');
 Route::get('equipo/pilotos/{usuario}', 'EquipoController@showPilotos');
 Route::get('equipo/escuderias/{usuario}', 'EquipoController@showEscuderias');
 Route::get('equipo/ventas/todas', 'EquipoController@showVentas');
+Route::resource('predicciones','PrediccionesController');
+Route::delete('predicciones/delete','PrediccionesController@destroy');
+Route::put('predicciones','PrediccionesController@update');

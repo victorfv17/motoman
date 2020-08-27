@@ -47,23 +47,18 @@ class LigasController extends Controller
      */
     public function store(Request $request)
     {
-        //PARA ARRAYS
-        /*$ligas = $request->all();
-
-        
-        foreach($ligas as $liga){
-            Ligas::create($liga);
-        }*/
-
-        //INDIVIDUALES
-        $liga = new Ligas;
-      
-        $liga->nombre_liga = $request->nombre_liga;
-        $liga->maxParticipantes = $request->maxParticipantes;
-        $liga->numParticipantes = $request->numParticipantes;
+        $liga = new Ligas();
         $usuario = $request->usuario;
+        $requestLiga = $request->liga;
+        $liga->nombre_liga = $requestLiga['nombre_liga'];
+        $liga->maxParticipantes =$requestLiga['maxParticipantes'];
+        $liga->numParticipantes =$requestLiga['numParticipantes'];
+       
         $liga->save();
-        Clasificacion::insert(['puntosGP'=> 0, 'puntosMes'=> 0, 'puntosCategoria' => 0, 'puntosTotales' => 0, 'id_usuario' => $usuario]);
+      // Ligas::insert(['nombre_liga'=> $requestLiga['nombre_liga'], 'maxParticipantes'=>$requestLiga['maxParticipantes'], 'numParticipantes'=>$requestLiga['numParticipantes']]);
+        //$liga =Ligas::get()->last();
+        //Clasificacion::insert(['puntosGP'=> 0, 'puntosMes'=> 0, 'puntosCategoria' => 0, 'puntosTotales' => 0, 'id_usuario' => $usuario]);
+        User::where('id',$usuario)->update(['rol'=>'admin']);
         
         return $liga;
         
