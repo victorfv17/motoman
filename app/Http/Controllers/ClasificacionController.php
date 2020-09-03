@@ -49,38 +49,7 @@ class ClasificacionController extends Controller
     }
 
    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function updatePuntos()
-    {
-       $ligas = Ligas::get();
-       foreach($ligas as $liga){
-        $usuarios = User::where('liga_id',$liga['id_liga'])->get();
-        foreach($usuarios as $usuario){
-           $equipo = Equipo::where('usuario_id',$usuario['id'])->where('indicadorEnAlineacion', 1)->get();//cambiar por true
-         
-           foreach($equipo as $row){
-                $puntos = Puntos::where('id_piloto', $row['piloto_id'])->get();
-                foreach($puntos as $puntuacion){
-                    $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->first();
-                    $puntosTotalesGP = $rowUsuario['puntosGP'] + $puntuacion['puntosGP'];
-                    Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP]);
-                    $saldoPorPuntos = $puntuacion['puntosGP']  * 20000;
-                    $saldo = $usuario['saldo'] + $saldoPorPuntos;
-                    User::where('id', $usuario['id'])->update(['saldo'=> $saldo]);
-                }
-              
-        
-                
-                
-           }
-        }
-       }
-       return 'correcto';
-    }
+   
     /**
      * Display the specified resource.
      *

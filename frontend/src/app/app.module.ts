@@ -21,6 +21,8 @@ import { PilotosComponent } from './components/pilotos/pilotos.component';
 import { PilotosDetailComponent } from './components/pilotos/pilotos-detail/pilotos-detail.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { PrediccionesComponent } from './components/predicciones/predicciones.component';
+import { PuntuacionPilotoComponent } from './components/puntuacion/puntuacion-piloto/puntuacion-piloto.component';
+import { PuntuacionEscuderiaComponent } from './components/puntuacion/puntuacion-escuderia/puntuacion-escuderia.component';
 
 
 
@@ -43,6 +45,8 @@ import { PrediccionesComponent } from './components/predicciones/predicciones.co
     EscuderiasAddComponent,
     RegistroComponent,
     PrediccionesComponent,
+    PuntuacionPilotoComponent,
+    PuntuacionEscuderiaComponent,
 
 
 

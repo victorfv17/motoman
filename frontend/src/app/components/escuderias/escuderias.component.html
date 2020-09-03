@@ -29,19 +29,19 @@
             </thead>
             <tbody>
                 <tr *ngFor="let escuderia of escuderias" class="table-dark" style="color:#9D0000">
-                    <td style="text-align: left;">{{escuderia.nombre}}</td>
-                    <td style="text-align: left;">{{escuderia.puntos}}</td>
+                    <td style="text-align: left;">{{escuderia.nombre_escuderia}}</td>
+                    <td style="text-align: left;">{{escuderia.puntos_escuderia}}</td>
 
                     <td style="text-align: center;">
                         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
-                            <button mat-menu-item routerLink="/escuderias/{{escuderia.id}}">
+                            <button mat-menu-item routerLink="/escuderias/{{escuderia.id_escuderia}}">
                                 <mat-icon>edit</mat-icon>
                                 <span>Editar</span>
                             </button>
-                            <button mat-menu-item (click)="delete(escuderia.id)">
+                            <button mat-menu-item (click)="delete(escuderia.id_escuderia)">
                                 <mat-icon>delete</mat-icon>
                                 <span>Eliminar</span>
                             </button>

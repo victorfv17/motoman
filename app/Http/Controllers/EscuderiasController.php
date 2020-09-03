@@ -18,7 +18,7 @@ class EscuderiasController extends Controller
     }
     public function indexSort($campo,$direct)
     {
-        return Escuderias::orderBy($campo, $direct )->get();
+        return Escuderias::orderBy($campo, $direct )->select('id as id_escuderia', 'nombre as nombre_escuderia', 'valorMercado as valorMercado_escuderia', 'puntos as puntos_escuderia')->get();
     }
 
     /**
