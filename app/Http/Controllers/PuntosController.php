@@ -149,7 +149,8 @@ class PuntosController extends Controller
                 foreach($puntos as $puntuacion){
                     $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->first();
                     $puntosTotalesGP = $rowUsuario['puntosGP'] + $puntuacion['puntosGP'];
-                    Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP]);
+                    $puntosTotales = $rowUsuario['puntosTotales'] + $puntosTotalesGP;
+                    Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP, 'puntosTotales'=> $puntosTotales]);
                     $saldoPorPuntos = $puntuacion['puntosGP']  * 20000;
                     $saldo = $usuario['saldo'] + $saldoPorPuntos;
                     User::where('id', $usuario['id'])->update(['saldo'=> $saldo]);
@@ -166,7 +167,9 @@ class PuntosController extends Controller
     }
     public function updatePuntosPredicciones(){
       $predicciones = Predicciones::get();
+   
 
+    
       foreach($predicciones as $prediccion){
         $idUser = $prediccion['usuario_id'];
         $piloto = $prediccion['piloto_id'];
@@ -198,7 +201,9 @@ class PuntosController extends Controller
          
           }
         }
-        Clasificacion::where('id_usuario', $idUser)->update(['puntosGP'=> $puntosTotalesGP]);
+        $puntosTotales = $clasificacion['puntosTotales'] + $puntosTotalesGP;
+        Clasificacion::where('id_usuario', $idUser)->update(['puntosGP'=> $puntosTotalesGP, 'puntosTotales'=> $puntosTotales]);
+  
       // $predicciones = Predicciones::where('piloto_id',$row['id'])->get();
 
       // foreach($predicciones as $prediccion){

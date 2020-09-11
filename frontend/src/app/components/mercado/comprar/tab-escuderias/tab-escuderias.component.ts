@@ -4,6 +4,7 @@ import { IPujas } from 'src/app/shared/models/pujas.model';
 import { MercadoService } from 'src/app/shared/services/mercado.service';
 import { IUser } from 'src/app/shared/models/users.model';
 import { PujasService } from 'src/app/shared/services/pujas.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tab-escuderias',
@@ -20,6 +21,7 @@ export class TabEscuderiasComponent implements OnInit {
   constructor(
     private mercadoService: MercadoService,
     private pujasService: PujasService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -124,8 +126,13 @@ export class TabEscuderiasComponent implements OnInit {
   public enviarPujas() {
 
     this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(() => {
+      this.snackBar.open('Pujas realizadas', 'Exito', {
+        duration: 2000,
+      });
     },
-      (error) => error = undefined);
+      (error) => error = this.snackBar.open('Pujas realizadas', 'Exito', {
+        duration: 2000,
+      }));
   }
 
   public limpiarDatosPujas(form: NgForm) {

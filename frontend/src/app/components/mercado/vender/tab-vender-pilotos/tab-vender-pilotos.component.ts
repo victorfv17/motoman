@@ -4,6 +4,7 @@ import { EquipoService } from 'src/app/shared/services/equipo.service';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { PilotosService } from 'src/app/shared/services/pilotos.service';
 import { PujasService } from 'src/app/shared/services/pujas.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-tab-vender-pilotos',
@@ -16,7 +17,8 @@ export class TabVenderPilotosComponent implements OnInit {
 
   constructor(
     private equipoService: EquipoService,
-    private pujasService: PujasService
+    private pujasService: PujasService,
+    private snackBar: MatSnackBar
 
   ) { }
 
@@ -35,7 +37,9 @@ export class TabVenderPilotosComponent implements OnInit {
     this.equipoService.venta(piloto.id).subscribe(() => {
       this.usuario.usuario.saldo = this.usuario.usuario.saldo + piloto.valorMercado;
       localStorage.setItem('usuario', JSON.stringify(this.usuario));
-
+      this.snackBar.open('Venta realizada', 'exito', {
+        duration: 2000,
+      });
       this.equipos = [];
       this.getEquipo();
     });
