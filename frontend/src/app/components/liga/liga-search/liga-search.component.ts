@@ -36,10 +36,10 @@ export class LigaSearchComponent implements OnInit {
     })
   }
   public anadirUsuario(liga: ILigas) {
-    this.authenticationService.updateUser(this.user, liga.id_liga, liga.numParticipantes + 1).subscribe(
-
-    );
-    this.router.navigateByUrl('/pilotos');
+    this.authenticationService.updateUser(this.user, liga.id_liga, liga.numParticipantes + 1).subscribe();
+    this.user.usuario.liga_id = liga.id_liga;
+    localStorage.setItem('usuario', JSON.stringify(this.user));
+    this.router.navigateByUrl('/');
   }
 
 }

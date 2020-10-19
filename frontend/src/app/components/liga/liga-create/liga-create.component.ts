@@ -37,7 +37,7 @@ export class LigaCreateComponent implements OnInit {
           usuario: this.user
         }
         localStorage.setItem('usuario', JSON.stringify(usuario));
-        this.router.navigateByUrl('/clasificacion');
+        this.router.navigateByUrl('/');
         // localStorage.setItem('usuario'['usuario']['liga_id'], JSON.stringify(this.user.liga_id));
       });
     });

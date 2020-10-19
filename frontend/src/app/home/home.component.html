@@ -62,7 +62,9 @@
             <tbody>
                 <tr *ngFor="let venta of ventas">
                     <td>
-                        <mat-card>{{venta.piloto}}
+                        <mat-card *ngIf="venta.piloto">{{venta.piloto}}
+                        </mat-card>
+                        <mat-card *ngIf="venta.escuderia">{{venta.escuderia}}
                         </mat-card>
                     </td>
                     <td>
