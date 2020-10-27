@@ -2,6 +2,7 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { AuthenticationService } from './shared/services/authentication.service';
 import { IUser } from './shared/models/users.model';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent implements OnInit {
   title = 'frontend';
   public user: any;
   public isCollapsed = true;
-  constructor(private location: Location) { }
+  constructor(private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit() {
     this.user = localStorage.getItem('usuario');
@@ -29,6 +30,14 @@ export class AppComponent implements OnInit {
   }
   logout() {
     localStorage.clear();
+  }
+
+  checkVisibility(): boolean {
+    if (this.location.path().includes('liga')) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
 

@@ -50,12 +50,21 @@ class PilotosController extends Controller
      */
     public function store(Request $request)
     {
-		$todos = $request->all();
-        //Pilotos::create($todos);
+		// $todos = $request->all();
+        // //Pilotos::create($todos);
 		
-		foreach($todos as $pil){
-            Pilotos::create($pil);
-        }
+		// foreach($todos as $pil){
+        //     Pilotos::create($pil);
+        // }
+        Pilotos::insert([
+            'nombre'=>$request['nombre'],
+            'edad'=>$request['edad'],
+            'id_escuderia'=>$request['id_escuderia'],
+            'numero'=>$request['numero'],
+            'pais'=>$request['pais'],
+            'puntos'=>$request['puntos'],
+            'valorMercado'=>$request['valorMercado']
+        ]);
      
     }
 

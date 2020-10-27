@@ -20,6 +20,7 @@ export class EscuderiasComponent implements OnInit {
   public campo: string = 'nombre';
 
   sorted: IEscuderias;
+  public rolPermitido = false;
   constructor(
     private escuderiasService: EscuderiasService,
     private authenticationService: AuthenticationService,
@@ -30,7 +31,7 @@ export class EscuderiasComponent implements OnInit {
 
     this.fetchEscuderias();
     const user = this.authenticationService.isAuthenticated();
-
+    this.checkRolUser(user.usuario);
 
   }
   public fetchEscuderias() {
@@ -68,6 +69,13 @@ export class EscuderiasComponent implements OnInit {
 
     });
 
+  }
+  private checkRolUser(usuario: any) {
+    if (usuario.rol === 'admin') {
+      this.rolPermitido = true;
+    } else {
+      this.rolPermitido = false;
+    }
   }
 
 }

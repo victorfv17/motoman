@@ -18,7 +18,7 @@
                         <mat-icon *ngIf="direct === 'asc'" (click)="sort('puntos')">
                             keyboard_arrow_up</mat-icon>
                     </th>
-                    <th style="text-align: center;">
+                    <th style="text-align: center;" *ngIf="rolPermitido">
                         <button mat-icon-button routerLink="/escuderias/nueva/escuderia">
                             <mat-icon style="font-size:32px">add_circle</mat-icon>
                         </button>
@@ -32,7 +32,7 @@
                     <td style="text-align: left;">{{escuderia.nombre_escuderia}}</td>
                     <td style="text-align: left;">{{escuderia.puntos_escuderia}}</td>
 
-                    <td style="text-align: center;">
+                    <td style="text-align: center;" *ngIf="rolPermitido">
                         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                             <mat-icon>more_vert</mat-icon>
                         </button>

@@ -3,6 +3,7 @@ import { EquipoService } from 'src/app/shared/services/equipo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AlineacionDialogComponent } from './alineacion-dialog/alineacion-dialog.component';
 import { IUser } from 'src/app/shared/models/users.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-alineacion',
@@ -20,7 +21,8 @@ export class AlineacionComponent implements OnInit {
   indicadorEnAlineacion = false;
   constructor(
     public dialog: MatDialog,
-    private equipoService: EquipoService
+    private equipoService: EquipoService,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -44,7 +46,11 @@ export class AlineacionComponent implements OnInit {
     });
   }
   public guardar() {
-    this.equipoService.storeAlineacion(this.usuario.usuario.id, this.equipo).subscribe();
+    this.equipoService.storeAlineacion(this.usuario.usuario.id, this.equipo).subscribe(() => {
+      this.snackbar.open('Alineación guardada', null, {
+        duration: 2000
+      })
+    });
   }
   public borrarAlineacion() {
     this.equipo = {

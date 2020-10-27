@@ -28,10 +28,8 @@ export class PilotosDetailComponent implements OnInit {
     this.idPiloto = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
 
     this.pilotosService.getPiloto(this.idPiloto).subscribe((piloto => {
-      if (!piloto) return;
-      this.piloto = piloto[0];
+      this.piloto = piloto;
       this.escuderiasService.getEscuderia(this.piloto.id_escuderia).subscribe((escuderia) => {
-        if (!escuderia) return;
         this.escuderia = escuderia;
         this.piloto.nombre_escuderia = escuderia[0].nombre;
 

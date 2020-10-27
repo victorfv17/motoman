@@ -30,7 +30,7 @@
                         <mat-icon *ngIf="direct === 'asc'" (click)="sort('pais')">
                             keyboard_arrow_up</mat-icon>
                     </th>
-                    <th style="text-align: center;" routerLink="/pilotos/nuevo/piloto">
+                    <th style="text-align: center;" routerLink="/pilotos/nuevo/piloto" *ngIf="rolPermitido">
                         <button mat-icon-button>
                             <mat-icon style="font-size:32px">add_circle</mat-icon>
                         </button>
@@ -50,7 +50,7 @@
                     <td style="text-align: center;"><img src="assets/paises/{{piloto.pais}}.png" alt="{{piloto.pais}}"
                             height="40" width="40" matTooltip="{{piloto.pais}}">
                     </td>
-                    <td style="text-align: center;">
+                    <td style="text-align: center;" *ngIf="rolPermitido">
                         <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                             <mat-icon>more_vert</mat-icon>
                         </button>

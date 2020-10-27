@@ -3,6 +3,7 @@ import { IEscuderias } from 'src/app/shared/models/escuderias.model';
 import { EscuderiasService } from 'src/app/shared/services/escuderias.service';
 import { PuntuacionService } from 'src/app/shared/services/puntuacion.service';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-puntuacion-escuderia',
@@ -18,7 +19,8 @@ export class PuntuacionEscuderiaComponent implements OnInit {
   public campo: string = 'nombre';
   constructor(
     private escuderiasService: EscuderiasService,
-    private puntuacionService: PuntuacionService
+    private puntuacionService: PuntuacionService,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -51,13 +53,18 @@ export class PuntuacionEscuderiaComponent implements OnInit {
 
   }
   public enviarPuntos() {
-    this.puntuacionService.addPuntos(this.puntuaciones).subscribe();
+    this.puntuacionService.addPuntos(this.puntuaciones).subscribe(() => {
+      this.snackbar.open('Puntuaciones añadidas', null, {
+        duration: 2000
+      })
+    });
   }
   public updatePuntos() {
-
-
-
-    this.puntuacionService.actualizarPuntos().subscribe();
+    this.puntuacionService.actualizarPuntos().subscribe(() => {
+      this.snackbar.open('Puntuaciones actualizadas', null, {
+        duration: 2000
+      })
+    });
   }
   public limpiarPuntos(form: NgForm) {
     form.reset();

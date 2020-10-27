@@ -37,7 +37,7 @@
     </button>
 
     <div *ngIf="user" class="collapse navbar-collapse" id="appNavigation" [ngbCollapse]="isCollapsed">
-      <div *ngIf="location.path()!=='/liga'" class="navbar-nav mr-auto">
+      <div *ngIf="checkVisibility()" class="navbar-nav mr-auto">
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Inicio</a>
 
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/clasificacion"

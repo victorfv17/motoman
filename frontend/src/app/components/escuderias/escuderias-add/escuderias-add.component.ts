@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IEscuderias } from 'src/app/shared/models/escuderias.model';
 import { ActivatedRoute } from '@angular/router';
 import { EscuderiasService } from 'src/app/shared/services/escuderias.service';
+import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-escuderias-add',
@@ -14,7 +16,9 @@ export class EscuderiasAddComponent implements OnInit {
   public escuderiaId: string;
   constructor(
     private escuderiasService: EscuderiasService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -27,11 +31,19 @@ export class EscuderiasAddComponent implements OnInit {
   }
 
   create() {
-    this.escuderiasService.addEscuderia(this.escuderia).subscribe();
+    this.escuderiasService.addEscuderia(this.escuderia).subscribe(() => {
+      this.snackbar.open('Escudería añadida', null, {
+        duration: 2000
+      })
+    });
   }
   edit() {
 
-    this.escuderiasService.editEscuderia(this.escuderia, this.escuderiaId).subscribe();
+    this.escuderiasService.editEscuderia(this.escuderia, this.escuderiaId).subscribe(() => {
+      this.snackbar.open('Escudería actualizada', null, {
+        duration: 2000
+      })
+    });
   }
 
 
@@ -48,5 +60,8 @@ export class EscuderiasAddComponent implements OnInit {
     } else {
       this.create();
     }
+  }
+  back() {
+    this.location.back();
   }
 }

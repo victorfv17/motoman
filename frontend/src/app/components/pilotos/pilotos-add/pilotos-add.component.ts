@@ -3,7 +3,9 @@ import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { PilotosService } from 'src/app/shared/services/pilotos.service';
 import { EscuderiasService } from 'src/app/shared/services/escuderias.service';
 import { IEscuderias } from 'src/app/shared/models/escuderias.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-pilotos-add',
@@ -17,7 +19,9 @@ export class PilotosAddComponent implements OnInit {
   constructor(
     private pilotosService: PilotosService,
     private escuderiasService: EscuderiasService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private location: Location,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -26,12 +30,18 @@ export class PilotosAddComponent implements OnInit {
   }
 
   create() {
-    console.log(this.piloto);
-    this.pilotosService.addPiloto(this.piloto).subscribe();
+    this.pilotosService.addPiloto(this.piloto).subscribe(() => {
+      this.snackbar.open('Piloto añadido', null, {
+        duration: 2000
+      })
+    });
   }
   edit() {
-    console.log(this.piloto);
-    this.pilotosService.editPiloto(this.piloto, this.pilotoId).subscribe();
+    this.pilotosService.editPiloto(this.piloto, this.pilotoId).subscribe(() => {
+      this.snackbar.open('Piloto actualizado', null, {
+        duration: 2000
+      })
+    });
   }
 
   private fetchEscuderias() {
@@ -45,7 +55,7 @@ export class PilotosAddComponent implements OnInit {
 
   private fetchPiloto() {
     this.pilotosService.getPiloto(parseInt(this.pilotoId)).subscribe((piloto) => {
-      this.piloto = piloto[0];
+      this.piloto = piloto;
       //this.piloto.nombre_escuderia = this.escuderias[this.piloto.id_escuderia].nombre;
     });
   }
@@ -56,6 +66,10 @@ export class PilotosAddComponent implements OnInit {
     } else {
       this.create();
     }
+  }
+
+  back() {
+    this.location.back();
   }
 
 }

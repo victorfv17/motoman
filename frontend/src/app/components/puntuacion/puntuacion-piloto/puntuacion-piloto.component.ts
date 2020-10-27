@@ -3,6 +3,7 @@ import { PilotosService } from 'src/app/shared/services/pilotos.service';
 import { PuntuacionService } from 'src/app/shared/services/puntuacion.service';
 import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { NgForm } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-puntuacion-piloto',
@@ -19,7 +20,8 @@ export class PuntuacionPilotoComponent implements OnInit {
   puntuaciones: Array<any> = [];
   constructor(
     private pilotosService: PilotosService,
-    private puntuacionService: PuntuacionService
+    private puntuacionService: PuntuacionService,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -57,16 +59,18 @@ export class PuntuacionPilotoComponent implements OnInit {
 
   }
   public enviarPuntos() {
-    console.log('this.puntaucion', this.puntuaciones);
-
-
-    this.puntuacionService.addPuntos(this.puntuaciones).subscribe();
+    this.puntuacionService.addPuntos(this.puntuaciones).subscribe(() => {
+      this.snackbar.open('Puntuaciones añadidas', null, {
+        duration: 2000
+      })
+    });
   }
   public updatePuntos() {
-
-
-
-    this.puntuacionService.actualizarPuntos().subscribe();
+    this.puntuacionService.actualizarPuntos().subscribe(() => {
+      this.snackbar.open('Puntuaciones actualizadas', null, {
+        duration: 2000
+      })
+    });
   }
   public limpiarPuntos(form: NgForm) {
     form.reset();

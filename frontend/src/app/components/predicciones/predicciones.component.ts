@@ -4,6 +4,7 @@ import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { PrediccionesService } from 'src/app/shared/services/predicciones.service';
 import { IPrediccion } from 'src/app/shared/models/prediccion.model';
 import { IUser } from 'src/app/shared/models/users.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-predicciones',
@@ -19,7 +20,8 @@ export class PrediccionesComponent implements OnInit {
   prueba = false;
   constructor(
     private pilotosService: PilotosService,
-    private prediccionesService: PrediccionesService
+    private prediccionesService: PrediccionesService,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -66,9 +68,17 @@ export class PrediccionesComponent implements OnInit {
   }
   enviarPredicciones() {
     if (this.existenPredicciones) {
-      this.prediccionesService.updatePrediccion(this.prediccion, this.user).subscribe();
+      this.prediccionesService.updatePrediccion(this.prediccion, this.user).subscribe(() => {
+        this.snackbar.open('Prediccion guardada', null, {
+          duration: 2000
+        })
+      });
     } else {
-      this.prediccionesService.addPrediccion(this.prediccion, this.user).subscribe();
+      this.prediccionesService.addPrediccion(this.prediccion, this.user).subscribe(() => {
+        this.snackbar.open('Prediccion guardada', null, {
+          duration: 2000
+        })
+      });
     }
   }
 

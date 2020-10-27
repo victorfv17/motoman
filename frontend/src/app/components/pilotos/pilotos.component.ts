@@ -23,6 +23,7 @@ export class PilotosComponent implements OnInit {
   public campo: string = 'nombre';
   private cont = 0;
   sorted: IPilotos;
+  public rolPermitido = false;
   constructor(
     private pilotosService: PilotosService,
     private authenticationService: AuthenticationService,
@@ -33,14 +34,13 @@ export class PilotosComponent implements OnInit {
 
     this.getPilotos();
     const user = this.authenticationService.isAuthenticated();
-
+    this.checkRolUser(user.usuario);
 
   }
   public getPilotos() {
 
     this.pilotosService.getAllSort(this.campo, this.direct).subscribe(pilotos => {
       this.pilotos = pilotos;
-      console.log(this.pilotos)
       this.isLoading = false;
     });
 
@@ -72,5 +72,12 @@ export class PilotosComponent implements OnInit {
 
     });
 
+  }
+  private checkRolUser(usuario: any) {
+    if (usuario.rol === 'admin') {
+      this.rolPermitido = true;
+    } else {
+      this.rolPermitido = false;
+    }
   }
 }

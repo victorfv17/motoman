@@ -39,11 +39,16 @@ class EscuderiasController extends Controller
      */
     public function store(Request $request)
     {
-        $escuderias = $request->all();
-        //Escuderias::create($escuderias);
-        foreach($escuderias as $escuderia){
-            Escuderias::create($escuderia);
-        }
+        // $escuderias = $request->all();
+        // //Escuderias::create($escuderias);
+        // foreach($escuderias as $escuderia){
+        //     Escuderias::create($escuderia);
+        // }
+        Escuderias::insert([
+            'nombre'=>$request['nombre'],
+            'puntos'=>$request['puntos'],
+            'valorMercado'=>$request['valorMercado']
+        ]);
      
        
     }
