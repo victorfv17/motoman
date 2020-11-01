@@ -15,8 +15,8 @@
                         <span>1º Piloto</span>
                     </td>
                     <td>
-                        <mat-card style="background-color: grey;" (click)="openDialog('pilotosMotoGp')">
-                            {{equipo.pilotosMotoGp}}
+                        <mat-card style="background-color: grey;" (click)="openDialog('primerPiloto')">
+                            {{alineaciones.primerPiloto}}
                         </mat-card>
                     </td>
                     <!-- <td>
@@ -30,22 +30,20 @@
                         <span>2º Piloto</span>
                     </td>
                     <td>
-                        <mat-card style="background-color: grey;"></mat-card>
+                        <mat-card style="background-color: grey;" (click)="openDialog('segundoPiloto')">
+                            {{alineaciones.segundoPiloto}}
+                        </mat-card>
                     </td>
-                    <!-- <td>
-                        <mat-card style="background-color: green;"></mat-card>
-                    </td> -->
                 </tr>
                 <tr>
                     <td style="width: 22%;">
                         <span>Escudería</span>
                     </td>
                     <td>
-                        <mat-card style="background-color: grey;"></mat-card>
+                        <mat-card style="background-color: grey;" (click)="openDialog('escuderia')">
+                            {{alineaciones.nombreEscuderia}}
+                        </mat-card>
                     </td>
-                    <!-- <td>
-                        <mat-card style="background-color: green;"></mat-card>
-                    </td> -->
                 </tr>
 
             </tbody>
@@ -55,8 +53,13 @@
         <button class="btn btn-secondary" style="width:40%;" type="button" (click)="borrarAlineacion()"
             [disabled]="isLoading">Limpiar
         </button>
-        <button class="btn btn-danger" style="width:40%; " type="button" (click)="guardar()" [disabled]="isLoading">
-            Guardar
+        <button class="btn btn-danger" style="width:40%; " type="button" (click)="guardar()"
+            [disabled]="isLoading || marcarDeshabilitadoPorDia()">
+            <span matTooltip="No se puede guardar la alineación los fines de semana"
+                [matTooltipDisabled]="!isLoading && !marcarDeshabilitadoPorDia()">
+                Guardar
+            </span>
+
         </button>
     </mat-card-actions>
 

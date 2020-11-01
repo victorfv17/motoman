@@ -13,7 +13,7 @@ export class EquipoService {
 
 
   public getEquipo(user: string, tipo?: string): Observable<Array<IEquipo>> {
-    if (tipo === 'pilotos') {
+    if (tipo === 'primerPiloto' || tipo === 'segundoPiloto') {
       return this.http.get<Array<IEquipo>>('http://127.0.0.1:8000/api/equipo/pilotos/' + user);
     } else {
       return this.http.get<Array<IEquipo>>('http://127.0.0.1:8000/api/equipo/escuderias/' + user);
@@ -31,5 +31,8 @@ export class EquipoService {
   }
   public storeAlineacion(usuario: number, equipo: any): Observable<any> {
     return this.http.post<any>('http://127.0.0.1:8000/api/equipo', { usuario: usuario, equipo: equipo });
+  }
+  public getAlineacion(userId: number): Observable<any> {
+    return this.http.get<any>('http://127.0.0.1:8000/api/equipo/detalle/alineacion/' + userId);
   }
 }

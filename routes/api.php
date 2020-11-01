@@ -46,6 +46,7 @@ Route::get('clasificacion/join/{id}/{campoOrdenacion}', 'ClasificacionController
 Route::resource('pujas','PujasController');
 Route::delete('pujas','PujasController@destroy');
 Route::resource('equipo', 'EquipoController');
+Route::get('equipo/detalle/alineacion/{id}', 'EquipoController@getAlineacion');
 Route::get('equipo/pilotos/{usuario}', 'EquipoController@showPilotos');
 Route::get('equipo/escuderias/{usuario}', 'EquipoController@showEscuderias');
 Route::get('equipo/ventas/todas', 'EquipoController@showVentas');
