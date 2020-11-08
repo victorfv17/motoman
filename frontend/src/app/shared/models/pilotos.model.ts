@@ -10,5 +10,6 @@ export interface IPilotos {
     escuderias?: IEscuderias;
     puntos?: string;
     valorMercado?: number;
-
+    pujaMenorQueValorMercado?: boolean;
+    saldoMenorQuePuja?: boolean;
 }

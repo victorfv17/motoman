@@ -15,7 +15,7 @@ import { AuthenticationService } from 'src/app/shared/services/authentication.se
 export class TabEscuderiasComponent implements OnInit {
   @ViewChild('formEscuderias', { static: true }) formEscuderias: NgForm;
   formInvalid = false;
-  public escuderias: any;
+  public escuderias: Array<any> = [];
   public puja: number;
   private user: IUser;
   public pujas: Array<IPujas> = [];
@@ -34,16 +34,22 @@ export class TabEscuderiasComponent implements OnInit {
   }
 
   public coleccionPujasEscuderias(escuderia: any, puja: number) {
-    if (puja < escuderia.valorMercado) {
+    let index = this.escuderias.findIndex(elem => elem.idMercado === escuderia.idMercado);
+    if (puja > this.user.usuario.saldo) {
+      this.escuderias[index].saldoMenorQuePuja = true;
+      this.formInvalid = true;
+    } else if (puja < escuderia.valorMercado) {
+      this.escuderias[index].pujaMenorQueValorMercado = true;
       this.formInvalid = true;
     } else {
+      this.escuderias[index].saldoMenorQuePuja = false;
+      this.escuderias[index].pujaMenorQueValorMercado = false;
       this.formInvalid = false;
       let escuderiaPuja: IPujas = {
         escuderia: escuderia.idMercado,
         puja: puja
       }
       this.pujas.push(escuderiaPuja);
-      console.log(this.pujas)
     }
   }
 

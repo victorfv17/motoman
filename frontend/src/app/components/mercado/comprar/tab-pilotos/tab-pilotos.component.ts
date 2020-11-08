@@ -4,6 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, Form } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { skip } from 'rxjs/operators';
+import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { IPujas } from 'src/app/shared/models/pujas.model';
 import { IUser } from 'src/app/shared/models/users.model';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
@@ -17,8 +18,9 @@ import { PujasService } from 'src/app/shared/services/pujas.service';
 })
 export class TabPilotosComponent implements OnInit {
   @ViewChild('formPilotos', { static: true }) formPilotos: NgForm;
-  formInvalid = false;
-  public pilotos: any;
+  formInvalid: boolean = false;
+
+  public pilotos: Array<any> = [];
   public escuderias: any;
   public puja: number;
   private user: IUser;
@@ -35,29 +37,30 @@ export class TabPilotosComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
 
-    // if (this.user) {
-    //   this.authenticationService.loadUser(this.user.usuario.id).subscribe((usuario) => {
-    //     console.log(usuario);
-    //     this.user.usuario = usuario;
-    //     localStorage.setItem('usuario', JSON.stringify(this.user))
-    //     console.log('obtenido', usuario);
-    //   });
-    // }
     this.getPilotosMercado();
 
   }
   public coleccionPujas(piloto?: any, puja?: number) {
-    if (puja < piloto.valorMercado) {
+
+    let index = this.pilotos.findIndex(elem => elem.idMercado === piloto.idMercado);
+    if (puja > this.user.usuario.saldo) {
+      this.pilotos[index].saldoMenorQuePuja = true;
+      this.formInvalid = true;
+    } else if (puja < piloto.valorMercado) {
+      this.pilotos[index].pujaMenorQueValorMercado = true;
       this.formInvalid = true;
     } else {
+      this.pilotos[index].saldoMenorQuePuja = false;
+      this.pilotos[index].pujaMenorQueValorMercado = false;
       this.formInvalid = false;
       let pilotoPuja: IPujas = {
         piloto: piloto.idMercado,
         puja: Number(puja)
       }
       this.pujas.push(pilotoPuja);
-      console.log(this.pujas)
+
     }
+
 
   }
 
@@ -188,6 +191,8 @@ export class TabPilotosComponent implements OnInit {
 
     form.reset();
   }
+
+
 
 }
 

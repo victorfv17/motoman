@@ -53,8 +53,12 @@
                         <input type="number" class="form-control mx-auto" style="width: 70%" id="puja" name="valorPuja"
                             placeholder="Introducir puja" [(ngModel)]="piloto.valorPuja"
                             (ngModelChange)="coleccionPujas(piloto, piloto.valorPuja)">
-
-
+                        <span class="errors" *ngIf="piloto.valorPuja && piloto.saldoMenorQuePuja"> El saldo es menor que
+                            la puja</span>
+                        <span class="errors" *ngIf="piloto.valorPuja && piloto.pujaMenorQueValorMercado "> La puja es
+                            menor que
+                            el valor de
+                            mercado</span>
                     </td>
                 </tr>
 

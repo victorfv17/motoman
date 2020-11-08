@@ -47,9 +47,17 @@
                         </mat-card>
                     </td>
                     <td class="align-middle">
-                        <input type="puja" class="form-control mx-auto" style="width: 70%" id="puja" name="puja"
+                        <input type="number" class="form-control mx-auto" style="width: 70%" id="puja" name="puja"
                             placeholder="Introducir puja" [(ngModel)]="escuderia.puja"
                             (ngModelChange)="coleccionPujasEscuderias(escuderia, escuderia.puja)">
+                        <span class="errors" *ngIf="escuderia.puja && escuderia.saldoMenorQuePuja"> El saldo es
+                            menor que
+                            la puja</span>
+                        <span class="errors" *ngIf="escuderia.puja && escuderia.pujaMenorQueValorMercado "> La puja
+                            es
+                            menor que
+                            el valor de
+                            mercado</span>
                     </td>
                 </tr>
 
