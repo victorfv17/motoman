@@ -17,7 +17,7 @@ class PujasController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function index()
+    public function index($idLiga)
     {
         $pujas = [];
         $pujasEscuderias = Pujas::where('visible','1')
@@ -26,6 +26,7 @@ class PujasController extends Controller
         ->join('mercadoEscuderias', 'mercadoEscuderias.id','=','pujas.mercadoEscuderia_id')
         
         ->join('escuderias', 'escuderias.id','=','mercadoEscuderias.escuderia_id')
+        ->where('users.id',$idLiga)
         ->select(
             'pujas.id as id', 
             'pujas.usuario_id as usuarioId', 
@@ -44,7 +45,7 @@ class PujasController extends Controller
         ->join('users', 'users.id','=','pujas.usuario_id')
         ->join('mercadoPilotos', 'mercadoPilotos.id','=','pujas.mercadoPiloto_id') 
         ->join('pilotos', 'pilotos.id','=','mercadoPilotos.piloto_id')
-      
+        ->where('users.id',$idLiga)
         ->select(
             'pujas.id as id', 
             'pujas.usuario_id as usuarioId', 

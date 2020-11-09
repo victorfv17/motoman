@@ -13,16 +13,16 @@ export class EquipoService {
 
 
   public getEquipo(user: string, tipo?: string): Observable<Array<IEquipo>> {
-    if (tipo === 'primerPiloto' || tipo === 'segundoPiloto') {
+    if (tipo === 'pilotos') {
       return this.http.get<Array<IEquipo>>('http://127.0.0.1:8000/api/equipo/pilotos/' + user);
     } else {
       return this.http.get<Array<IEquipo>>('http://127.0.0.1:8000/api/equipo/escuderias/' + user);
     }
 
   }
-  public getVentas(): Observable<Array<IEquipo>> {
+  public getVentas(idLiga: number): Observable<Array<IEquipo>> {
 
-    return this.http.get<Array<IEquipo>>('http://127.0.0.1:8000/api/equipo/ventas/todas');
+    return this.http.get<Array<IEquipo>>(`http://127.0.0.1:8000/api/equipo/ventas/${idLiga}`);
 
   }
 

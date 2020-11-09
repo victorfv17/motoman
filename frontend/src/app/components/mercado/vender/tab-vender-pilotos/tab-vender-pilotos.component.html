@@ -47,16 +47,21 @@
                     </button>
                 </td>
             </tr>
+            <tr *ngIf="equipos.length === 0">
+                <td colspan="4" style="text-align: center;">
+                    <span>No hay pilotos para vender</span>
+                </td>
 
+            </tr>
 
         </tbody>
     </table>
-    <mat-card-actions>
+    <!-- <mat-card-actions>
         <button class="btn btn-secondary submitButton " type="button" (click)="limpiarDatosPujas()">Limpiar
         </button>
         <button class="btn btn-danger submitButton " type="button" (click)="enviarPujas()">Enviar
         </button>
-    </mat-card-actions>
+    </mat-card-actions> -->
 
 
 </mat-card>

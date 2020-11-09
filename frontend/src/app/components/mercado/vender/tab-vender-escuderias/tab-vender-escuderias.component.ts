@@ -21,7 +21,6 @@ export class TabVenderEscuderiasComponent implements OnInit {
   private getEquipo() {
     this.equipoService.getEquipo(this.usuario.usuario.id, 'escuderias').subscribe((equipo) => {
       this.equipos = equipo;
-      console.log('equipo', this.equipos);
     });
   }
   public venderEscuderia(escuderia: any) {

@@ -3,6 +3,7 @@ import { PujasService } from '../shared/services/pujas.service';
 import { IPujas } from '../shared/models/pujas.model';
 import { IPilotos } from '../shared/models/pilotos.model';
 import { EquipoService } from '../shared/services/equipo.service';
+import { IUser } from '../shared/models/users.model';
 
 @Component({
   selector: 'app-home',
@@ -15,19 +16,20 @@ export class HomeComponent implements OnInit {
   public pujasMasAltas: Array<IPujas> = [];
   public piloto: IPilotos = {};
   public ventas: Array<any> = [];
+  private user: IUser = {};
   constructor(
     private pujasService: PujasService,
     private equipoService: EquipoService
   ) { }
 
   ngOnInit() {
-
+    this.user = JSON.parse(localStorage.getItem('usuario'));
     this.fetchPujas();
     this.fetchVentas();
   }
 
   private fetchPujas() {
-    this.pujasService.getPujas().subscribe((pujas) => {
+    this.pujasService.getPujas(this.user.usuario.liga_id).subscribe((pujas) => {
       this.pujas = pujas;
 
       console.log(pujas);
@@ -52,7 +54,7 @@ export class HomeComponent implements OnInit {
     });
   }
   private fetchVentas() {
-    this.equipoService.getVentas().subscribe((ventas) =>
+    this.equipoService.getVentas(this.user.usuario.liga_id).subscribe((ventas) =>
       this.ventas = ventas
     );
   }

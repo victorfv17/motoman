@@ -13,9 +13,9 @@ import { catchError } from 'rxjs/operators';
 export class PujasService {
 
   constructor(private http: HttpClient) { }
-  public getPujas(): Observable<Array<IPujas>> {
+  public getPujas(idLiga: number): Observable<Array<IPujas>> {
 
-    return this.http.get<Array<IPujas>>(`http://127.0.0.1:8000/api/pujas`);
+    return this.http.get<Array<IPujas>>(`http://127.0.0.1:8000/api/pujas/compras/${idLiga}`);
   }
   public guardarPuja(user: number, pujas: Array<IPujas>): Observable<any> {
     const params = {
