@@ -15,10 +15,15 @@ class MercadoEscuderiaController extends Controller
      */
     public function index()
     {
+        $fecha_actual = date("yy-m-d");
+        $fecha_anterior = date("yy-m-d",strtotime($fecha_actual."- 7 days")); 
+        MercadoEscuderia::where('fecha','<=',$fecha_anterior)->delete();
         $escuderias = MercadoEscuderia::
         join('escuderias', 'mercadoEscuderias.escuderia_id','=','escuderias.id')->
        
         select( 'escuderias.id as id','escuderias.nombre as nombre','escuderias.puntos as puntos','escuderias.valorMercado', 'fecha')
+        ->orderBy('mercadoEscuderias.fecha','desc')
+        ->where('fecha',$fecha_actual)
         ->get();
         
         /*$mercadoPilotos = MercadoPiloto::get();
@@ -77,7 +82,48 @@ class MercadoEscuderiaController extends Controller
      */
     public function show($id)
     {
-     //
+        $fecha_actual = date("yy-m-d");
+        $fecha_anterior = date("yy-m-d",strtotime($fecha_actual."- 7 days")); 
+        MercadoEscuderia::where('fecha','<=',$fecha_anterior)->delete();
+        $escuderias = MercadoEscuderia::
+        join('escuderias', 'mercadoEscuderias.escuderia_id','=','escuderias.id')->
+       
+        select('escuderias.id as id','escuderias.nombre as nombre','escuderias.puntos as puntos','escuderias.valorMercado', 'fecha')
+        ->orderBy('mercadoEscuderias.fecha','desc')
+        ->where('liga_id',$id)
+        ->where('fecha',$fecha_actual)
+        ->get();
+        
+  
+        if(count($escuderias) == 0 ){
+             
+            $liga = $id;
+            $fechaActual = new DateTime();
+            $escuderias = Escuderias::whereNotExists(function($query)
+                {
+                    $query->select()
+                            ->from('Equipo')
+                            ->whereRaw('equipo.escuderia_id = escuderias.id');
+                })->get()->random(4);
+            
+            foreach($escuderias as $escuderia){
+                MercadoEscuderia::insert(['escuderia_id' => $escuderia['id'] , 'valorMercado' => $escuderia['valorMercado'], 'liga_id' =>$liga, 'fecha' => $fechaActual ]);
+            }
+        
+        }
+
+        $escuderias = MercadoEscuderia::
+        join('escuderias', 'mercadoEscuderias.escuderia_id','=','escuderias.id')->
+       
+        select(  'mercadoEscuderias.id as idMercado','escuderias.id as id','escuderias.nombre as nombre','escuderias.puntos as puntos','escuderias.valorMercado', 'fecha')
+        ->orderBy('mercadoEscuderias.fecha','desc')
+        ->where('liga_id',$id)
+        ->where('fecha',$fecha_actual)
+        ->get();
+        
+      
+      
+        return $escuderias;
     }
 
     /**

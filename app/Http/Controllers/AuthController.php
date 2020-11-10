@@ -86,4 +86,8 @@ class AuthController extends Controller
 		return User::where('id',$request['id'])->first();
 	
 	}
+
+	public function loadUser($id){
+		return User::where('id',$id)->first();
+	}
 }

@@ -40,4 +40,8 @@ export class AuthenticationService {
     return this.http.put<IUser>('http://127.0.0.1:8000/api/user/update', { id: user.usuario.id, liga_id: liga, numParticipantes: participantes, saldo: user.usuario.saldo })
       .pipe(map(datos => { return datos }));
   }
+
+  public loadUser(idUser: number): Observable<any> {
+    return this.http.get<IUser>('http://127.0.0.1:8000/api/user/saldo/' + idUser);
+  }
 }

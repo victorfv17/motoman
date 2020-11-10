@@ -96,11 +96,11 @@ class PujasController extends Controller
 
             
             if(array_key_exists('piloto',$puja)){
-                $idMercado = MercadoPiloto::where('piloto_id', $puja['piloto'])->first();
+                $idMercado = MercadoPiloto::where('id', $puja['piloto'])->first();
                
                 Pujas::updateOrCreate(['usuario_id' => $usuario, 'mercadoPiloto_id' => $idMercado['id']],[ 'valorPuja' => $puja['puja']]);
             }else{
-                $idMercado = MercadoEscuderia::where('escuderia_id', $puja['escuderia'])->first();
+                $idMercado = MercadoEscuderia::where('id', $puja['escuderia'])->first();
             
                 /* $existenPujas = Pujas::where('mercadoPiloto_id', $idMercado[0]['id'])->max('valorPuja');
                     
@@ -243,86 +243,124 @@ class PujasController extends Controller
     //     return 'borrado completo';
         
     // }
+   
     public function destroy()
     {
-        Pujas::where('visible', '1')->delete();
+        $fecha_actual = date("yy-m-d");
+      
+        $fecha_anterior = date("yy-m-d",strtotime($fecha_actual."- 1 days")); 
+        Pujas::where('visible', '1')->where('created_at','<=',$fecha_anterior)->delete();
         //trae todas las pujas existentes
-        $todasPujas = Pujas::orderBy('mercadoPiloto_id', 'asc' )->get();
-        $maxPuja = 0 ;
+        $todasPujas = Pujas::where('visible',null)->get();
+
         
-        //trae todas las pujas con un mercado piloto id determinado
+        
         foreach($todasPujas as $puja){
-       
+          
             if($puja['mercadoPiloto_id'] != NULL){
-                $todasPujasMismoPiloto =  Pujas::where('mercadoPiloto_id', $puja['mercadoPiloto_id'])->get();
-                //asigna la primera puja como la de mayor valor
-                //recorre las pujas con el mismo mercado piloto id para coger la mas alta
-                foreach($todasPujasMismoPiloto as $puja){
-                    if( $puja['valorPuja'] > $maxPuja){
-                        $id = $puja['id'];
+                //trae todas las pujas con un mercado piloto id determinado
+                $todasPujasMismoPiloto =  Pujas::where('mercadoPiloto_id', $puja['mercadoPiloto_id'])->where('visible',null)->get()->toArray();
+                if(count($todasPujasMismoPiloto)>0){
+                    $id = $todasPujasMismoPiloto[0];
+                    $maxPuja = $todasPujasMismoPiloto[0];
+                    $todasPujasMismoPiloto = array_splice($todasPujasMismoPiloto,1);
                     
+                   
+               
+                    //asigna la primera puja como la de mayor valor
+                    //recorre las pujas con el mismo mercado piloto id para coger la mas alta
+                    foreach($todasPujasMismoPiloto as $puja){
+                        if( $puja['valorPuja'] >= $maxPuja['valorPuja']){
+                     
+                            Pujas::where('id', $maxPuja['id'])->delete();
+                
+                          
+                            $id = $puja['id'];
+                            $maxPuja = $puja;
+                        }else{
+                            Pujas::where('id',  $puja['id'])->delete();
+                        }
+                        
                     }
-                    
+            
+                     // trae el registro con la puja mas alta
+                     $pujaMaxima = Pujas::where('id',  $id)->get();
+                     //$pujaMaxima = head($pujaMaxima);
+                     $usuario = $pujaMaxima[0]['usuario_id'];
+                     //trae el registro del mercado asociado a esa puja
+                     $rowMercado = MercadoPiloto::where('id', $pujaMaxima[0]['mercadoPiloto_id'])->first();
+                     //insertamos en el equipo del usuario al piloto comprado
+                     Equipo::insert(['piloto_id' => $rowMercado['piloto_id'], 'usuario_id' => $usuario]);
+                     // //trae usuario y actualiza el saldo
+                     $rowUser = User::where('id', $usuario)->first();
+                     $saldo = $rowUser['saldo'] - $pujaMaxima[0]['valorPuja'];
+                     User::where('id', $usuario)->update(['saldo' => $saldo]);
+                     //borramos las pujas con ese piloto del mercado que ya esta asignado
+                     
+                     Pujas::where('id',$pujaMaxima[0]['id'])->update(['visible'=>'1']);
+                     
+                     $maxPuja = 0 ;
+                   
+                     
+                    $this->destroy();
+                    //$todasPujas = Pujas::orderBy('mercadoPiloto_id', 'asc' )->get();
                 }
-                // trae el registro con la puja mas alta
-                $pujaMaxima = Pujas::where('id',  $id)->get();
-                $pujaMaxima = head($pujaMaxima);
-                $usuario = $pujaMaxima[0]['usuario_id'];
-                //trae el registro del mercado asociado a esa puja
-                $rowMercado = MercadoPiloto::where('id', $pujaMaxima[0]['mercadoPiloto_id'])->first();
-                //insertamos en el equipo del usuario al piloto comprado
-                Equipo::insert(['piloto_id' => $rowMercado['piloto_id'], 'usuario_id' => $usuario]);
-                //trae usuario y actualiza el saldo
-                $rowUser = User::where('id', $usuario)->first();
-                $saldo = $rowUser['saldo'] - $pujaMaxima[0]['valorPuja'];
-                User::where('id', $usuario)->update(['saldo' => $saldo]);
-                //borramos las pujas con ese piloto del mercado que ya esta asignado
-                
-                Pujas::where('mercadoPiloto_id', $rowMercado['id'])->update(['visible'=>'1']);
-                
-           
-                $maxPuja = 0 ;
-                
-                
-                $todasPujas = Pujas::orderBy('mercadoPiloto_id', 'asc' )->get();
+               
+               
             }else{
-                $todasPujasMismoEscuderia =  Pujas::where('mercadoEscuderia_id', $puja['mercadoEscuderia_id'])->get();
-                //asigna la primera puja como la de mayor valor
-                //recorre las pujas con el mismo mercado piloto id para coger la mas alta
-                foreach($todasPujasMismoEscuderia as $puja){
-                    if( $puja['valorPuja'] > $maxPuja){
-                        $id = $puja['id'];
+                //trae todas las pujas con un mercado piloto id determinado
+                $todasPujasMismoPiloto =  Pujas::where('mercadoEscuderia_id', $puja['mercadoEscuderia_id'])->where('visible',null)->get()->toArray();
+                if(count($todasPujasMismoPiloto)>0){
+                    $id = $todasPujasMismoPiloto[0];
+                    $maxPuja = $todasPujasMismoPiloto[0];
+                    $todasPujasMismoPiloto = array_splice($todasPujasMismoPiloto,1);
                     
+                   
+               
+                    //asigna la primera puja como la de mayor valor
+                    //recorre las pujas con el mismo mercado piloto id para coger la mas alta
+                    foreach($todasPujasMismoPiloto as $puja){
+                        if( $puja['valorPuja'] >= $maxPuja['valorPuja']){
+                     
+                            Pujas::where('id', $maxPuja['id'])->delete();
+                
+                          
+                            $id = $puja['id'];
+                            $maxPuja = $puja;
+                        }else{
+                            Pujas::where('id',  $puja['id'])->delete();
+                        }
+                        
                     }
-                    
+            
+                     // trae el registro con la puja mas alta
+                     $pujaMaxima = Pujas::where('id',  $id)->get();
+                     //$pujaMaxima = head($pujaMaxima);
+                     $usuario = $pujaMaxima[0]['usuario_id'];
+                     //trae el registro del mercado asociado a esa puja
+                     $rowMercado = MercadoEscuderia::where('id', $pujaMaxima[0]['mercadoEscuderia_id'])->first();
+                     //insertamos en el equipo del usuario al piloto comprado
+                     Equipo::insert(['escuderia_id' => $rowMercado['escuderia_id'], 'usuario_id' => $usuario]);
+                     // //trae usuario y actualiza el saldo
+                     $rowUser = User::where('id', $usuario)->first();
+                     $saldo = $rowUser['saldo'] - $pujaMaxima[0]['valorPuja'];
+                     User::where('id', $usuario)->update(['saldo' => $saldo]);
+                     //borramos las pujas con ese piloto del mercado que ya esta asignado
+                     
+                     Pujas::where('id',$pujaMaxima[0]['id'])->update(['visible'=>'1']);
+                     
+                     $maxPuja = 0 ;
+                   
+                     
+                    $this->destroy();
+                    //$todasPujas = Pujas::orderBy('mercadoPiloto_id', 'asc' )->get();
                 }
-                // trae el registro con la puja mas alta
-        
-                $pujaMaxima = Pujas::where('id',  $id)->get();
-                $pujaMaxima = head($pujaMaxima);
-                $usuario = $pujaMaxima[0]['usuario_id'];
-                //trae el registro del mercado asociado a esa puja
-                $rowMercado = MercadoEscuderia::where('id', $pujaMaxima[0]['mercadoEscuderia_id'])->first();
-         
-                //insertamos en el equipo del usuario al piloto comprado
-                Equipo::insert(['escuderia_id' => $rowMercado['escuderia_id'], 'usuario_id' => $pujaMaxima[0]['usuario_id']]);
-                $rowUser = User::where('id', $usuario)->first();
-                $saldo = $rowUser['saldo'] - $rowMercado['valorMercado'];
-                User::where('id', $usuario)->update(['saldo' => $saldo]);
-                //borramos las pujas con ese piloto del mercado que ya esta asignado
-                
-                
-                Pujas::where('mercadoEscuderia_id', $rowMercado['id'])->update(['visible'=>'1']);
-                $maxPuja = 0 ;
-                
-                
-                $todasPujas = Pujas::orderBy('mercadoEscuderia_id', 'asc' )->get();
             }
           
         
-            
-        }
+        }   
+        
         Equipo::where('indicadorEnAlineacion','2')->delete();
-        return 'borrado completo';
+
     }
 }

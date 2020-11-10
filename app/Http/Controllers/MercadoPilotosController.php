@@ -18,12 +18,22 @@ class MercadoPilotosController extends Controller
      */
     public function index()
     {
+        
+        $fecha_actual = date("yy-m-d");
+      
+        $fecha_anterior = date("yy-m-d",strtotime($fecha_actual."- 7 days")); 
+       
+        MercadoPiloto::where('fecha','<=',$fecha_anterior)->delete();
+    
         $pilotos = MercadoPiloto::
         join('pilotos', 'mercadoPilotos.piloto_id','=','pilotos.id')->
-        join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')->
+        join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')-> 
         select( 'pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos as puntos','pilotos.valorMercado', 'id_escuderia', 'escuderias.nombre as escuderia', 'fecha')
+        ->orderBy('mercadoPilotos.fecha','desc')
+        ->where('fecha',$fecha_actual)
         ->get();
-        
+
+      
         /*$mercadoPilotos = MercadoPiloto::get();
         foreach($mercadoPilotos as $mercadoPiloto){
             $piloto = Pilotos::where('id',$mercadoPiloto['id']);
@@ -60,7 +70,7 @@ class MercadoPilotosController extends Controller
                 $query->select()
                         ->from('Equipo')
                         ->whereRaw('equipo.piloto_id = pilotos.id');
-            })->get()->random(6);
+            })->get()->random(3);
         
         foreach($pilotos as $piloto){
             MercadoPiloto::insert(['piloto_id' => $piloto['id'] , 'valorMercado' => $piloto['valorMercado'], 'liga_id' =>$liga, 'fecha' => $fechaActual ]);
@@ -80,7 +90,53 @@ class MercadoPilotosController extends Controller
      */
     public function show($id)
     {
-     //
+     
+        $fecha_actual = date("yy-m-d");
+      
+        $fecha_anterior = date("yy-m-d",strtotime($fecha_actual."- 7 days")); 
+       
+        MercadoPiloto::where('fecha','<=',$fecha_anterior)->delete();
+    
+        $pilotos = MercadoPiloto::
+        join('pilotos', 'mercadoPilotos.piloto_id','=','pilotos.id')->
+        join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')-> 
+        select( 'pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos as puntos','pilotos.valorMercado', 'id_escuderia', 'escuderias.nombre as escuderia', 'fecha')
+        ->orderBy('mercadoPilotos.fecha','desc')
+        ->where('liga_id',$id)
+        ->where('fecha',$fecha_actual)
+        ->get();
+
+        if(count($pilotos) == 0 ){
+            $liga = $id;
+            $fechaActual = new DateTime();
+            $pilotos = Pilotos::whereNotExists(function($query)
+            {
+                $query->select()
+                        ->from('Equipo')
+                        ->whereRaw('equipo.piloto_id = pilotos.id');
+            })->get()->random(3);
+        
+            foreach($pilotos as $piloto){
+                MercadoPiloto::insert(['piloto_id' => $piloto['id'] , 'valorMercado' => $piloto['valorMercado'], 'liga_id' =>$liga, 'fecha' => $fechaActual ]);
+            }
+        }
+
+        $pilotos = MercadoPiloto::
+        join('pilotos', 'mercadoPilotos.piloto_id','=','pilotos.id')->
+        join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')-> 
+        select('mercadoPilotos.id as idMercado', 'pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos as puntos','pilotos.valorMercado', 'id_escuderia', 'escuderias.nombre as escuderia', 'fecha')
+        ->orderBy('mercadoPilotos.fecha','desc')
+        ->where('liga_id',$id)
+        ->where('fecha',$fecha_actual)
+        ->get();
+      
+        /*$mercadoPilotos = MercadoPiloto::get();
+        foreach($mercadoPilotos as $mercadoPiloto){
+            $piloto = Pilotos::where('id',$mercadoPiloto['id']);
+            var_dump($piloto);
+        }*/
+        //return 
+        return $pilotos;
     }
 
     /**
@@ -116,6 +172,9 @@ class MercadoPilotosController extends Controller
     {
        
         MercadoPiloto::where('liga_id',$idLiga)->delete();
+        // foreach($itemsMercado as $item){
+        //     Pujas::where('mercadoPiloto_id',$item['id'])
+        // }
         
     }
 }

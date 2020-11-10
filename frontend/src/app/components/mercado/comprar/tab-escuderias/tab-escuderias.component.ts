@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IPujas } from 'src/app/shared/models/pujas.model';
 import { MercadoService } from 'src/app/shared/services/mercado.service';
 import { IUser } from 'src/app/shared/models/users.model';
 import { PujasService } from 'src/app/shared/services/pujas.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 
 @Component({
   selector: 'app-tab-escuderias',
@@ -12,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./tab-escuderias.component.scss']
 })
 export class TabEscuderiasComponent implements OnInit {
+  @ViewChild('formEscuderias', { static: true }) formEscuderias: NgForm;
   formInvalid = false;
   public escuderias: any;
   public puja: number;
@@ -21,7 +23,8 @@ export class TabEscuderiasComponent implements OnInit {
   constructor(
     private mercadoService: MercadoService,
     private pujasService: PujasService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
@@ -36,7 +39,7 @@ export class TabEscuderiasComponent implements OnInit {
     } else {
       this.formInvalid = false;
       let escuderiaPuja: IPujas = {
-        escuderia: escuderia,
+        escuderia: escuderia.idMercado,
         puja: puja
       }
       this.pujas.push(escuderiaPuja);
@@ -48,22 +51,21 @@ export class TabEscuderiasComponent implements OnInit {
 
     let fechaActual = new Date().toISOString().slice(0, 10);
     //fechaActual = '2020-06-02';
-    this.mercadoService.getEscuderiasMercado().subscribe(escuderias => {
-      console.log('escuderias', escuderias);
-      if (escuderias && escuderias.length === 4) {
+    this.mercadoService.getEscuderiasMercado(this.user.usuario.liga_id).subscribe(escuderias => {
+
+      if (escuderias && escuderias.length <= 4 && escuderias.length > 0) {
         if (String(escuderias[0].fecha) === fechaActual) {
           this.checkEscuderia(escuderias);
           this.escuderias = escuderias;
 
         } else {
-
-          this.deleteEscuderiasMercado();
+          this.borrarPujas();
+          // this.deleteEscuderiasMercado();
         }
 
 
       } else {
 
-        this.createEscuderiasMercado();
 
       }
     });
@@ -75,6 +77,25 @@ export class TabEscuderiasComponent implements OnInit {
 
   private deleteEscuderiasMercado() {
     this.mercadoService.deleteEscuderiasMercado(this.user.usuario.liga_id).subscribe(() => this.createEscuderiasMercado());
+
+  }
+
+  private borrarPujas() {
+    this.pujasService.deletePujas().subscribe(() => this.updateSaldo());
+  }
+  private updateSaldo() {
+    if (this.user) {
+      this.authenticationService.loadUser(this.user.usuario.id).subscribe((usuario) => {
+        this.user.usuario.saldo = usuario.saldo;
+        localStorage.setItem('usuario', JSON.stringify(this.user))
+        console.log('obtenido', usuario);
+        this.mercadoService.getEscuderiasMercado(this.user.usuario.liga_id).subscribe(escuderias => {
+          this.checkEscuderia(escuderias);
+          this.escuderias = this.escuderias;
+        });
+      });
+    }
+
 
   }
 
@@ -133,6 +154,7 @@ export class TabEscuderiasComponent implements OnInit {
       (error) => error = this.snackBar.open('Pujas realizadas', 'Exito', {
         duration: 2000,
       }));
+    this.limpiarDatosPujas(this.formEscuderias);
   }
 
   public limpiarDatosPujas(form: NgForm) {

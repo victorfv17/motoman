@@ -7,6 +7,7 @@ import { AuthenticationService } from '../shared/services/authentication.service
   providedIn: 'root'
 })
 export class AutenticacionGuard implements CanActivate {
+  public user: any;
   constructor(private auth: AuthenticationService,
     private router: Router) {
     console.log('ahjsdfklasdjf')
@@ -16,6 +17,7 @@ export class AutenticacionGuard implements CanActivate {
       this.router.navigate(['login']);
       return false;
     }
+
     console.log('entro')
     return true;
   }

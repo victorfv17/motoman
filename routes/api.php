@@ -28,6 +28,7 @@ Route::group(['prefix'=>'user'],function(){
 	Route::put('/update','AuthController@update');
 	Route::get('/{liga}','AuthController@getUsersByLiga');
 	Route::post('/create','AuthController@register');
+	Route::get('/saldo/{id}','AuthController@loadUser');
 });
 Route::get('pilotos/{campo}/{direct}', 'PilotosController@join');
 Route::resource('pilotos','PilotosController');
@@ -44,7 +45,7 @@ Route::resource('clasificacion','ClasificacionController');
 Route::get('clasificacion/join/{id}/{campoOrdenacion}', 'ClasificacionController@join');
 //Route::get('clasificacion/puntos/update', 'ClasificacionController@updatePuntos');
 Route::resource('pujas','PujasController');
-Route::delete('pujas','PujasController@destroy');
+Route::delete('pujas/borrar/todas','PujasController@destroy');
 Route::resource('equipo', 'EquipoController');
 Route::get('equipo/detalle/alineacion/{id}', 'EquipoController@getAlineacion');
 Route::get('equipo/pilotos/{usuario}', 'EquipoController@showPilotos');

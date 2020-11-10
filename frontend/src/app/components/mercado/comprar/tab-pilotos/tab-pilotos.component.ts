@@ -1,8 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+
+
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, Form } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { skip } from 'rxjs/operators';
 import { IPujas } from 'src/app/shared/models/pujas.model';
 import { IUser } from 'src/app/shared/models/users.model';
+import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { MercadoService } from 'src/app/shared/services/mercado.service';
 import { PujasService } from 'src/app/shared/services/pujas.service';
 
@@ -12,6 +16,7 @@ import { PujasService } from 'src/app/shared/services/pujas.service';
   styleUrls: ['./tab-pilotos.component.scss']
 })
 export class TabPilotosComponent implements OnInit {
+  @ViewChild('formPilotos', { static: true }) formPilotos: NgForm;
   formInvalid = false;
   public pilotos: any;
   public escuderias: any;
@@ -19,15 +24,25 @@ export class TabPilotosComponent implements OnInit {
   private user: IUser;
   public pujas: Array<IPujas> = [];
 
+
   constructor(
     private mercadoService: MercadoService,
     private pujasService: PujasService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
 
+    // if (this.user) {
+    //   this.authenticationService.loadUser(this.user.usuario.id).subscribe((usuario) => {
+    //     console.log(usuario);
+    //     this.user.usuario = usuario;
+    //     localStorage.setItem('usuario', JSON.stringify(this.user))
+    //     console.log('obtenido', usuario);
+    //   });
+    // }
     this.getPilotosMercado();
 
   }
@@ -37,7 +52,7 @@ export class TabPilotosComponent implements OnInit {
     } else {
       this.formInvalid = false;
       let pilotoPuja: IPujas = {
-        piloto: piloto,
+        piloto: piloto.idMercado,
         puja: Number(puja)
       }
       this.pujas.push(pilotoPuja);
@@ -52,21 +67,27 @@ export class TabPilotosComponent implements OnInit {
 
     let fechaActual = new Date().toISOString().slice(0, 10);
     //fechaActual = '2020-06-02';
-    this.mercadoService.getPilotosMercado().subscribe(pilotos => {
+    this.mercadoService.getPilotosMercado(this.user.usuario.liga_id).subscribe(pilotos => {
+      console.log('pilotos', pilotos);
 
-      if (pilotos && pilotos.length === 6) {
+      if (pilotos && pilotos.length <= 6 && pilotos.length > 0) {
         if (String(pilotos[0].fecha) === fechaActual) {
           this.checkPilotoEscuderia(pilotos);
           this.pilotos = pilotos;
-          console.log(this.pilotos)
+
         } else {
           this.borrarPujas();
-          this.deletePilotosMercado();
+          // this.createPilotosMercado();
+          // this.deletePilotosMercado();
         }
 
-
+        //el create se hace dos veces hay que pensar esto para que no se haga bucle
       } else {
-        this.createPilotosMercado();
+
+        //this.createPilotosMercado();
+
+        // this.borrarPujas();
+        // this.createPilotosMercado();
 
       }
     });
@@ -81,9 +102,25 @@ export class TabPilotosComponent implements OnInit {
 
   }
   private borrarPujas() {
-    this.pujasService.deletePujas().subscribe();
-  }
+    this.pujasService.deletePujas().subscribe(() => this.updateSaldo());
 
+
+  }
+  private updateSaldo() {
+    if (this.user) {
+      this.authenticationService.loadUser(this.user.usuario.id).subscribe((usuario) => {
+        this.user.usuario.saldo = usuario.saldo;
+        localStorage.setItem('usuario', JSON.stringify(this.user))
+        console.log('obtenido', usuario);
+        this.mercadoService.getPilotosMercado(this.user.usuario.liga_id).subscribe(pilotos => {
+          this.checkPilotoEscuderia(pilotos);
+          this.pilotos = pilotos;
+        });
+      });
+    }
+
+
+  }
 
   private checkPilotoEscuderia(pilotos: any) {
     for (var i = 0; i < pilotos.length; i++) {
@@ -138,10 +175,13 @@ export class TabPilotosComponent implements OnInit {
       this.snackBar.open('Pujas realizadas', 'Exito', {
         duration: 2000,
       });
+
+
     },
       (error) => error = this.snackBar.open('Pujas realizadas', 'Exito', {
         duration: 2000,
       }));
+    this.limpiarDatosPujas(this.formPilotos);
   }
 
   public limpiarDatosPujas(form: NgForm) {

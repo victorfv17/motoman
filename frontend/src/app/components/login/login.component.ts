@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   }
   public checkLogin() {
     if (this.user) {
-      //METER ESTO EN EL SERVICE PARA PODER LLAMARLO DESDE MAS SITIOS
+
       this.authenticationService.getUser(this.user).subscribe(usuario => {
         console.log(usuario)
         if (usuario) {

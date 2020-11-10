@@ -25,7 +25,6 @@ export class PujasService {
     return this.http.post<any>('http://127.0.0.1:8000/api/pujas', params);
   }
   public deletePujas(): Observable<any> {
-
-    return this.http.delete<any>('http://127.0.0.1:8000/api/pujas');
+    return this.http.delete<any>('http://127.0.0.1:8000/api/pujas/borrar/todas');
   }
 }
