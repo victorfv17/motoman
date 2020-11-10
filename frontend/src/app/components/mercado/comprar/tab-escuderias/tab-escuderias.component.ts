@@ -19,7 +19,7 @@ export class TabEscuderiasComponent implements OnInit {
   public puja: number;
   private user: IUser;
   public pujas: Array<IPujas> = [];
-
+  public isLoading: boolean = true;
   constructor(
     private mercadoService: MercadoService,
     private pujasService: PujasService,
@@ -59,12 +59,13 @@ export class TabEscuderiasComponent implements OnInit {
     //fechaActual = '2020-06-02';
     this.mercadoService.getEscuderiasMercado(this.user.usuario.liga_id).subscribe(escuderias => {
 
-      if (escuderias && escuderias.length <= 4 && escuderias.length > 0) {
+      if (escuderias && escuderias.length > 0) {
         if (String(escuderias[0].fecha) === fechaActual) {
           this.checkEscuderia(escuderias);
           this.escuderias = escuderias;
-
+          this.isLoading = false;
         } else {
+          this.isLoading = true;
           this.borrarPujas();
           // this.deleteEscuderiasMercado();
         }
@@ -74,6 +75,7 @@ export class TabEscuderiasComponent implements OnInit {
 
 
       }
+
     });
   }
 
@@ -98,6 +100,7 @@ export class TabEscuderiasComponent implements OnInit {
         this.mercadoService.getEscuderiasMercado(this.user.usuario.liga_id).subscribe(escuderias => {
           this.checkEscuderia(escuderias);
           this.escuderias = this.escuderias;
+          this.isLoading = false;
         });
       });
     }

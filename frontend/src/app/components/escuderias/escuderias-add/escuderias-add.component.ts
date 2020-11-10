@@ -14,6 +14,7 @@ export class EscuderiasAddComponent implements OnInit {
 
   public escuderia: IEscuderias = {};
   public escuderiaId: string;
+  public isLoading: boolean = true;
   constructor(
     private escuderiasService: EscuderiasService,
     private route: ActivatedRoute,
@@ -24,7 +25,6 @@ export class EscuderiasAddComponent implements OnInit {
   ngOnInit() {
     this.escuderiaId = this.route.snapshot.paramMap.get('id');
     if (this.escuderiaId) {
-      console.log(this.escuderiaId)
       this.fetchEscuderia();
     }
 
@@ -50,7 +50,7 @@ export class EscuderiasAddComponent implements OnInit {
   private fetchEscuderia() {
     this.escuderiasService.getEscuderia(parseInt(this.escuderiaId)).subscribe((escuderia) => {
       this.escuderia = escuderia[0];
-
+      this.isLoading = false;
     });
   }
 

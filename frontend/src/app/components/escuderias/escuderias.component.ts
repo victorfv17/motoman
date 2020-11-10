@@ -29,17 +29,9 @@ export class EscuderiasComponent implements OnInit {
 
   ngOnInit() {
 
-    this.fetchEscuderias();
+    this.fetchEscuderias(this.campo);
     const user = this.authenticationService.isAuthenticated();
     this.checkRolUser(user.usuario);
-
-  }
-  public fetchEscuderias() {
-
-    this.escuderiasService.getAllSort(this.campo, this.direct).subscribe(escuderias => {
-      this.escuderias = escuderias;
-      this.isLoading = false;
-    });
 
   }
   public delete(escuderiaId: string) {
@@ -49,14 +41,14 @@ export class EscuderiasComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.escuderiasService.deleteEscuderia(escuderiaId).subscribe(() => {
-          this.fetchEscuderias();
+          this.fetchEscuderias(this.campo);
         });
       }
     });
   }
 
 
-  sort(campo?: string) {
+  fetchEscuderias(campo?: string) {
     if (this.direct === 'asc') {
       this.direct = 'desc';
     } else {

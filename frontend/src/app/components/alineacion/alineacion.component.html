@@ -1,66 +1,72 @@
-<div>
-    <h1 style="text-align:center">Alineación</h1>
-    <mat-card class="container">
-        <table class="table" style="width: 80%;">
-            <thead>
-                <tr>
-                    <th></th>
-                    <!-- <th style="text-align: center;">Piloto</th>
+<ng-container *ngIf="isLoading; then spinner; else table"></ng-container>
+<ng-template #spinner>
+    <mat-spinner class="spinner-center"></mat-spinner>
+</ng-template>
+<ng-template #table>
+    <div>
+        <h1 style="text-align:center">Alineación</h1>
+        <mat-card class="container">
+            <table class="table" style="width: 80%;">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <!-- <th style="text-align: center;">Piloto</th>
                     <th style="text-align: center;">Escuderia</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="width: 22%;">
-                        <span>1º Piloto</span>
-                    </td>
-                    <td>
-                        <mat-card style="background-color: grey;" (click)="openDialog('primerPiloto')">
-                            {{alineaciones.primerPiloto}}
-                        </mat-card>
-                    </td>
-                    <!-- <td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="width: 22%;">
+                            <span>1º Piloto</span>
+                        </td>
+                        <td>
+                            <mat-card style="background-color: grey;" (click)="openDialog('primerPiloto')">
+                                {{alineaciones.primerPiloto}}
+                            </mat-card>
+                        </td>
+                        <!-- <td>
                         <mat-card style="background-color: green;" (click)="openDialog('escuderiasMotoGp')">
                             {{equipo.escuderiasMotoGp}}
                         </mat-card>
                     </td> -->
-                </tr>
-                <tr>
-                    <td style="width: 22%;">
-                        <span>2º Piloto</span>
-                    </td>
-                    <td>
-                        <mat-card style="background-color: grey;" (click)="openDialog('segundoPiloto')">
-                            {{alineaciones.segundoPiloto}}
-                        </mat-card>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 22%;">
-                        <span>Escudería</span>
-                    </td>
-                    <td>
-                        <mat-card style="background-color: grey;" (click)="openDialog('escuderia')">
-                            {{alineaciones.nombreEscuderia}}
-                        </mat-card>
-                    </td>
-                </tr>
+                    </tr>
+                    <tr>
+                        <td style="width: 22%;">
+                            <span>2º Piloto</span>
+                        </td>
+                        <td>
+                            <mat-card style="background-color: grey;" (click)="openDialog('segundoPiloto')">
+                                {{alineaciones.segundoPiloto}}
+                            </mat-card>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 22%;">
+                            <span>Escudería</span>
+                        </td>
+                        <td>
+                            <mat-card style="background-color: grey;" (click)="openDialog('escuderia')">
+                                {{alineaciones.nombreEscuderia}}
+                            </mat-card>
+                        </td>
+                    </tr>
 
-            </tbody>
-        </table>
-    </mat-card>
-    <mat-card-actions class="actionButtons">
-        <button class="btn btn-secondary" style="width:40%;" type="button" (click)="borrarAlineacion()"
-            [disabled]="isLoading">Limpiar
-        </button>
-        <button class="btn btn-danger" style="width:40%; " type="button" (click)="guardar()"
-            [disabled]="isLoading || marcarDeshabilitadoPorDia()">
-            <span matTooltip="No se puede guardar la alineación los fines de semana"
-                [matTooltipDisabled]="!isLoading && !marcarDeshabilitadoPorDia()">
-                Guardar
-            </span>
+                </tbody>
+            </table>
+        </mat-card>
+        <mat-card-actions class="actionButtons">
+            <button class="btn btn-secondary" style="width:40%;" type="button" (click)="borrarAlineacion()"
+                [disabled]="isLoading">Limpiar
+            </button>
+            <button class="btn btn-danger" style="width:40%; " type="button" (click)="guardar()"
+                [disabled]="isLoading || marcarDeshabilitadoPorDia()">
+                <span matTooltip="No se puede guardar la alineación los fines de semana"
+                    [matTooltipDisabled]="!isLoading && !marcarDeshabilitadoPorDia()">
+                    Guardar
+                </span>
 
-        </button>
-    </mat-card-actions>
+            </button>
+        </mat-card-actions>
 
-</div>
+    </div>
+</ng-template>

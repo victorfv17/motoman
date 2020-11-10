@@ -5,6 +5,7 @@ import { PrediccionesService } from 'src/app/shared/services/predicciones.servic
 import { IPrediccion } from 'src/app/shared/models/prediccion.model';
 import { IUser } from 'src/app/shared/models/users.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-predicciones',
@@ -17,7 +18,8 @@ export class PrediccionesComponent implements OnInit {
   user: any;
   existenPredicciones = false;
   private prediccion = {};
-  prueba = false;
+  public isLoading: boolean = true;
+
   constructor(
     private pilotosService: PilotosService,
     private prediccionesService: PrediccionesService,
@@ -28,8 +30,8 @@ export class PrediccionesComponent implements OnInit {
     this.inicializarPrediccion();
     this.user = JSON.parse(localStorage.getItem('usuario'));
     this.user = this.user.usuario;
+
     this.fetchPredicciones();
-    this.fetchPilotos();
   }
   private inicializarPrediccion() {
     this.prediccion = {
@@ -44,6 +46,7 @@ export class PrediccionesComponent implements OnInit {
   private fetchPilotos() {
     this.pilotosService.getAll().subscribe((pilotos) => {
       this.pilotos = pilotos;
+      this.isLoading = false;
 
     });
   }
@@ -60,6 +63,7 @@ export class PrediccionesComponent implements OnInit {
           pos6: predicciones[5]['piloto_id']
         }
       }
+      this.fetchPilotos();
 
     });
   }

@@ -32,19 +32,12 @@ export class PilotosComponent implements OnInit {
 
   ngOnInit() {
 
-    this.getPilotos();
+    this.getPilotos(this.campo);
     const user = this.authenticationService.isAuthenticated();
     this.checkRolUser(user.usuario);
 
   }
-  public getPilotos() {
 
-    this.pilotosService.getAllSort(this.campo, this.direct).subscribe(pilotos => {
-      this.pilotos = pilotos;
-      this.isLoading = false;
-    });
-
-  }
   public delete(pilotoId: string) {
     const dialogRef = this.dialog.open(DialogEliminarComponent, {
       width: '500px',
@@ -52,14 +45,14 @@ export class PilotosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.pilotosService.deletePiloto(pilotoId).subscribe(() => {
-          this.getPilotos();
+          this.getPilotos(this.campo);
         });
       }
     });
   }
 
 
-  sort(campo?: string) {
+  getPilotos(campo?: string) {
     if (this.direct === 'asc') {
       this.direct = 'desc';
     } else {

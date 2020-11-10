@@ -12,7 +12,7 @@ import { IEquipo } from 'src/app/shared/models/equipo.model';
 export class AlineacionDialogComponent implements OnInit {
   usuario: any;
   equipos: Array<IEquipo> = [];
-
+  isLoading: boolean = true;
   constructor(
     public dialogRef: MatDialogRef<AlineacionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -25,26 +25,43 @@ export class AlineacionDialogComponent implements OnInit {
     this.getEquipo();
   }
   private getEquipo() {
-
+    console.log(this.data.tipo)
     this.equipoService.getEquipo(this.usuario.usuario.id, this.data.tipo).subscribe((equipo) => {
       if (equipo) {
         console.log('entra', equipo);
-        equipo.forEach(element => {
-          if (element.id === this.data.alineaciones.idPrimerPiloto) {
-            const alineacion = JSON.parse(localStorage.getItem('alineacion'));
-            element.id = alineacion.idPrimerPiloto
-            element.nombre = alineacion.primerPiloto;
+        console.log('primer', this.data.alineaciones);
+        const alineacion = JSON.parse(localStorage.getItem('alineacion'));
 
-          } else if (element.id === this.data.alineaciones.idSegundoPiloto) {
-            const alineacion = JSON.parse(localStorage.getItem('alineacion'));
-            element.id = alineacion.idSegundoPiloto
-            element.nombre = alineacion.segundoPiloto;
-          } else if (element.id === this.data.alineaciones.idEscuderia) {
-            const alineacion = JSON.parse(localStorage.getItem('alineacion'));
-            element.id = alineacion.idEscuderia;
-            element.nombre = alineacion.nombreEscuderia;
-          }
-        });
+        this.equipos = equipo.filter((element) => element.nombre !== alineacion.primerPiloto && element.nombre !== alineacion.segundoPiloto && element.nombre !== alineacion.nombreEscuderia);
+        console.log(this.equipos)
+        //marc libre === andrea ianone
+        // if (element.idEquipo === this.data.alineaciones.idPrimerPiloto) {
+        //   const alineacion = JSON.parse(localStorage.getItem('alineacion'));
+        //   if (alineacion.idSegundoPiloto === element.idEquipo) {
+        //     element.idEquipo = null;
+        //     element.nombre = null;
+        //   } else {
+        //     element.idEquipo = alineacion.idPrimerPiloto
+        //     element.nombre = alineacion.primerPiloto;
+        //   }
+
+        // } else if (element.idEquipo === this.data.alineaciones.idSegundoPiloto) {
+        //   const alineacion = JSON.parse(localStorage.getItem('alineacion'));
+        //   if (alineacion.idPrimerPiloto === element.idEquipo) {
+        //     element.idEquipo = null;
+        //     element.nombre = null;
+        //   } else {
+        //     element.idEquipo = alineacion.idSegundoPiloto
+        //     element.nombre = alineacion.segundoPiloto;
+        //   }
+
+        // } else if (element.idEquipo === this.data.alineaciones.idEscuderia) {
+        //   const alineacion = JSON.parse(localStorage.getItem('alineacion'));
+        //   element.idEquipo = alineacion.idEscuderia;
+        //   element.nombre = alineacion.nombreEscuderia;
+        // }
+
+
 
         // equipo = equipo.filter((element) =>
 
@@ -55,9 +72,10 @@ export class AlineacionDialogComponent implements OnInit {
         // );
 
 
-        this.equipos = equipo;
+        // this.equipos = equipo;
 
       }
+      this.isLoading = false;
 
 
     });

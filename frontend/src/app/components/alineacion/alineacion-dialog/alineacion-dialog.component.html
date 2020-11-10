@@ -1,17 +1,32 @@
-<table class="table table-bordered table-hover table-striped">
-    <thead class=" thead-dark">
-        <tr class="pointer text-align">
-            <th scope="col" name="piloto">Nombre
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let equipo of equipos" class="table">
-            <td class="align-middle" style="text-align: right;">
-                <mat-card *ngIf="equipo" class="mx-auto" style="background-color: grey;" (click)="closeDialog(equipo)">
-                    {{equipo.nombre}}
-                </mat-card>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<ng-container *ngIf="isLoading; then spinner; else table"></ng-container>
+<ng-template #spinner>
+    <mat-spinner class="spinner-center"></mat-spinner>
+</ng-template>
+<ng-template #table>
+    <table class="table table-bordered table-hover table-striped">
+        <thead class=" thead-dark">
+            <tr class="pointer text-align">
+                <th scope="col" name="piloto">Nombre
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let equipo of equipos" class="table">
+                <td class="align-middle">
+                    <mat-card *ngIf="equipo.nombre" class="mx-auto" style="text-align:right; background-color: grey;"
+                        (click)="closeDialog(equipo)">
+                        {{equipo.nombre}}
+                    </mat-card>
+                    <span *ngIf="!equipo.nombre" style="text-align: center"> No hay datos</span>
+
+                </td>
+            </tr>
+            <tr *ngIf="!isLoading && equipos.length ===0">
+                <td>No hay datos</td>
+            </tr>
+
+
+        </tbody>
+    </table>
+</ng-template>

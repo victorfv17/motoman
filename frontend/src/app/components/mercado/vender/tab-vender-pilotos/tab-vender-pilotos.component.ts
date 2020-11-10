@@ -14,7 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class TabVenderPilotosComponent implements OnInit {
   usuario: any;
   equipos: Array<IEquipo> = [];
-
+  public isLoading = true;
   constructor(
     private equipoService: EquipoService,
     private pujasService: PujasService,
@@ -27,9 +27,10 @@ export class TabVenderPilotosComponent implements OnInit {
     this.getEquipo();
   }
   private getEquipo() {
+    this.isLoading = true;
     this.equipoService.getEquipo(this.usuario.usuario.id, 'pilotos').subscribe((equipo) => {
       this.equipos = equipo;
-
+      this.isLoading = false;
     });
   }
 

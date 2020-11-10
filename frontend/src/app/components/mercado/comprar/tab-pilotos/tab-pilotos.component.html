@@ -1,84 +1,92 @@
-<div class="title">
-    <h1>Comprar pilotos</h1>
-    <mat-card class="card" style="margin-top:10px;margin-right: 50px;">
-        <mat-icon style="font-size: 20px;">
-            account_balance
-        </mat-icon>
-        <mat-card-title>
-            Saldo:
-            <span>
-                {{user.usuario.saldo}}
-            </span>
-        </mat-card-title>
-    </mat-card>
-
-</div>
-<form #formPilotos="ngForm">
-    <mat-card style="margin:10px;">
-        <table class="table table-bordered table-hover table-striped">
-            <thead class=" thead-dark">
-                <tr class="pointer text-align">
-                    <th scope="col" name="piloto">Piloto
-                    </th>
-                    <th scope="col" name="piloto" (click)="sort('puntosTotales')">Valor Mercado
-                    </th>
-                    <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puntos
-                    </th>
-                    <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puja
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let piloto of pilotos" class="table">
-                    <td>
-                        <mat-card *ngIf="piloto.escuderia !== 'white'" class="mx-auto" style="color:white"
-                            [ngStyle]="{'background-color': piloto.escuderia}"><img
-                                src="assets/pilotos/{{piloto.nombre}}.png" alt="{{piloto.nombre}}" height="40"
-                                width="40"> {{piloto.nombre}}</mat-card>
-                        <mat-card *ngIf="piloto.escuderia === 'white'" class="mx-auto" style="color:black"
-                            [ngStyle]="{'background-color': piloto.escuderia}"><img
-                                src="assets/pilotos/{{piloto.nombre}}.png" alt="{{piloto.nombre}}" height="40"
-                                width="40"> {{piloto.nombre}}</mat-card>
-                    </td>
-                    <td class="align-middle" style="text-align: right">
-                        <mat-card class="mx-auto" style="background-color: grey;">{{piloto.valorMercado}}
-                        </mat-card>
-                    </td>
-                    <td class="align-middle" style="text-align: right;">
-                        <mat-card class="mx-auto" style="background-color: grey;">{{piloto.puntos}}
-                        </mat-card>
-                    </td>
-                    <td class="align-middle">
-
-                        <input type="number" class="form-control mx-auto" style="width: 70%" id="puja" name="valorPuja"
-                            placeholder="Introducir puja" [(ngModel)]="piloto.valorPuja"
-                            (ngModelChange)="coleccionPujas(piloto, piloto.valorPuja)">
-                        <span class="errors" *ngIf="piloto.valorPuja && piloto.saldoMenorQuePuja"> El saldo es menor que
-                            la puja</span>
-                        <span class="errors" *ngIf="piloto.valorPuja && piloto.pujaMenorQueValorMercado "> La puja es
-                            menor que
-                            el valor de
-                            mercado</span>
-                    </td>
-                </tr>
-
-
-            </tbody>
-        </table>
-        <mat-card-actions>
-            <button class="btn btn-secondary submitButton " type="button"
-                (click)="limpiarDatosPujas(formPilotos)">Limpiar
-            </button>
-            <button [disabled]="formInvalid" class=" btn btn-danger submitButton " type=" button"
-                (click)="enviarPujas(formPilotos)">
-                <span matTooltip="Puja inválida" [matTooltipDisabled]="!formInvalid">
-                    Enviar
+<ng-container *ngIf="isLoading; then spinner; else table"></ng-container>
+<ng-template #spinner>
+    <mat-spinner class="spinner-center"></mat-spinner>
+</ng-template>
+<ng-template #table>
+    <div class="title">
+        <h1>Comprar pilotos</h1>
+        <mat-card class="card" style="margin-top:10px;margin-right: 50px;">
+            <mat-icon style="font-size: 20px;">
+                account_balance
+            </mat-icon>
+            <mat-card-title>
+                Saldo:
+                <span>
+                    {{user.usuario.saldo}}
                 </span>
+            </mat-card-title>
+        </mat-card>
+
+    </div>
+    <form #formPilotos="ngForm">
+        <mat-card style="margin:10px;">
+            <table class="table table-bordered table-hover table-striped">
+                <thead class=" thead-dark">
+                    <tr class="pointer text-align">
+                        <th scope="col" name="piloto">Piloto
+                        </th>
+                        <th scope="col" name="piloto" (click)="sort('puntosTotales')">Valor Mercado
+                        </th>
+                        <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puntos
+                        </th>
+                        <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puja
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let piloto of pilotos" class="table">
+                        <td>
+                            <mat-card *ngIf="piloto.escuderia !== 'white'" class="mx-auto" style="color:white"
+                                [ngStyle]="{'background-color': piloto.escuderia}"><img
+                                    src="assets/pilotos/{{piloto.nombre}}.png" alt="{{piloto.nombre}}" height="40"
+                                    width="40"> {{piloto.nombre}}</mat-card>
+                            <mat-card *ngIf="piloto.escuderia === 'white'" class="mx-auto" style="color:black"
+                                [ngStyle]="{'background-color': piloto.escuderia}"><img
+                                    src="assets/pilotos/{{piloto.nombre}}.png" alt="{{piloto.nombre}}" height="40"
+                                    width="40"> {{piloto.nombre}}</mat-card>
+                        </td>
+                        <td class="align-middle" style="text-align: right">
+                            <mat-card class="mx-auto" style="background-color: grey;">{{piloto.valorMercado}}
+                            </mat-card>
+                        </td>
+                        <td class="align-middle" style="text-align: right;">
+                            <mat-card class="mx-auto" style="background-color: grey;">{{piloto.puntos}}
+                            </mat-card>
+                        </td>
+                        <td class="align-middle">
+
+                            <input type="number" class="form-control mx-auto" style="width: 70%" id="puja"
+                                name="valorPuja" placeholder="Introducir puja" [(ngModel)]="piloto.valorPuja"
+                                (ngModelChange)="coleccionPujas(piloto, piloto.valorPuja)">
+                            <span class="errors" *ngIf="piloto.valorPuja && piloto.saldoMenorQuePuja"> El saldo es menor
+                                que
+                                la puja</span>
+                            <span class="errors" *ngIf="piloto.valorPuja && piloto.pujaMenorQueValorMercado "> La puja
+                                es
+                                menor que
+                                el valor de
+                                mercado</span>
+                        </td>
+                    </tr>
 
 
-            </button>
-        </mat-card-actions>
+                </tbody>
+            </table>
+            <mat-card-actions>
+                <button class="btn btn-secondary submitButton " type="button"
+                    (click)="limpiarDatosPujas(formPilotos)">Limpiar
+                </button>
+                <button [disabled]="formInvalid" class=" btn btn-danger submitButton " type=" button"
+                    (click)="enviarPujas(formPilotos)">
+                    <span matTooltip="Puja inválida" [matTooltipDisabled]="!formInvalid">
+                        Enviar
+                    </span>
 
 
-    </mat-card>
-</form>
+                </button>
+            </mat-card-actions>
+
+
+        </mat-card>
+    </form>
+</ng-template>

@@ -16,6 +16,7 @@ export class PilotosAddComponent implements OnInit {
   public piloto: IPilotos = {};
   public escuderias: Array<IEscuderias> = [];
   private pilotoId: string;
+  public isLoading: boolean = true;
   constructor(
     private pilotosService: PilotosService,
     private escuderiasService: EscuderiasService,
@@ -47,9 +48,12 @@ export class PilotosAddComponent implements OnInit {
   private fetchEscuderias() {
     this.escuderiasService.getAll().subscribe((escuderias) => {
       this.escuderias = escuderias;
+      this.isLoading = false;
       if (this.pilotoId) {
+        this.isLoading = true;
         this.fetchPiloto();
       }
+
     });
   }
 
@@ -57,6 +61,7 @@ export class PilotosAddComponent implements OnInit {
     this.pilotosService.getPiloto(parseInt(this.pilotoId)).subscribe((piloto) => {
       this.piloto = piloto;
       //this.piloto.nombre_escuderia = this.escuderias[this.piloto.id_escuderia].nombre;
+      this.isLoading = false;
     });
   }
 

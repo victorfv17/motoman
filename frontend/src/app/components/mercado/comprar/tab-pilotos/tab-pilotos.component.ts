@@ -25,7 +25,7 @@ export class TabPilotosComponent implements OnInit {
   public puja: number;
   private user: IUser;
   public pujas: Array<IPujas> = [];
-
+  public isLoading: boolean = true;
 
   constructor(
     private mercadoService: MercadoService,
@@ -73,12 +73,13 @@ export class TabPilotosComponent implements OnInit {
     this.mercadoService.getPilotosMercado(this.user.usuario.liga_id).subscribe(pilotos => {
       console.log('pilotos', pilotos);
 
-      if (pilotos && pilotos.length <= 6 && pilotos.length > 0) {
+      if (pilotos && pilotos.length > 0) {
         if (String(pilotos[0].fecha) === fechaActual) {
           this.checkPilotoEscuderia(pilotos);
           this.pilotos = pilotos;
-
+          this.isLoading = false;
         } else {
+          this.isLoading = true;
           this.borrarPujas();
           // this.createPilotosMercado();
           // this.deletePilotosMercado();
@@ -93,6 +94,7 @@ export class TabPilotosComponent implements OnInit {
         // this.createPilotosMercado();
 
       }
+
     });
   }
 
@@ -118,6 +120,7 @@ export class TabPilotosComponent implements OnInit {
         this.mercadoService.getPilotosMercado(this.user.usuario.liga_id).subscribe(pilotos => {
           this.checkPilotoEscuderia(pilotos);
           this.pilotos = pilotos;
+          this.isLoading = false;
         });
       });
     }

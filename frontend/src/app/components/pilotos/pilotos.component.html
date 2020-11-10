@@ -8,26 +8,28 @@
         <table class="table table-bordered table-hover table-striped">
             <thead class=" thead-dark">
                 <tr class="pointer">
-                    <th scope="col" name="piloto">Piloto<mat-icon *ngIf="direct === 'desc'" (click)="sort('nombre')">
+                    <th scope="col" name="piloto" (click)="getPilotos('nombre')">Piloto
+                        <mat-icon *ngIf="direct === 'desc'">
                             keyboard_arrow_down</mat-icon>
-                        <mat-icon *ngIf="direct === 'asc'" (click)="sort('nombre')">
+                        <mat-icon *ngIf="direct === 'asc'">
                             keyboard_arrow_up</mat-icon>
                     </th>
-                    <th scope="col">Escuderia<mat-icon *ngIf="direct === 'desc'" (click)="sort('escuderia')">
+                    <th scope="col" (click)="getPilotos('escuderia')">Escuderia
+                        <mat-icon *ngIf="direct === 'desc'">
                             keyboard_arrow_down</mat-icon>
-                        <mat-icon *ngIf="direct === 'asc'" (click)="sort('escuderia')">
+                        <mat-icon *ngIf="direct === 'asc'">
                             keyboard_arrow_up</mat-icon>
                     </th>
-                    <th scope="col" style="text-align: center;">Puntos<mat-icon *ngIf="direct === 'desc'"
-                            (click)="sort('puntos')">
+                    <th scope="col" style="text-align: center;" (click)="getPilotos('puntos')">Puntos
+                        <mat-icon *ngIf="direct === 'desc'">
                             keyboard_arrow_down</mat-icon>
-                        <mat-icon *ngIf="direct === 'asc'" (click)="sort('puntos')">
+                        <mat-icon *ngIf="direct === 'asc'">
                             keyboard_arrow_up</mat-icon>
                     </th>
-                    <th scope="col" style="text-align: center;">Pais<mat-icon *ngIf="direct === 'desc'"
-                            (click)="sort('pais')">
+                    <th scope="col" style="text-align: center;" (click)="getPilotos('pais')">Pais
+                        <mat-icon *ngIf="direct === 'desc'">
                             keyboard_arrow_down</mat-icon>
-                        <mat-icon *ngIf="direct === 'asc'" (click)="sort('pais')">
+                        <mat-icon *ngIf="direct === 'asc'">
                             keyboard_arrow_up</mat-icon>
                     </th>
                     <th style="text-align: center;" routerLink="/pilotos/nuevo/piloto" *ngIf="rolPermitido">

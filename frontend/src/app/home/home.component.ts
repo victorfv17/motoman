@@ -17,6 +17,9 @@ export class HomeComponent implements OnInit {
   public piloto: IPilotos = {};
   public ventas: Array<any> = [];
   private user: IUser = {};
+  public isLoadingPujas: boolean = true;
+  public isLoadingVentas: boolean = true;
+  public isLoading: boolean = true;
   constructor(
     private pujasService: PujasService,
     private equipoService: EquipoService
@@ -26,6 +29,9 @@ export class HomeComponent implements OnInit {
     this.user = JSON.parse(localStorage.getItem('usuario'));
     this.fetchPujas();
     this.fetchVentas();
+    if (this.isLoadingPujas && this.isLoadingVentas) {
+      this.isLoading = false;
+    }
   }
 
   private fetchPujas() {
@@ -50,12 +56,15 @@ export class HomeComponent implements OnInit {
         this.pujasMasAltas.push(element)
 
       });
+      this.isLoadingPujas = false;
 
     });
   }
   private fetchVentas() {
-    this.equipoService.getVentas(this.user.usuario.liga_id).subscribe((ventas) =>
-      this.ventas = ventas
+    this.equipoService.getVentas(this.user.usuario.liga_id).subscribe((ventas) => {
+      this.ventas = ventas;
+      this.isLoadingVentas = false;
+    }
     );
   }
 

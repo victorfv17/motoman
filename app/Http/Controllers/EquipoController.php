@@ -19,14 +19,16 @@ class EquipoController extends Controller
         $equipo = [];
        // $equipos = Equipo::where('indicadorEnAlineacion','2')-> where('usuario_id',$id)
         $pilotos = Equipo::join('pilotos','pilotos.id','=','equipo.piloto_id')
-        ->where('indicadorEnAlineacion','1')
         ->where('usuario_id',$id)
-        ->select('equipo.id as idEquipo', 'pilotos.id as piloto_id', 'pilotos.nombre')
+        ->where('indicadorEnAlineacion','1')
+       
+        ->select('equipo.id as idEquipo' ,'pilotos.id as piloto_id', 'pilotos.nombre')
         ->get();
      
         $escuderias = Equipo::join('escuderias','escuderias.id','=','equipo.escuderia_id')
-        ->where('indicadorEnAlineacion','1')
         ->where('usuario_id',$id)
+        ->where('indicadorEnAlineacion','1')
+       
         ->select('equipo.id as idEquipo', 'escuderias.id as id_escuderia', 'escuderias.nombre')
         ->get();
         foreach($pilotos as $piloto){
@@ -86,15 +88,22 @@ class EquipoController extends Controller
     {
         $usuarioId = $request->usuario;
         $equipo = $request->equipo;
+     
         // if(date("l") == 'Saturday' ||date("l") == 'Sunday'){
         //     $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idPrimerPiloto'])->update(['indicadorEnAlineacion'=> '2']);
         //     $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idSegundoPiloto'])->update(['indicadorEnAlineacion'=> '2']);
         //     $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idEscuderia'])->update(['indicadorEnAlineacion'=> '2']);
         // }else{
-            $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->update(['indicadorEnAlineacion'=> '0']);
-            $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idPrimerPiloto'])->update(['indicadorEnAlineacion'=> '1']);
-            $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idSegundoPiloto'])->update(['indicadorEnAlineacion'=> '1']);
-            $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idEscuderia'])->update(['indicadorEnAlineacion'=> '1']);
+           
+        $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->update(['indicadorEnAlineacion'=> '0']);
+        foreach($equipo as $item){
+            Equipo::where('usuario_id', $usuarioId)->where('id',$item)->update(['indicadorEnAlineacion'=> '1']);
+        }
+        // $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id',$equipo['idPrimerPiloto'])->update(['indicadorEnAlineacion'=> '1']);
+        // $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id',array_key_exists('idSegundoPiloto', $equipo))->update(['indicadorEnAlineacion'=> '1']);
+        // $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id',array_key_exists('idEscuderia', $equipo))->update(['indicadorEnAlineacion'=> '1']);
+    
+          
         // }
        
   
@@ -122,11 +131,11 @@ class EquipoController extends Controller
     public function showPilotos($user_id)
     {
         $listEquipos = [];
-        $equipos = Equipo::where('usuario_id', $user_id)->where('piloto_id', '<>','null')->where('indicadorEnAlineacion','<>','2')->get();
+        $equipos = Equipo::where('usuario_id', $user_id)->where('piloto_id', '<>','null')->get();
         foreach($equipos as $equipo){
             array_push($listEquipos, Equipo::join('pilotos', 'pilotos.id','=','equipo.piloto_id')->
             where('pilotos.id', $equipo['piloto_id']) ->
-            select( 'equipo.id','pilotos.nombre as nombre', 'pilotos.valorMercado as valorMercado', 'pilotos.puntos as puntos')
+            select('equipo.id as idEquipo','pilotos.nombre as nombre', 'pilotos.valorMercado as valorMercado', 'pilotos.puntos as puntos')
             ->get()->first());
         }
        
@@ -141,11 +150,11 @@ class EquipoController extends Controller
     public function showEscuderias($user_id)
     {
         $listEquipos = [];
-        $equipos = Equipo::where('usuario_id', $user_id)->where('escuderia_id', '<>','null')->where('indicadorEnAlineacion','<>','2')->get();
+        $equipos = Equipo::where('usuario_id', $user_id)->where('escuderia_id', '<>','null')->get();
         foreach($equipos as $equipo){
             array_push($listEquipos, Equipo::join('escuderias', 'escuderias.id','=','equipo.escuderia_id')->
             where('escuderias.id', $equipo['escuderia_id']) ->
-            select( 'equipo.id','escuderias.nombre as nombre', 'escuderias.valorMercado as valorMercado', 'escuderias.puntos as puntos')
+            select( 'equipo.id as idEquipo','escuderias.nombre as nombre', 'escuderias.valorMercado as valorMercado', 'escuderias.puntos as puntos')
             ->get()->first());
         }
        

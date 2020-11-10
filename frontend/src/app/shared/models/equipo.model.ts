@@ -1,5 +1,5 @@
 export interface IEquipo {
-    id?: number;
+    idEquipo?: number;
     nombre?: string;
     piloto_id?: number;
     escuderia_id?: number;

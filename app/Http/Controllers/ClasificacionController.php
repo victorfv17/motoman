@@ -19,13 +19,13 @@ class ClasificacionController extends Controller
     {
         //
     }
-    public function join($liga, $campo)
+    public function join($liga, $campo, $direct)
     {   
 
         return Clasificacion::join('users', 'users.id','=','clasificacion.id_usuario')
         ->where('liga_id',$liga)
-        ->select('users.name','puntosTotales','puntosMes','puntosGP','puntosCategoria' )
-        ->orderBy($campo,'desc')
+        ->select('users.name','puntosTotales','puntosGP' )
+        ->orderBy($campo,$direct)
         ->get();
         
        // return Pilotos::with('escuderias')->select( 'nombre','puntos','id_escuderia as id')->orderBy(Escuderias::'nombre', $direct )->get();

@@ -30,7 +30,7 @@ export class AlineacionComponent implements OnInit {
     idEscuderia: '',
     nombreEscuderia: ''
   }
-
+  public isLoading: boolean = true;
   constructor(
     public dialog: MatDialog,
     private equipoService: EquipoService,
@@ -70,7 +70,7 @@ export class AlineacionComponent implements OnInit {
   }
   public fetchAlineacion() {
 
-    this.equipoService.getAlineacion(1).subscribe((equipo) => {
+    this.equipoService.getAlineacion(this.usuario.usuario.id).subscribe((equipo) => {
 
       equipo.forEach(element => {
         if (element.piloto_id && !this.alineaciones.primerPiloto) {
@@ -89,7 +89,7 @@ export class AlineacionComponent implements OnInit {
         localStorage.setItem('alineacion', JSON.stringify(this.alineaciones));
         this.copiarAlineacion = false;
       }
-
+      this.isLoading = false;
 
     });
   }
@@ -110,28 +110,28 @@ export class AlineacionComponent implements OnInit {
       segundoPiloto: undefined,
       nombreEscuderia: undefined
     };
+    this.guardar();
   }
   private checkTipo(result: any) {
-    console.log(result);
-
     switch (result.tipo) {
       case 'primerPiloto':
-        this.alineaciones.idPrimerPiloto = result.equipo.id;
+        this.alineaciones.idPrimerPiloto = result.equipo.idEquipo;
         this.alineaciones.primerPiloto = result.equipo.nombre;
         break;
       case 'segundoPiloto':
-        this.alineaciones.idSegundoPiloto = result.equipo.id;
+        this.alineaciones.idSegundoPiloto = result.equipo.idEquipo;
         this.alineaciones.segundoPiloto = result.equipo.nombre;
         break;
       case 'escuderia':
-        this.alineaciones.idEscuderia = result.equipo.id;
+        this.alineaciones.idEscuderia = result.equipo.idEquipo;
         this.alineaciones.nombreEscuderia = result.equipo.nombre;
         break;
     }
+    localStorage.setItem('alineacion', JSON.stringify(this.alineaciones));
   }
   public marcarDeshabilitadoPorDia(): boolean {
     let dia = moment().format('dddd');
-    return dia !== 'Saturday' ? false : true;
+    return dia === 'Saturday' || dia === 'Sunday' ? true : false;
   }
 
 }

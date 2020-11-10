@@ -70,7 +70,7 @@ class MercadoPilotosController extends Controller
                 $query->select()
                         ->from('Equipo')
                         ->whereRaw('equipo.piloto_id = pilotos.id');
-            })->get()->random(3);
+            })->get()->random(4);
         
         foreach($pilotos as $piloto){
             MercadoPiloto::insert(['piloto_id' => $piloto['id'] , 'valorMercado' => $piloto['valorMercado'], 'liga_id' =>$liga, 'fecha' => $fechaActual ]);
@@ -114,7 +114,7 @@ class MercadoPilotosController extends Controller
                 $query->select()
                         ->from('Equipo')
                         ->whereRaw('equipo.piloto_id = pilotos.id');
-            })->get()->random(3);
+            })->get()->random(4);
         
             foreach($pilotos as $piloto){
                 MercadoPiloto::insert(['piloto_id' => $piloto['id'] , 'valorMercado' => $piloto['valorMercado'], 'liga_id' =>$liga, 'fecha' => $fechaActual ]);

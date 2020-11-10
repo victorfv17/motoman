@@ -9,26 +9,30 @@
                 <tr class="pointer">
                     <th scope="col" name="piloto">Usuarios
                     </th>
-                    <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puntos Totales
-                    </th>
-                    <th scope="col" name="piloto" (click)="sort('puntosMes')">Puntos Mes
-                    </th>
                     <th scope="col" name="piloto" (click)="sort('puntosGP')">Puntos GP
+                        <mat-icon *ngIf="direct === 'desc'">
+                            keyboard_arrow_down
+                        </mat-icon>
+                        <mat-icon *ngIf="direct === 'asc'">
+                            keyboard_arrow_up
+                        </mat-icon>
                     </th>
-                    <th scope="col" name="piloto" (click)="sort('puntosCategoria')">Puntos Categoria
+                    <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puntos Totales
+                        <mat-icon *ngIf="direct === 'desc'">
+                            keyboard_arrow_down
+                        </mat-icon>
+                        <mat-icon *ngIf="direct === 'asc'">
+                            keyboard_arrow_up
+                        </mat-icon>
                     </th>
 
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let user of usuarios" class="table-dark " style="color:#9D0000">
-
                     <td style="text-align: left;">{{user.name}}</td>
                     <td style="text-align: left;">{{user.puntosTotales}}</td>
-                    <td style="text-align: left;">{{user.puntosMes}}</td>
                     <td style="text-align: left;">{{user.puntosGP}}</td>
-                    <td style="text-align: left;">{{user.puntosCategoria}}</td>
-
                 </tr>
             </tbody>
         </table>

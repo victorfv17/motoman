@@ -1,61 +1,66 @@
-<div class="title">
-    <h1>Comprar pilotos</h1>
-    <mat-card class="card" style="margin-top:10px;margin-right: 50px;">
-        <mat-icon style="font-size: 20px;">
-            account_balance
-        </mat-icon>
-        <mat-card-title>
-            Saldo:
-            <span>
-                {{usuario.usuario.saldo}}
-            </span>
-        </mat-card-title>
-    </mat-card>
+<ng-container *ngIf="isLoading; then spinner; else table"></ng-container>
+<ng-template #spinner>
+    <mat-spinner class="spinner-center"></mat-spinner>
+</ng-template>
+<ng-template #table>
+    <div class="title">
+        <h1>Comprar pilotos</h1>
+        <mat-card class="card" style="margin-top:10px;margin-right: 50px;">
+            <mat-icon style="font-size: 20px;">
+                account_balance
+            </mat-icon>
+            <mat-card-title>
+                Saldo:
+                <span>
+                    {{usuario.usuario.saldo}}
+                </span>
+            </mat-card-title>
+        </mat-card>
 
-</div>
+    </div>
 
-<mat-card style="margin:10px;">
-    <table class="table table-bordered table-hover table-striped">
-        <thead class=" thead-dark">
-            <tr class="pointer text-align">
-                <th scope="col" name="escuderia">Escuderia
-                </th>
-                <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Valor Mercado
-                </th>
-                <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Puntos
-                </th>
-                <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Valor compra
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let equipo of equipos" class="table">
-                <td class="align-middle" style="text-align: left">
-                    <mat-card class="mx-auto" style="background-color: grey;">
-                        {{equipo.nombre}}
-                    </mat-card>
-                </td>
-                <td class="align-middle" style="text-align: right">
-                    <mat-card class="mx-auto" style="background-color: grey;">{{equipo.valorMercado}}</mat-card>
-                </td>
-                <td class="align-middle" style="text-align: right;">
-                    <mat-card class="mx-auto" style="background-color: grey;">{{equipo.puntos}}</mat-card>
-                </td>
-                <td style="text-align: center;">
-                    <button class="btn btn-primary " type="button" (click)="venderEscuderia(equipo)">Vender
-                    </button>
-                </td>
-            </tr>
-            <tr *ngIf="equipos.length === 0">
-                <td colspan="4" style="text-align: center;">
-                    <span>No hay escuderías para vender</span>
-                </td>
+    <mat-card style="margin:10px;">
+        <table class="table table-bordered table-hover table-striped">
+            <thead class=" thead-dark">
+                <tr class="pointer text-align">
+                    <th scope="col" name="escuderia">Escuderia
+                    </th>
+                    <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Valor Mercado
+                    </th>
+                    <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Puntos
+                    </th>
+                    <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Valor compra
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let equipo of equipos" class="table">
+                    <td class="align-middle" style="text-align: left">
+                        <mat-card class="mx-auto" style="background-color: grey;">
+                            {{equipo.nombre}}
+                        </mat-card>
+                    </td>
+                    <td class="align-middle" style="text-align: right">
+                        <mat-card class="mx-auto" style="background-color: grey;">{{equipo.valorMercado}}</mat-card>
+                    </td>
+                    <td class="align-middle" style="text-align: right;">
+                        <mat-card class="mx-auto" style="background-color: grey;">{{equipo.puntos}}</mat-card>
+                    </td>
+                    <td style="text-align: center;">
+                        <button class="btn btn-primary " type="button" (click)="venderEscuderia(equipo)">Vender
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="equipos.length === 0">
+                    <td colspan="4" style="text-align: center;">
+                        <span>No hay escuderías para vender</span>
+                    </td>
 
-            </tr>
+                </tr>
 
-        </tbody>
-    </table>
-    <!-- <mat-card-actions>
+            </tbody>
+        </table>
+        <!-- <mat-card-actions>
         <button class="btn btn-secondary submitButton " type="button" (click)="limpiarDatosPujas()">Limpiar
         </button>
         <button class="btn btn-danger submitButton " type="button" (click)="enviarPujas()">Enviar
@@ -63,4 +68,5 @@
     </mat-card-actions> -->
 
 
-</mat-card>
+    </mat-card>
+</ng-template>

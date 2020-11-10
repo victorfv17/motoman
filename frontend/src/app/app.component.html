@@ -59,13 +59,13 @@
 
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/predicciones"
           routerLinkActive="active">Apuestas</a>
-        <ng-container *ngIf="user.rol !== 'superadmin'">
+        <ng-container>
 
           <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/pilotos"
             routerLinkActive="active">Pilotos</a>
           <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/escuderias"
             routerLinkActive="active">Escuderias</a>
-          <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/puntuacion"
+          <a *ngIf="admin" (click)="toggleMenu()" class="nav-item nav-link" routerLink="/puntuacion"
             routerLinkActive="active">Puntos</a>
         </ng-container>
         <a (click)="logout()" class="nav-item nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
@@ -78,16 +78,14 @@
 
     </div>
     <div *ngIf="!user" class="collapse navbar-collapse" id="appNavigation" [ngbCollapse]="isCollapsed">
-
-
       <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Iniciar Sesión</a>
       <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/registro" routerLinkActive="active">Registro</a>
-
     </div>
 
   </nav>
 
   <router-outlet></router-outlet>
+  <!-- <app-login *ngIf="!user"></app-login> -->
 </body>
 
 </html>

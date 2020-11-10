@@ -42,7 +42,7 @@ Route::resource('ligas','LigasController');
 Route::resource('puntos','PuntosController');
 Route::get('puntos/actualizar/usuarios', 'PuntosController@updatePuntos');
 Route::resource('clasificacion','ClasificacionController');
-Route::get('clasificacion/join/{id}/{campoOrdenacion}', 'ClasificacionController@join');
+Route::get('clasificacion/join/{id}/{campoOrdenacion}/{direct}', 'ClasificacionController@join');
 //Route::get('clasificacion/puntos/update', 'ClasificacionController@updatePuntos');
 Route::resource('pujas','PujasController');
 Route::get('pujas/compras/{idLiga}','PujasController@index');

@@ -12,6 +12,7 @@ export class TabVenderEscuderiasComponent implements OnInit {
 
   usuario: any;
   equipos: Array<IEquipo> = [];
+  public isLoading: boolean = true;
   constructor(private equipoService: EquipoService) { }
 
   ngOnInit() {
@@ -19,8 +20,10 @@ export class TabVenderEscuderiasComponent implements OnInit {
     this.getEquipo();
   }
   private getEquipo() {
+    this.isLoading = true;
     this.equipoService.getEquipo(this.usuario.usuario.id, 'escuderias').subscribe((equipo) => {
       this.equipos = equipo;
+      this.isLoading = false;
     });
   }
   public venderEscuderia(escuderia: any) {
