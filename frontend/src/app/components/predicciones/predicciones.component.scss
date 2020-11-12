@@ -2,6 +2,10 @@ mat-form-field{
     width:33%;
 }
 .submitButton{
-    width:50%;
+    width:40%;
     
+}
+mat-card-actions{
+    display: flex;
+    justify-content: space-evenly;
 }

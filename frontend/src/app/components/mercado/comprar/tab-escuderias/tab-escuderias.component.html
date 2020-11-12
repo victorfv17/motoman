@@ -73,8 +73,8 @@
                 <button class="btn btn-secondary submitButton " type="button"
                     (click)="limpiarDatosPujas(formEscuderias)">Limpiar
                 </button>
-                <button [disabled]="formInvalid" class="btn btn-danger submitButton " type="button"
-                    (click)="enviarPujas(formEscuderias)">
+                <button [disabled]="formInvalid" class="btn btn-danger submitButton " type="submit"
+                    (click)="enviarPujas(formEscuderias)" (keyup.enter)="enviarPujas(formEscuderias)">
                     <span matTooltip="Puja inválida" [matTooltipDisabled]="!formInvalid">
                         Enviar
                     </span>

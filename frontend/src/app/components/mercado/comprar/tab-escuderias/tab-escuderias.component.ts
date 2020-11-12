@@ -163,7 +163,7 @@ export class TabEscuderiasComponent implements OnInit {
       (error) => error = this.snackBar.open('Pujas realizadas', 'Exito', {
         duration: 2000,
       }));
-    this.limpiarDatosPujas(this.formEscuderias);
+
   }
 
   public limpiarDatosPujas(form: NgForm) {

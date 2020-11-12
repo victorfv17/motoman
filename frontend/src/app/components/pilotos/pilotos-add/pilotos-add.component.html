@@ -11,10 +11,10 @@
                 <mat-card-title>Añadir pilotos</mat-card-title>
             </mat-card-header>
 
+            <form>
+                <mat-card-content class="content">
+                    <mat-divider></mat-divider>
 
-            <mat-card-content>
-                <mat-divider></mat-divider>
-                <form class="content">
                     <mat-form-field style="width: 35%;">
                         <input matInput type="text" name="nombre" placeholder="Nombre" [(ngModel)]="piloto.nombre">
                     </mat-form-field>
@@ -47,16 +47,17 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                </form>
-            </mat-card-content>
 
-            <mat-card-actions class="actions">
-                <button class="btn btn-secondary" style="width:40%" type="button" (click)="back()">Volver
-                </button>
-                <button class="btn btn-danger" style="width:40%" type="button" (click)="submitData()">Enviar
-                </button>
-            </mat-card-actions>
+                </mat-card-content>
 
+                <mat-card-actions class="actions">
+                    <button class="btn btn-secondary" style="width:40%" type="button" (click)="back()">Volver
+                    </button>
+                    <button class="btn btn-danger" style="width:40%" type="submit" (keyup.enter)="submitData()"
+                        (click)="submitData()">Enviar
+                    </button>
+                </mat-card-actions>
+            </form>
         </mat-card>
     </div>
 </ng-template>

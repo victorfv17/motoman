@@ -46,6 +46,13 @@
                         </button>
                     </td>
                 </tr>
+                <tr *ngIf="ligas.length === 0">
+                    <td colspan="4" style="text-align: center;">
+                        <span>No hay ligas para unirse</span>
+                    </td>
+
+                </tr>
+
             </tbody>
         </table>
 

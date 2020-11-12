@@ -6,34 +6,38 @@
             <mat-card-title>Registro</mat-card-title>
         </mat-card-header>
 
+        <form #form="ngForm">
+            <mat-card-content class="content">
+                <mat-divider></mat-divider>
 
-        <mat-card-content>
-            <mat-divider></mat-divider>
-            <form class="content">
                 <mat-form-field style="width: 35%;">
-                    <input matInput type="text" name="name" placeholder="Nombre" [(ngModel)]="usuario.name">
+                    <input matInput type="text" name="name" placeholder="Nombre" [(ngModel)]="usuario.name"
+                        [disabled]="deshabilitarForm">
                 </mat-form-field>
                 <mat-form-field style="width: 35%;">
-                    <input matInput type="text" name="email" placeholder="Email" [(ngModel)]="usuario.email">
+                    <input matInput type="text" name="email" placeholder="Email" [(ngModel)]="usuario.email"
+                        [disabled]="deshabilitarForm">
                 </mat-form-field>
 
                 <mat-form-field style="width: 35%;">
                     <input matInput type="password" name="password" placeholder="Contraseña"
-                        [(ngModel)]="usuario.password">
+                        [(ngModel)]="usuario.password" [disabled]="deshabilitarForm">
                 </mat-form-field>
                 <mat-form-field style="width: 35%;">
                     <input matInput type="password" name="confirmPassword" placeholder="Confirmar contraseña"
-                        [(ngModel)]="usuario.c_password">
+                        [(ngModel)]="usuario.c_password" [disabled]="deshabilitarForm">
                 </mat-form-field>
-            </form>
-        </mat-card-content>
 
-        <mat-card-actions class="actions">
-            <button class="btn btn-secondary" style="width:40%" type="button" (click)="back()">Volver
-            </button>
-            <button class="btn btn-danger" style="width:40%" type="button" (click)="submitData()">Enviar
-            </button>
-        </mat-card-actions>
+            </mat-card-content>
 
+            <mat-card-actions class="actions">
+                <button class="btn btn-secondary" style="width:40%" type="button" (click)="back()"
+                    [disabled]="deshabilitarForm">Volver
+                </button>
+                <button class="btn btn-danger" style="width:40%" type="submit" (keyup.enter)="submitData(form)"
+                    (click)="submitData(form)" [disabled]="deshabilitarForm">Enviar
+                </button>
+            </mat-card-actions>
+        </form>
     </mat-card>
 </div>>

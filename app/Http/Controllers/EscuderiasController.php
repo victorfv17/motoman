@@ -52,6 +52,17 @@ class EscuderiasController extends Controller
      
        
     }
+    public function storeAll(Request $request)
+    {
+        $escuderias = $request->all();
+        //Escuderias::create($escuderias);
+        foreach($escuderias as $escuderia){
+            Escuderias::create($escuderia);
+        }
+       
+     
+       
+    }
 
     /**
      * Display the specified resource.

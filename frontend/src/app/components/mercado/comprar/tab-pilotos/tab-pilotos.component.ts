@@ -184,10 +184,14 @@ export class TabPilotosComponent implements OnInit {
 
 
     },
-      (error) => error = this.snackBar.open('Pujas realizadas', 'Exito', {
-        duration: 2000,
-      }));
-    this.limpiarDatosPujas(this.formPilotos);
+      (error) => {
+        error = this.snackBar.open('Pujas realizadas', 'Exito', {
+          duration: 2000,
+        })
+      }
+    );
+
+
   }
 
   public limpiarDatosPujas(form: NgForm) {

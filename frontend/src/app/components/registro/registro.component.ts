@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IUser } from 'src/app/shared/models/users.model';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-registro',
@@ -10,9 +12,11 @@ import { Router } from '@angular/router';
 })
 export class RegistroComponent implements OnInit {
   public usuario: IUser = {};
+  deshabilitarForm: boolean = false;
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -21,11 +25,22 @@ export class RegistroComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
-  submitData() {
+  submitData(form: NgForm) {
 
-    this.authenticationService.createUser(this.usuario).subscribe(
-    );
-    this.router.navigateByUrl('/login');
+    this.authenticationService.createUser(this.usuario).subscribe(() => {
+      form.reset();
+      this.deshabilitarForm = true;
+
+      this.snackbar.open('Usuario Registrado', null, {
+        duration: 1000,
+
+      })
+      setTimeout(() => {
+        this.router.navigateByUrl('/login');
+      }, 1000);
+
+    });
+
   }
 
 }

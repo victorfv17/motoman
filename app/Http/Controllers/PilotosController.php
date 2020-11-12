@@ -67,6 +67,17 @@ class PilotosController extends Controller
         ]);
      
     }
+    public function storeAll(Request $request)
+    {
+		$todos = $request->all();
+        //Pilotos::create($todos);
+		
+		foreach($todos as $pil){
+            Pilotos::create($pil);
+        }
+        
+     
+    }
 
     /**
      * Display the specified resource.

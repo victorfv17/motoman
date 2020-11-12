@@ -59,15 +59,12 @@
 
         <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/predicciones"
           routerLinkActive="active">Apuestas</a>
-        <ng-container>
+        <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/pilotos" routerLinkActive="active">Pilotos</a>
+        <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/escuderias"
+          routerLinkActive="active">Escuderias</a>
+        <a *ngIf="user.usuario.rol ==='admin'" (click)="toggleMenu()" class="nav-item nav-link" routerLink="/puntuacion"
+          routerLinkActive="active">Puntos</a>
 
-          <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/pilotos"
-            routerLinkActive="active">Pilotos</a>
-          <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/escuderias"
-            routerLinkActive="active">Escuderias</a>
-          <a *ngIf="admin" (click)="toggleMenu()" class="nav-item nav-link" routerLink="/puntuacion"
-            routerLinkActive="active">Puntos</a>
-        </ng-container>
         <a (click)="logout()" class="nav-item nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
       </div>
       <div *ngIf="location.path()==='/liga'">

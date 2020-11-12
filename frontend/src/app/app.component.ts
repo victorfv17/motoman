@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
 
   }
   ngDoCheck(): void {
-    this.user = localStorage.getItem('usuario');
+    this.user = JSON.parse(localStorage.getItem('usuario'));
   }
   toggleMenu() {
     this.isCollapsed = !this.isCollapsed;

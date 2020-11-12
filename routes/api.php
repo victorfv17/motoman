@@ -31,8 +31,10 @@ Route::group(['prefix'=>'user'],function(){
 	Route::get('/saldo/{id}','AuthController@loadUser');
 });
 Route::get('pilotos/{campo}/{direct}', 'PilotosController@join');
+Route::post('pilotos/todos', 'PilotosController@storeall');
 Route::resource('pilotos','PilotosController');
 Route::get('escuderias/{campo}/{direct}', 'EscuderiasController@indexSort');
+Route::post('escuderias/todos', 'EscuderiasController@storeAll');
 Route::resource('escuderias','EscuderiasController');
 Route::resource('mercadoPilotos','MercadoPilotosController');
 Route::delete('mercadoPilotos/{liga}','MercadoPilotosController@destroy');
