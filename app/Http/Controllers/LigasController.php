@@ -58,7 +58,7 @@ class LigasController extends Controller
       // Ligas::insert(['nombre_liga'=> $requestLiga['nombre_liga'], 'maxParticipantes'=>$requestLiga['maxParticipantes'], 'numParticipantes'=>$requestLiga['numParticipantes']]);
         //$liga =Ligas::get()->last();
         //Clasificacion::insert(['puntosGP'=> 0, 'puntosMes'=> 0, 'puntosCategoria' => 0, 'puntosTotales' => 0, 'id_usuario' => $usuario]);
-        User::where('id',$usuario)->update(['rol'=>'admin']);
+        //User::where('id',$usuario)->update(['rol'=>'admin']);
         
         return $liga;
         

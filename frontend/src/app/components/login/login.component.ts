@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   public isLoading: boolean = false;
   public user: IUser = {};
   public usuario: string;
+  public tieneError: boolean = false;
   constructor(private authenticationService: AuthenticationService, private router: Router) {
 
   }
@@ -24,13 +25,13 @@ export class LoginComponent implements OnInit {
     if (this.user) {
 
       this.authenticationService.getUser(this.user).subscribe(usuario => {
-        console.log(usuario)
         if (usuario) {
+          this.tieneError = false;
           localStorage.setItem('usuario', JSON.stringify(usuario));
           this.navigate(usuario);
         }
 
-      });
+      }, (error) => this.tieneError = true);
     };
   }
   private navigate(usuario: IUser) {
