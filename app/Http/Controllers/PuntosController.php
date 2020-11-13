@@ -132,35 +132,53 @@ class PuntosController extends Controller
      */
     public function updatePuntos()
     {
+      Clasificacion::where('id','>',0)->update(['puntosGP'=> 0]);
       $this-> updatePuntosPredicciones();
+     //obtener todas las ligas
        $ligas = Ligas::get();
        foreach($ligas as $liga){
+         //obtener todos los usuarios de la liga
         $usuarios = User::where('liga_id',$liga['id_liga'])->get();
         foreach($usuarios as $usuario){
-           $equipo = Equipo::where('usuario_id',$usuario['id'])->where('indicadorEnAlineacion', 1)->get();//cambiar por true
+          $puntosTotalesGP = 0 ;
+          $puntosTotales = 0;
          
+          //obtener alineados del equipo del usuario
+           $equipo = Equipo::where('usuario_id',$usuario['id'])->where('indicadorEnAlineacion', 1)->get();//cambiar por true
+          if(count($equipo) > 0){
            foreach($equipo as $row){
              if(isset($row['piloto_id'])){
-                $puntos = Puntos::where('id_piloto', $row['piloto_id'])->get();
+                $puntos = Puntos::where('id_piloto', $row['piloto_id'])->first();
                 
              }else{
-              $puntos = Puntos::where('id_escuderia', $row['escuderia_id'])->get();
+              $puntos = Puntos::where('id_escuderia', $row['escuderia_id'])->first();
              }
-                foreach($puntos as $puntuacion){
+                // foreach($puntos as $puntuacion){
                     $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->first();
-                    $puntosTotalesGP = $rowUsuario['puntosGP'] + $puntuacion['puntosGP'];
-                    $puntosTotales = $rowUsuario['puntosTotales'] + $puntosTotalesGP;
-                    Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP, 'puntosTotales'=> $puntosTotales]);
-                    $saldoPorPuntos = $puntuacion['puntosGP']  * 20000;
+                    echo $rowUsuario;
+                    $puntosTotalesGP =  $puntosTotalesGP + $puntos['puntosGP'];//0 + 5 + 25 = 30; 30 + 5 +16 = 51
+                    //5+25;16 + 30
+                    
+                    $saldoPorPuntos = $puntos['puntosGP']  * 20000;
                     $saldo = $usuario['saldo'] + $saldoPorPuntos;
                     User::where('id', $usuario['id'])->update(['saldo'=> $saldo]);
-                }
+                // }
               
               
         
                 
                 
            }
+           $puntosTotalesGP = $puntosTotalesGP +$rowUsuario['puntosGP'];
+           $puntosTotales = $rowUsuario['puntosTotales'] +$puntosTotalesGP ;//0+41 = 41
+           Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP, 'puntosTotales'=> $puntosTotales]);
+          }else{
+            $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->first();
+            $puntosTotales = $rowUsuario['puntosGP'] + $rowUsuario['puntosTotales'];
+            Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP, 'puntosTotales'=> $puntosTotales]);
+          }
+          
+           
         }
        }
        return 'correcto';
@@ -169,41 +187,43 @@ class PuntosController extends Controller
       $predicciones = Predicciones::get();
    
 
-    
+      if(count($predicciones)>0){
       foreach($predicciones as $prediccion){
         $idUser = $prediccion['usuario_id'];
         $piloto = $prediccion['piloto_id'];
         $clasificacion = Clasificacion::where('id_usuario', $idUser)->first();
         $puntos = Puntos::where('id_piloto', $piloto)->select('posicion')->first();
-       
-        if($prediccion['posicion']=== $puntos['posicion']){
-          $puntosTotalesGP = 16 + $clasificacion['puntosGP'];
+        if(isset($puntos['posicion'])){
+          if($prediccion['posicion']=== $puntos['posicion']){
+            $puntosTotalesGP = 16 + $clasificacion['puntosGP'];
+            
+          }else{
+        
+            $diferencia = abs($prediccion['posicion'] - $puntos['posicion']);
+            switch($diferencia){
+              case "1":
+                $puntosTotalesGP = 11 + $clasificacion['puntosGP'];
+                break;
+              case "2":
+                $puntosTotalesGP = 8 + $clasificacion['puntosGP'];
+                break;
+              case "3":
+                $puntosTotalesGP = 5 + $clasificacion['puntosGP'];
+                break;
+              case "4":
+                $puntosTotalesGP = 3 + $clasificacion['puntosGP'];
+                break;
+              case "5":
+                $puntosTotalesGP = 1 + $clasificacion['puntosGP'];
+                break;
           
-        }else{
-      
-          $diferencia = abs($prediccion['posicion'] - $puntos['posicion']);
-          switch($diferencia){
-            case "1":
-              $puntosTotalesGP = 11 + $clasificacion['puntosGP'];
-              break;
-            case "2":
-              $puntosTotalesGP = 8 + $clasificacion['puntosGP'];
-              break;
-            case "3":
-              $puntosTotalesGP = 5 + $clasificacion['puntosGP'];
-              break;
-            case "4":
-              $puntosTotalesGP = 3 + $clasificacion['puntosGP'];
-              break;
-            case "5":
-              $puntosTotalesGP = 1 + $clasificacion['puntosGP'];
-              break;
-         
+            }
           }
+        
+          $puntosTotales = $clasificacion['puntosTotales'] + $puntosTotalesGP;//0+ 5
+          Clasificacion::where('id_usuario', $idUser)->update(['puntosGP'=> $puntosTotalesGP]);
         }
-        $puntosTotales = $clasificacion['puntosTotales'] + $puntosTotalesGP;
-        Clasificacion::where('id_usuario', $idUser)->update(['puntosGP'=> $puntosTotalesGP, 'puntosTotales'=> $puntosTotales]);
-  
+        
       // $predicciones = Predicciones::where('piloto_id',$row['id'])->get();
 
       // foreach($predicciones as $prediccion){
@@ -238,4 +258,5 @@ class PuntosController extends Controller
         
       }
     }
+  }
 }
