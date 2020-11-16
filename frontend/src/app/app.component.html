@@ -74,7 +74,8 @@
       </div>
 
     </div>
-    <div *ngIf="!user" class="collapse navbar-collapse" id="appNavigation" [ngbCollapse]="isCollapsed">
+    <div *ngIf="!user" class="collapse navbar-collapse navbar-nav mr-auto" id="appNavigation"
+      [ngbCollapse]="isCollapsed">
       <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="" routerLinkActive="active">Iniciar Sesión</a>
       <a (click)="toggleMenu()" class="nav-item nav-link" routerLink="/registro" routerLinkActive="active">Registro</a>
     </div>

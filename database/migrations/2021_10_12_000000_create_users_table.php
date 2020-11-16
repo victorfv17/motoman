@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->string('api_token', 60)->unique()->nullable()->default(null);
             $table->integer('liga_id')->unsigned()->nullable()->default(null);
-            $table->integer('saldo')->default('20000000');
+            $table->integer('saldo')->default('1000000');
             $table->string('rol')->default('usuario');
             $table->timestamps();
         });

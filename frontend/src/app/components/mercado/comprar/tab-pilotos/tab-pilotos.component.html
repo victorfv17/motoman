@@ -59,7 +59,7 @@
                                 name="valorPuja" placeholder="Introducir puja" [(ngModel)]="piloto.valorPuja"
                                 (ngModelChange)="coleccionPujas(piloto, piloto.valorPuja)">
                             <span class="errors" *ngIf="piloto.valorPuja && piloto.saldoMenorQuePuja"> El saldo es menor
-                                que la puja</span>
+                                que la puja</span><br>
                             <span class="errors" *ngIf="piloto.valorPuja && piloto.pujaMenorQueValorMercado "> La puja
                                 es menor que el valor de mercado</span>
                         </td>

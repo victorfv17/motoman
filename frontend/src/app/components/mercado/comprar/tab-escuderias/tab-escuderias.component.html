@@ -56,13 +56,9 @@
                                 placeholder="Introducir puja" [(ngModel)]="escuderia.puja"
                                 (ngModelChange)="coleccionPujasEscuderias(escuderia, escuderia.puja)">
                             <span class="errors" *ngIf="escuderia.puja && escuderia.saldoMenorQuePuja"> El saldo es
-                                menor que
-                                la puja</span>
+                                menor que la puja</span><br>
                             <span class="errors" *ngIf="escuderia.puja && escuderia.pujaMenorQueValorMercado "> La puja
-                                es
-                                menor que
-                                el valor de
-                                mercado</span>
+                                es menor que el valor de mercado</span>
                         </td>
                     </tr>
 
