@@ -11,12 +11,13 @@
                 <mat-card-title>Añadir pilotos</mat-card-title>
             </mat-card-header>
 
-            <form>
+            <form #formPilotos="ngForm">
                 <mat-card-content class="content">
                     <mat-divider></mat-divider>
 
                     <mat-form-field style="width: 35%;">
-                        <input matInput type="text" name="nombre" placeholder="Nombre" [(ngModel)]="piloto.nombre">
+                        <input matInput type="text" name="nombre" placeholder="Nombre" [(ngModel)]="piloto.nombre"
+                            required>
                     </mat-form-field>
                     <mat-form-field style="width: 35%;">
                         <input matInput type="text" name="pais" placeholder="País" [(ngModel)]="piloto.pais">
@@ -26,7 +27,8 @@
                         <input matInput type="number" name="numero" placeholder="Numero" [(ngModel)]="piloto.numero">
                     </mat-form-field>
                     <mat-form-field style="width: 35%;">
-                        <input matInput type="number" name="puntos" placeholder="Puntos" [(ngModel)]="piloto.puntos">
+                        <input matInput type="number" name="puntos" placeholder="Puntos" [(ngModel)]="piloto.puntos"
+                            required>
                     </mat-form-field>
 
                     <mat-form-field style="width: 35%;">
@@ -34,13 +36,13 @@
                     </mat-form-field>
                     <mat-form-field style="width: 35%;">
                         <input matInput type="number" name="valorMercado" placeholder="Valor Mercado"
-                            [(ngModel)]="piloto.valorMercado">
+                            [(ngModel)]="piloto.valorMercado" required>
                     </mat-form-field>
 
                     <mat-form-field style="width: 80%;">
                         <mat-label>Escuderia</mat-label>
 
-                        <mat-select name="escuderia" [(ngModel)]="piloto.id_escuderia">
+                        <mat-select name="escuderia" [(ngModel)]="piloto.id_escuderia" required>
                             <mat-option></mat-option>
                             <mat-option *ngFor="let escuderia of escuderias" [value]="escuderia.id">
                                 {{escuderia.nombre}}
@@ -53,8 +55,8 @@
                 <mat-card-actions class="actions">
                     <button class="btn btn-secondary" style="width:40%" type="button" (click)="back()">Volver
                     </button>
-                    <button class="btn btn-danger" style="width:40%" type="submit" (keyup.enter)="submitData()"
-                        (click)="submitData()">Enviar
+                    <button class="btn btn-danger" style="width:40%" type="submit" [disabled]="!formPilotos.valid"
+                        (keyup.enter)="submitData(formPilotos)" (click)="submitData(formPilotos)">Enviar
                     </button>
                 </mat-card-actions>
             </form>

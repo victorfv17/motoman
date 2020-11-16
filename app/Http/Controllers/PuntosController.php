@@ -25,11 +25,9 @@ class PuntosController extends Controller
       $todos = $request->all();
        foreach($todos as $row){
          if(array_key_exists('id',$row)){
-          echo 'entro';
             $this->puntuacionPiloto($row);
             
          }else{
-          echo 'entroescuderia';
             $this->puntuacionEscuderia($row);
          }
          
@@ -175,7 +173,7 @@ class PuntosController extends Controller
           }else{
             $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->first();
             $puntosTotales = $rowUsuario['puntosGP'] + $rowUsuario['puntosTotales'];
-            Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP, 'puntosTotales'=> $puntosTotales]);
+            Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosTotales'=> $puntosTotales]);
           }
           
            
@@ -185,7 +183,7 @@ class PuntosController extends Controller
     }
     public function updatePuntosPredicciones(){
       $predicciones = Predicciones::get();
-   
+      $puntosTotalesGP = 0 ;
 
       if(count($predicciones)>0){
       foreach($predicciones as $prediccion){
@@ -224,37 +222,6 @@ class PuntosController extends Controller
           Clasificacion::where('id_usuario', $idUser)->update(['puntosGP'=> $puntosTotalesGP]);
         }
         
-      // $predicciones = Predicciones::where('piloto_id',$row['id'])->get();
-
-      // foreach($predicciones as $prediccion){
-      //   $idUser = $prediccion['usuario_id'];
-      //   $clasificacion = Clasificacion::where('id_usuario', $idUser)->first();
-      //   if($prediccion['posicion']=== $row['posicion']){
-      //     $puntosTotalesGP = 16 + $clasificacion['puntosGP'];
-          
-      //   }else{
-      //     $diferencia = abs($prediccion['posicion'] -$row['posicion']);
-      //     switch($diferencia){
-      //       case "1":
-      //         $puntosTotalesGP = 11 + $clasificacion['puntosGP'];
-      //         break;
-      //       case "2":
-      //         $puntosTotalesGP = 8 + $clasificacion['puntosGP'];
-      //         break;
-      //       case "3":
-      //         $puntosTotalesGP = 5 + $clasificacion['puntosGP'];
-      //         break;
-      //       case "4":
-      //         $puntosTotalesGP = 3 + $clasificacion['puntosGP'];
-      //         break;
-      //       case "5":
-      //         $puntosTotalesGP = 1 + $clasificacion['puntosGP'];
-      //         break;
-         
-      //     }
-      //   }
-      //   Clasificacion::where('id_usuario', $idUser)->update(['puntosGP'=> $puntosTotalesGP]);
-
         
       }
     }

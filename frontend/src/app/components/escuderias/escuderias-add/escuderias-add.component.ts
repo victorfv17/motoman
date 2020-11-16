@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { IEscuderias } from 'src/app/shared/models/escuderias.model';
 import { ActivatedRoute } from '@angular/router';
 import { EscuderiasService } from 'src/app/shared/services/escuderias.service';
-import { Location } from '@angular/common';
+import { Location, NgForOf } from '@angular/common';
 import { MatSnackBar } from '@angular/material';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-escuderias-add',
@@ -26,12 +27,15 @@ export class EscuderiasAddComponent implements OnInit {
     this.escuderiaId = this.route.snapshot.paramMap.get('id');
     if (this.escuderiaId) {
       this.fetchEscuderia();
+    } else {
+      this.isLoading = false;
     }
 
   }
 
-  create() {
+  create(form: NgForm) {
     this.escuderiasService.addEscuderia(this.escuderia).subscribe(() => {
+      form.reset();
       this.snackbar.open('Escudería añadida', null, {
         duration: 2000
       })
@@ -54,11 +58,11 @@ export class EscuderiasAddComponent implements OnInit {
     });
   }
 
-  submitData() {
+  submitData(form: NgForm) {
     if (this.escuderiaId) {
       this.edit();
     } else {
-      this.create();
+      this.create(form);
     }
   }
   back() {

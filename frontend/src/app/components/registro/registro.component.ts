@@ -13,6 +13,7 @@ import { NgForm } from '@angular/forms';
 export class RegistroComponent implements OnInit {
   public usuario: IUser = {};
   deshabilitarForm: boolean = false;
+  tieneError: boolean = false;
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
@@ -30,7 +31,7 @@ export class RegistroComponent implements OnInit {
     this.authenticationService.createUser(this.usuario).subscribe(() => {
       form.reset();
       this.deshabilitarForm = true;
-
+      this.tieneError = false;
       this.snackbar.open('Usuario Registrado', null, {
         duration: 1000,
 
@@ -39,7 +40,7 @@ export class RegistroComponent implements OnInit {
         this.router.navigateByUrl('/login');
       }, 1000);
 
-    });
+    }, (error) => this.tieneError = true);
 
   }
 

@@ -6,6 +6,7 @@ import { IEscuderias } from 'src/app/shared/models/escuderias.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-pilotos-add',
@@ -30,8 +31,9 @@ export class PilotosAddComponent implements OnInit {
     this.fetchEscuderias();
   }
 
-  create() {
+  create(form: NgForm) {
     this.pilotosService.addPiloto(this.piloto).subscribe(() => {
+      form.reset();
       this.snackbar.open('Piloto añadido', null, {
         duration: 2000
       })
@@ -65,11 +67,14 @@ export class PilotosAddComponent implements OnInit {
     });
   }
 
-  submitData() {
+  submitData(form: NgForm) {
     if (this.pilotoId) {
       this.edit();
     } else {
-      this.create();
+
+      this.create(form);
+
+
     }
   }
 

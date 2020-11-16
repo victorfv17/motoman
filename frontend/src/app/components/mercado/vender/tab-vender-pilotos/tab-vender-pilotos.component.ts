@@ -35,7 +35,7 @@ export class TabVenderPilotosComponent implements OnInit {
   }
 
   public venderPiloto(piloto: any) {
-    this.equipoService.venta(piloto.id).subscribe(() => {
+    this.equipoService.venta(piloto.idEquipo).subscribe(() => {
       this.usuario.usuario.saldo = this.usuario.usuario.saldo + piloto.valorMercado;
       localStorage.setItem('usuario', JSON.stringify(this.usuario));
       this.snackBar.open('Venta realizada', 'exito', {

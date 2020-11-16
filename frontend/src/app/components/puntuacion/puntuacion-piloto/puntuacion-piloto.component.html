@@ -34,9 +34,23 @@
                             height="40" width="40" matTooltip="{{piloto.pais}}">
                     </td>
                     <td class="align-middle">
-                        <input type="number" class="form-control mx-auto" style="width: 70%" id="puntos"
+                        <div style="display: inline;">
+                            <span style="width: 40%;">{{piloto.puntos}}</span>
+                            <mat-select style="width: 40%;" name="puntos" [(ngModel)]="piloto.puntos"
+                                (ngModelChange)="puntuacionPiloto(piloto)">
+                                <mat-option></mat-option>
+                                <mat-option *ngFor="let valor of valoresPermitidos; let i = index" [value]="valor"
+                                    [disabled]="valor === piloto.puntos">
+                                    {{valor}}
+                                </mat-option>
+
+                            </mat-select>
+                        </div>
+
+
+                        <!-- <input type="number" class="form-control mx-auto" style="width: 70%" id="puntos"
                             name="puntuacionPiloto" placeholder="Introducir puntos" [(ngModel)]="piloto.puntos"
-                            (ngModelChange)="puntuacionPiloto(piloto)">
+                            (ngModelChange)="puntuacionPiloto(piloto)"> -->
                     </td>
                 </tr>
             </tbody>

@@ -19,8 +19,9 @@
                         <mat-icon *ngIf="direct === 'asc'">
                             keyboard_arrow_up</mat-icon>
                     </th>
-                    <th style="text-align: center;" *ngIf="rolPermitido">
-                        <button mat-icon-button routerLink="/escuderias/nueva/escuderia">
+                    <th style="text-align: center;cursor:pointer" *ngIf="rolPermitido"
+                        routerLink="/escuderias/nueva/escuderia">
+                        <button mat-icon-button>
                             <mat-icon style="font-size:32px">add_circle</mat-icon>
                         </button>
                         <span style="margin-left: 5px;">Añadir</span>

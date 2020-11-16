@@ -7,7 +7,13 @@
         <table class="table table-bordered table-hover table-striped">
             <thead class=" thead-dark">
                 <tr class="pointer">
-                    <th scope="col" name="piloto">Usuarios
+                    <th scope="col" name="piloto" (click)="sort('name')">Usuarios
+                        <mat-icon *ngIf="direct === 'desc'">
+                            keyboard_arrow_down
+                        </mat-icon>
+                        <mat-icon *ngIf="direct === 'asc'">
+                            keyboard_arrow_up
+                        </mat-icon>
                     </th>
                     <th scope="col" name="piloto" (click)="sort('puntosGP')">Puntos GP
                         <mat-icon *ngIf="direct === 'desc'">
@@ -31,8 +37,8 @@
             <tbody>
                 <tr *ngFor="let user of usuarios" class="table-dark " style="color:#9D0000">
                     <td style="text-align: left;">{{user.name}}</td>
-                    <td style="text-align: left;">{{user.puntosTotales}}</td>
                     <td style="text-align: left;">{{user.puntosGP}}</td>
+                    <td style="text-align: left;">{{user.puntosTotales}}</td>
                 </tr>
             </tbody>
         </table>

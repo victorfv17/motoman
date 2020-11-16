@@ -16,7 +16,7 @@ export class EscuderiasComponent implements OnInit {
   public escuderia: IEscuderias;
 
   public isLoading: boolean = true;
-  public direct: string = 'asc';
+  public direct: string = 'desc';
   public campo: string = 'nombre';
 
   sorted: IEscuderias;

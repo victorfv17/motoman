@@ -27,6 +27,7 @@
                     <input matInput type="password" name="confirmPassword" placeholder="Confirmar contraseña"
                         [(ngModel)]="usuario.c_password" [disabled]="deshabilitarForm">
                 </mat-form-field>
+                <span class="errors" *ngIf="tieneError"> Las contraseñas no son iguales</span>
 
             </mat-card-content>
 

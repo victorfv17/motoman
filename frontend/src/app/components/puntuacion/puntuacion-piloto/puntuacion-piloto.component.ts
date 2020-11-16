@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PilotosService } from 'src/app/shared/services/pilotos.service';
 import { PuntuacionService } from 'src/app/shared/services/puntuacion.service';
 import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSelect, MatSelectChange, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-puntuacion-piloto',
@@ -11,6 +11,10 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./puntuacion-piloto.component.scss']
 })
 export class PuntuacionPilotoComponent implements OnInit {
+
+  valores = [25, 20, 16, 13];
+  valoresPermitidos = [];
+  selected: any;
   public pilotos: Array<IPilotos> = [];
   public direct: string = 'asc';
   public campo: string = 'nombre';
@@ -25,8 +29,10 @@ export class PuntuacionPilotoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.valoresPermitidos = this.valores;
     this.getPilotos();
   }
+
   public getPilotos() {
 
     this.pilotosService.getAllSort(this.campo, this.direct).subscribe(pilotos => {
@@ -37,6 +43,8 @@ export class PuntuacionPilotoComponent implements OnInit {
 
   }
   public puntuacionPiloto(piloto: any) {
+
+    this.valoresPermitidos = this.valoresPermitidos.filter((element) => element !== piloto.puntos);
     let existe = this.puntuaciones.find(element => element === piloto);
     if (existe) {
       this.puntuaciones.splice(this.puntuaciones.indexOf(existe), 1);
@@ -75,4 +83,5 @@ export class PuntuacionPilotoComponent implements OnInit {
   public limpiarPuntos(form: NgForm) {
     form.reset();
   }
+
 }
