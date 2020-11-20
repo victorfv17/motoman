@@ -4,6 +4,7 @@ import { PuntuacionService } from 'src/app/shared/services/puntuacion.service';
 import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { NgForm } from '@angular/forms';
 import { MatSelect, MatSelectChange, MatSnackBar } from '@angular/material';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-puntuacion-piloto',
@@ -11,9 +12,8 @@ import { MatSelect, MatSelectChange, MatSnackBar } from '@angular/material';
   styleUrls: ['./puntuacion-piloto.component.scss']
 })
 export class PuntuacionPilotoComponent implements OnInit {
-
-  valores = [25, 20, 16, 13];
-  valoresPermitidos = [];
+  isDisabled = true;
+  valores = [25, 20, 16, 13, 11, 10];
   selected: any;
   public pilotos: Array<IPilotos> = [];
   public direct: string = 'asc';
@@ -29,28 +29,37 @@ export class PuntuacionPilotoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.valoresPermitidos = this.valores;
-    this.getPilotos();
+
+    this.fetchPuntuacionesPilotos(this.campo, this.direct);
   }
 
-  public getPilotos() {
+  public fetchPuntuacionesPilotos(campo: string, direct: string) {
 
-    this.pilotosService.getAllSort(this.campo, this.direct).subscribe(pilotos => {
+    this.puntuacionService.getPuntuacionesPilotos(campo, direct).subscribe(pilotos => {
       this.pilotos = pilotos;
-      console.log(this.pilotos)
+      if (this.pilotos.find((element) => !isNullOrUndefined(element.puntos))) {
+        this.isDisabled = false;
+      } else {
+        this.isDisabled = true;
+      }
       this.isLoading = false;
+
     });
 
   }
   public puntuacionPiloto(piloto: any) {
-
-    this.valoresPermitidos = this.valoresPermitidos.filter((element) => element !== piloto.puntos);
-    let existe = this.puntuaciones.find(element => element === piloto);
-    if (existe) {
-      this.puntuaciones.splice(this.puntuaciones.indexOf(existe), 1);
+    if (piloto.puntos) {
+      this.isDisabled = false;
+      let existe = this.puntuaciones.find(element => element === piloto);
+      if (existe) {
+        this.puntuaciones.splice(this.puntuaciones.indexOf(existe), 1);
+      }
+      this.puntuaciones.push(piloto);
+      existe = undefined;
+    } else {
+      this.isDisabled = true;
+      this.puntuaciones.splice(this.puntuaciones.indexOf(piloto), 1);
     }
-    this.puntuaciones.push(piloto);
-    existe = undefined;
   }
   sort(campo?: string) {
     if (this.direct === 'asc') {
@@ -58,12 +67,7 @@ export class PuntuacionPilotoComponent implements OnInit {
     } else {
       this.direct = 'asc';
     }
-    this.pilotosService.getAllSort(campo, this.direct).subscribe(pilotos => {
-      this.pilotos = pilotos;
-      this.isLoading = false;
-
-
-    });
+    this.fetchPuntuacionesPilotos(campo, this.direct);
 
   }
   public enviarPuntos() {
@@ -82,6 +86,21 @@ export class PuntuacionPilotoComponent implements OnInit {
   }
   public limpiarPuntos(form: NgForm) {
     form.reset();
+    this.pilotos.map((element) => element.puntos = null);
+    this.puntuacionService.deletePuntos().subscribe(() => {
+      this.snackbar.open('Puntuaciones añadidas', null, {
+        duration: 2000
+      })
+    });
+    this.isDisabled = true;
   }
 
+  public deshabilitarValores(valor: number): boolean {
+    const existe = this.pilotos.find((piloto) => piloto.puntos === valor);
+    if (existe) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

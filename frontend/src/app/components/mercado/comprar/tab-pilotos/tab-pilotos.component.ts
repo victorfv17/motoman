@@ -23,7 +23,7 @@ export class TabPilotosComponent implements OnInit {
   public pilotos: Array<any> = [];
   public escuderias: any;
   public puja: number;
-  private user: IUser;
+  public user: IUser;
   public pujas: Array<IPujas> = [];
   public isLoading: boolean = true;
 

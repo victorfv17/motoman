@@ -25,11 +25,11 @@
                     <tr class="pointer text-align">
                         <th scope="col" name="escuderia">Escuderia
                         </th>
-                        <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Valor Mercado
+                        <th scope="col" name="escuderia">Valor Mercado
                         </th>
-                        <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Puntos
+                        <th scope="col" name="escuderia">Puntos
                         </th>
-                        <th scope="col" name="escuderia" (click)="sort('puntosTotales')">Puja
+                        <th scope="col" name="escuderia">Puja
                         </th>
                     </tr>
                 </thead>
@@ -70,7 +70,7 @@
                     (click)="limpiarDatosPujas(formEscuderias)">Limpiar
                 </button>
                 <button [disabled]="formInvalid" class="btn btn-danger submitButton " type="submit"
-                    (click)="enviarPujas(formEscuderias)" (keyup.enter)="enviarPujas(formEscuderias)">
+                    (click)="enviarPujas()" (keyup.enter)="enviarPujas()">
                     <span matTooltip="Puja inválida" [matTooltipDisabled]="!formInvalid">
                         Enviar
                     </span>

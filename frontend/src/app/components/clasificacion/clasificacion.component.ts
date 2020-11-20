@@ -17,10 +17,8 @@ export class ClasificacionComponent implements OnInit {
   public usuarios: Array<any> = [];
   public campo: string = 'puntosTotales';
   public isLoading: boolean = true;
-  public direct: string = 'desc';
+  public direct: string = 'asc';
   constructor(
-    private ligasService: LigasService,
-    private authenticationService: AuthenticationService,
     private puntuacionService: PuntuacionService
   ) { }
 

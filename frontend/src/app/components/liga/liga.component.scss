@@ -1,3 +1,16 @@
+
+.containerr{
+    display:flex;
+    align-items:center;
+    justify-content: center;
+    height: 80%;
+    
+}
+.cardd{
+    width:60%;
+    margin:10px;
+    height:60%;
+}
 .card{
     display:flex;
 
@@ -6,15 +19,17 @@
 
     justify-content: center;
     border-bottom: none;
-    height: 80%;
+   
+ 
 }
 .container{
     display:flex;
-    flex-direction: column;
+    flex-direction: row;
     
     align-items:center;
 
-    justify-content: center;
+    // justify-content: center;
+    justify-content: space-evenly;
 
     
 }

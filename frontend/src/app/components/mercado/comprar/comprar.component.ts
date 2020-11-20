@@ -14,7 +14,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./comprar.component.scss']
 })
 export class ComprarComponent implements OnInit {
-
+  isLoading = false;
 
   constructor(
   ) { }

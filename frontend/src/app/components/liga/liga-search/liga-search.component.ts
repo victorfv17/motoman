@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class LigaSearchComponent implements OnInit {
   ligas: Array<ILigas> = [];
   user: IUser = {};
+  public isLoading = true;
   constructor(
     private ligasService: LigasService,
     private authenticationService: AuthenticationService,
@@ -32,6 +33,7 @@ export class LigaSearchComponent implements OnInit {
       });
 
       this.ligas = ligas;
+      this.isLoading = false;
 
     })
   }

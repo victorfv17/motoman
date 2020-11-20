@@ -6,12 +6,39 @@ use App\Predicciones;
 use App\Clasificacion;
 use App\Ligas;
 use App\Equipo;
+use App\Pilotos;
+use App\Escuderias;
 use App\User;
 use Illuminate\Http\Request;
 
 class PuntosController extends Controller
-{
+{  
+  /**
+  *  Display a listing of the resource.
+  *
+  * @return \Illuminate\Http\Response
+  */
 
+    public function getPuntuacionesPilotos($campo, $direct){
+     return Pilotos::leftJoin('puntos', 'pilotos.id','=','puntos.id_piloto')
+
+      ->select('pilotos.id','pilotos.nombre','pilotos.pais','pilotos.puntos as puntosTotales','puntos.puntosGP as puntos')
+      ->orderBy($campo,$direct)
+      ->get();
+    }
+    /**
+    *  Display a listing of the resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
+
+    public function getPuntuacionesEscuderias($campo, $direct){
+      return Escuderias::leftJoin('puntos', 'escuderias.id','=','puntos.id_escuderia')
+
+      ->select('escuderias.id as id_escuderia','escuderias.nombre as nombre_escuderia','escuderias.puntos as puntosTotales','puntos.puntosGP as puntos_escuderia')
+      ->orderBy($campo,$direct)
+      ->get();
+    }
 
  
      /**
@@ -68,10 +95,28 @@ class PuntosController extends Controller
         'puntosGP' => $row['puntos'],
         'posicion' => $row['posicion']
       ]);
-
      
-  
+    }
+
+    private function updatePuntosPilotoEscuderia(){
+      $coleccionPuntos = Puntos::get();
+      foreach($coleccionPuntos as $puntos){
+        if(isset($puntos['id_piloto'])){
+          $piloto = Pilotos::where('id',$puntos['id_piloto'])->first();
+          $puntosTotales = $piloto['puntos'] + $puntos['puntosGP'];
+          Pilotos::where('id',$piloto['id'])->update(['puntos'=>$puntosTotales]);
+        }else{
+          $escuderia = Escuderias::where('id',$puntos['id_escuderia'])->first();
+          $puntosTotales = $escuderia['puntos'] + $puntos['puntosGP'];
+          Escuderias::where('id',$escuderia['id'])->update(['puntos'=>$puntosTotales]);
+        }
+       
+      }
       
+    }
+    public function destroyPuntos(){
+    
+      Puntos::where('id','>',0)->delete();
     }
     private function asignarPosicion($puntos){
       switch($puntos){
@@ -130,6 +175,7 @@ class PuntosController extends Controller
      */
     public function updatePuntos()
     {
+      $this->updatePuntosPilotoEscuderia();
       Clasificacion::where('id','>',0)->update(['puntosGP'=> 0]);
       $this-> updatePuntosPredicciones();
      //obtener todas las ligas
@@ -143,17 +189,20 @@ class PuntosController extends Controller
          
           //obtener alineados del equipo del usuario
            $equipo = Equipo::where('usuario_id',$usuario['id'])->where('indicadorEnAlineacion', 1)->get();//cambiar por true
-          if(count($equipo) > 0){
+  
+           if(count($equipo) > 0){
+     
            foreach($equipo as $row){
              if(isset($row['piloto_id'])){
                 $puntos = Puntos::where('id_piloto', $row['piloto_id'])->first();
-                
+                //echo $puntos;
              }else{
               $puntos = Puntos::where('id_escuderia', $row['escuderia_id'])->first();
              }
+             if($puntos !==null){
                 // foreach($puntos as $puntuacion){
                     $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->first();
-                    echo $rowUsuario;
+                 // echo $rowUsuario;
                     $puntosTotalesGP =  $puntosTotalesGP + $puntos['puntosGP'];//0 + 5 + 25 = 30; 30 + 5 +16 = 51
                     //5+25;16 + 30
                     
@@ -161,6 +210,7 @@ class PuntosController extends Controller
                     $saldo = $usuario['saldo'] + $saldoPorPuntos;
                     User::where('id', $usuario['id'])->update(['saldo'=> $saldo]);
                 // }
+             }
               
               
         
@@ -179,7 +229,7 @@ class PuntosController extends Controller
            
         }
        }
-       return 'correcto';
+     
     }
     public function updatePuntosPredicciones(){
       $predicciones = Predicciones::get();
@@ -225,5 +275,8 @@ class PuntosController extends Controller
         
       }
     }
+    
   }
+
+ 
 }

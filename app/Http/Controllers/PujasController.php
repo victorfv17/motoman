@@ -26,7 +26,7 @@ class PujasController extends Controller
         ->join('mercadoEscuderias', 'mercadoEscuderias.id','=','pujas.mercadoEscuderia_id')
         
         ->join('escuderias', 'escuderias.id','=','mercadoEscuderias.escuderia_id')
-        ->where('users.id',$idLiga)
+        ->where('users.liga_id',$idLiga)
         ->select(
             'pujas.id as id', 
             'pujas.usuario_id as usuarioId', 
@@ -45,7 +45,7 @@ class PujasController extends Controller
         ->join('users', 'users.id','=','pujas.usuario_id')
         ->join('mercadoPilotos', 'mercadoPilotos.id','=','pujas.mercadoPiloto_id') 
         ->join('pilotos', 'pilotos.id','=','mercadoPilotos.piloto_id')
-        ->where('users.id',$idLiga)
+        ->where('users.liga_id',$idLiga)
         ->select(
             'pujas.id as id', 
             'pujas.usuario_id as usuarioId', 
@@ -58,7 +58,7 @@ class PujasController extends Controller
           
         
         )->get();
-
+           
         foreach($pujasPilotos as $puja){
             array_push($pujas, $puja);
         }

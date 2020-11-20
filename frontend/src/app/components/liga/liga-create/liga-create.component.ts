@@ -5,7 +5,7 @@ import { AuthenticationService } from 'src/app/shared/services/authentication.se
 import { IUser } from 'src/app/shared/models/users.model';
 import { ignoreElements } from 'rxjs/operators';
 import { Router } from '@angular/router';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-liga-create',
   templateUrl: './liga-create.component.html',
@@ -18,7 +18,8 @@ export class LigaCreateComponent implements OnInit {
   constructor(
     private ligasService: LigasService,
     private authenticationService: AuthenticationService,
-    private router: Router) { }
+    private router: Router,
+    private location: Location) { }
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
@@ -42,6 +43,10 @@ export class LigaCreateComponent implements OnInit {
       });
     });
 
+  }
+
+  back() {
+    this.location.back();
   }
 
 }

@@ -17,7 +17,14 @@ export class PrediccionesComponent implements OnInit {
   piloto: IPilotos = {};
   user: any;
   existenPredicciones = false;
-  private prediccion = {};
+  public prediccion = {
+    pos1: undefined,
+    pos2: undefined,
+    pos3: undefined,
+    pos4: undefined,
+    pos5: undefined,
+    pos6: undefined
+  }
   public isLoading: boolean = true;
 
   constructor(

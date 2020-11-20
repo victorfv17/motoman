@@ -4,5 +4,8 @@ export interface IEscuderias {
     puntos_escuderia?: number;
     valorMercado_escuderia?: number;
     color?: string;
+    nombre?: string;
+    puntos?: number;
+    valorMercado?: number;
 
 }

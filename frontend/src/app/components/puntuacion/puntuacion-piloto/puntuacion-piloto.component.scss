@@ -1,3 +1,4 @@
+
 mat-card-actions{
     display: flex;
     justify-content: space-evenly;
@@ -6,3 +7,6 @@ mat-card-actions{
     width:30%;
     
 }
+::ng-deep .mat-select-value{
+    color: #9D0000; // You may need to use important here, but it's just in a few cases
+ }

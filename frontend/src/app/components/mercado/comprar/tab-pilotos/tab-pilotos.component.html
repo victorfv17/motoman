@@ -25,11 +25,11 @@
                     <tr class="pointer text-align">
                         <th scope="col" name="piloto">Piloto
                         </th>
-                        <th scope="col" name="piloto" (click)="sort('puntosTotales')">Valor Mercado
+                        <th scope="col" name="piloto">Valor Mercado
                         </th>
-                        <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puntos
+                        <th scope="col" name="piloto">Puntos
                         </th>
-                        <th scope="col" name="piloto" (click)="sort('puntosTotales')">Puja
+                        <th scope="col" name="piloto">Puja
                         </th>
                     </tr>
                 </thead>
@@ -73,7 +73,7 @@
                     (click)="limpiarDatosPujas(formPilotos)">Limpiar
                 </button>
                 <button [disabled]="formInvalid" class=" btn btn-danger submitButton " type="submit"
-                    (click)="enviarPujas(formPilotos)" (keyup.enter)="enviarPujas(formPilotos)">
+                    (click)="enviarPujas()" (keyup.enter)="enviarPujas()">
                     <span matTooltip="Puja inválida" [matTooltipDisabled]="!formInvalid">
                         Enviar
                     </span>

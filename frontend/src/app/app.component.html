@@ -13,7 +13,7 @@
   <!--title>Hello, world!</!--title-->
 </head>
 
-<body>
+<body class="fondo">
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -67,11 +67,7 @@
 
         <a (click)="logout()" class="nav-item nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
       </div>
-      <div *ngIf="location.path()==='/liga'">
 
-
-
-      </div>
 
     </div>
     <div *ngIf="!user" class="collapse navbar-collapse navbar-nav mr-auto" id="appNavigation"

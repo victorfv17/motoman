@@ -5,27 +5,46 @@
             <thead class=" thead-dark">
                 <tr class="pointer">
 
-                    <th scope="col">Escuderia<mat-icon *ngIf="direct === 'desc'" (click)="sort('nombre')">
+                    <th scope="col" (click)="sort('nombre')">Escuderia
+                        <mat-icon *ngIf="direct === 'desc'">
                             keyboard_arrow_down</mat-icon>
-                        <mat-icon *ngIf="direct === 'asc'" (click)="sort('nombre')">
+                        <mat-icon *ngIf="direct === 'asc'">
                             keyboard_arrow_up</mat-icon>
                     </th>
 
 
-                    <th scope="col" style="text-align: center;">Puntos</th>
+                    <th scope="col" style="text-align: center;" (click)="sort('puntosTotales')">Puntos Totales
+                        <mat-icon *ngIf="direct === 'desc'">
+                            keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="direct === 'asc'">
+                            keyboard_arrow_up</mat-icon>
+                    </th>
+                    <th scope="col" style="text-align: center;" (click)="sort('puntos_escuderia')">Puntos Actuales
+                        <mat-icon *ngIf="direct === 'desc'">
+                            keyboard_arrow_down</mat-icon>
+                        <mat-icon *ngIf="direct === 'asc'">
+                            keyboard_arrow_up</mat-icon>
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let escuderia of escuderias" class="table-dark pointer" style="color:#9D0000">
                     <td style="text-align: left;">{{escuderia.nombre_escuderia}}
                     </td>
-
-
-                    <td class="align-middle">
-                        <input type="number" class="form-control mx-auto" style="width: 70%" id="puntos"
-                            name="puntuacionEscuderia" placeholder="Introducir puntos"
-                            [(ngModel)]="escuderia.puntos_escuderia" (ngModelChange)="puntuacionEscuderia(escuderia)">
+                    <td style="text-align: left;">{{escuderia.puntosTotales}}
                     </td>
+                    <td class="align-middle">
+                        <mat-select style="width: 40%" name="puntos" [(value)]="escuderia.puntos_escuderia"
+                            (selectionChange)="puntuacionEscuderia(escuderia)">
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let valor of valores" [value]="valor"
+                                [disabled]="deshabilitarValores(valor)">
+                                {{valor}}
+                            </mat-option>
+
+                        </mat-select>
+                    </td>
+
                 </tr>
             </tbody>
         </table>
@@ -34,7 +53,8 @@
             </button>
             <button class="btn btn-danger submitButton " type="button" (click)="enviarPuntos()">Enviar
             </button>
-            <button class="btn btn-danger submitButton " type="button" (click)="updatePuntos()">Actualizar puntos
+            <button [disabled]="isDisabled" class="btn btn-danger submitButton " type="button"
+                (click)="updatePuntos()">Actualizar puntos
             </button>
         </mat-card-actions>
 

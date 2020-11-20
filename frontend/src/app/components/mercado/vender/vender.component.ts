@@ -11,6 +11,7 @@ import { IEquipo } from 'src/app/shared/models/equipo.model';
 export class VenderComponent implements OnInit {
   usuario: any;
   equipos: Array<IEquipo> = [];
+  isLoading = false;
   constructor(private equipoService: EquipoService) { }
 
   ngOnInit() {

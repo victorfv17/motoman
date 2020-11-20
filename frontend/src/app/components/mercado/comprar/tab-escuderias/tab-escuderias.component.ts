@@ -17,7 +17,7 @@ export class TabEscuderiasComponent implements OnInit {
   formInvalid = false;
   public escuderias: Array<any> = [];
   public puja: number;
-  private user: IUser;
+  public user: IUser;
   public pujas: Array<IPujas> = [];
   public isLoading: boolean = true;
   constructor(
