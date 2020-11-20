@@ -43,7 +43,16 @@ export class TabPilotosComponent implements OnInit {
   public coleccionPujas(piloto?: any, puja?: number) {
 
     let index = this.pilotos.findIndex(elem => elem.idMercado === piloto.idMercado);
-    if (puja > this.user.usuario.saldo) {
+
+    if (!puja) {
+      console.log(this.pilotos);
+      let existe = this.pilotos.find(element => element.valorPuja > 0);
+      if (existe) {
+        this.formInvalid = false;
+      } else {
+        this.formInvalid = true;
+      }
+    } else if (puja > this.user.usuario.saldo) {
       this.pilotos[index].saldoMenorQuePuja = true;
       this.formInvalid = true;
     } else if (puja < piloto.valorMercado) {
@@ -58,8 +67,11 @@ export class TabPilotosComponent implements OnInit {
         puja: Number(puja)
       }
       this.pujas.push(pilotoPuja);
-
     }
+
+
+
+
 
 
   }
@@ -83,6 +95,12 @@ export class TabPilotosComponent implements OnInit {
           this.borrarPujas();
           // this.createPilotosMercado();
           // this.deletePilotosMercado();
+        }
+        let existe = pilotos.find(element => element.valorPuja > 0);
+        if (existe) {
+          this.formInvalid = false;
+        } else {
+          this.formInvalid = true;
         }
 
         //el create se hace dos veces hay que pensar esto para que no se haga bucle

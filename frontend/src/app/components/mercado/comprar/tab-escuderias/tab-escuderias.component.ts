@@ -35,7 +35,15 @@ export class TabEscuderiasComponent implements OnInit {
 
   public coleccionPujasEscuderias(escuderia: any, puja: number) {
     let index = this.escuderias.findIndex(elem => elem.idMercado === escuderia.idMercado);
-    if (puja > this.user.usuario.saldo) {
+    if (!puja) {
+      console.log(this.escuderias);
+      let existe = this.escuderias.find(element => element.puja > 0);
+      if (existe) {
+        this.formInvalid = false;
+      } else {
+        this.formInvalid = true;
+      }
+    } else if (puja > this.user.usuario.saldo) {
       this.escuderias[index].saldoMenorQuePuja = true;
       this.formInvalid = true;
     } else if (puja < escuderia.valorMercado) {
@@ -68,6 +76,13 @@ export class TabEscuderiasComponent implements OnInit {
           this.isLoading = true;
           this.borrarPujas();
           // this.deleteEscuderiasMercado();
+        }
+
+        let existe = escuderias.find(element => element.valorPuja > 0);
+        if (existe) {
+          this.formInvalid = false;
+        } else {
+          this.formInvalid = true;
         }
 
 

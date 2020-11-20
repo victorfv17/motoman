@@ -10,14 +10,39 @@ table td{
     }
 }
 
+// .container{
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// }
+// .actionButtons{
+//     display: flex;
+//     justify-content: space-evenly;
+// }
 .container{
-    display: flex;
+    display:flex;
+    align-items:center;
     justify-content: center;
-    align-items: center;
+    height: 45%;
+    
 }
-.actionButtons{
+.card{
+   width:80%;
+}
+.content{
     display: flex;
     justify-content: space-evenly;
+    flex-wrap: wrap;
+  
+    
+}
+.actions{
+    display: flex;
+    justify-content: space-evenly;
+}
+.card-alineacion-color{
+    color:white;
+    background-color: #8C3545;
 }
 
 

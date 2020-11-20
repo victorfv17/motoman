@@ -19,7 +19,7 @@ export class PilotosComponent implements OnInit {
   public piloto: IPilotos;
   public isLoading: boolean = true;
   public isLoadingEscuderias: boolean = true;
-  public direct: string = 'asc';
+  public direct: string = 'desc';
   public campo: string = 'nombre';
   private cont = 0;
   sorted: IPilotos;

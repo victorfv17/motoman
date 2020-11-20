@@ -8,7 +8,8 @@
 
             <mat-card-header>
                 <mat-icon mat-card-avatar>motorcycle</mat-icon>
-                <mat-card-title>Añadir escuderia</mat-card-title>
+                <mat-card-title *ngIf="!escuderiaId">Añadir escuderia</mat-card-title>
+                <mat-card-title *ngIf="escuderiaId">Editar escuderia</mat-card-title>
             </mat-card-header>
 
             <form #formEscuderias="ngForm">

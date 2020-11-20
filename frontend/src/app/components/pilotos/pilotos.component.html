@@ -39,6 +39,9 @@
                         </button>
                         <span style="margin-left: 5px;">Añadir</span>
                     </th>
+                    <th style="text-align:center" *ngIf="!rolPermitido">
+                        <span>Acciones</span>
+                    </th>
                 </tr>
 
 
@@ -71,6 +74,11 @@
                                 <span>Eliminar</span>
                             </button>
                         </mat-menu>
+                    </td>
+                    <td style="text-align: center;" *ngIf="!rolPermitido">
+                        <mat-icon style="cursor:pointer;color:black" routerLink="/pilotos/{{piloto.id}}">
+                            remove_red_eye</mat-icon>
+
                     </td>
                 </tr>
             </tbody>

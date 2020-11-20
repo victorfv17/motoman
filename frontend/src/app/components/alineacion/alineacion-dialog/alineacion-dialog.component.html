@@ -14,8 +14,7 @@
 
             <tr *ngFor="let equipo of equipos" class="table">
                 <td class="align-middle">
-                    <mat-card *ngIf="equipo.nombre" class="mx-auto" style="text-align:right; background-color: grey;"
-                        (click)="closeDialog(equipo)">
+                    <mat-card *ngIf="equipo.nombre" class="mx-auto card-alineacion-color" (click)="closeDialog(equipo)">
                         {{equipo.nombre}}
                     </mat-card>
                     <span *ngIf="!equipo.nombre" style="text-align: center"> No hay datos</span>

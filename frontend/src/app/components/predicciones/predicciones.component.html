@@ -3,86 +3,89 @@
     <mat-spinner class="spinner-center"></mat-spinner>
 </ng-template>
 <ng-template #table>
-    <h1>Predicciones GP</h1>
-    <form #formPredicciones="ngForm">
-        <mat-card style="text-align: center;">
-            <div>
-                <mat-form-field appearance="fill">
-                    <mat-label>1º posición</mat-label>
-                    <mat-select name="piloto1" placeholder="1º posicion" [(ngModel)]="prediccion.pos1" required>
-                        <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
-                            [disabled]="deshabilitarPiloto(piloto.id)">
-                            {{piloto.nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
-                    <mat-label>2º posición</mat-label>
-                    <mat-select name="piloto2" placeholder="2º posicion" [(ngModel)]="prediccion.pos2" required>
-                        <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
-                            [disabled]="deshabilitarPiloto(piloto.id)">
-                            {{piloto.nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
-                    <mat-label>3º posición</mat-label>
-                    <mat-select name="piloto3" placeholder="3º posicion" [(ngModel)]="prediccion.pos3" required>
-                        <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
-                            [disabled]="deshabilitarPiloto(piloto.id)">
-                            {{piloto.nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
-                    <mat-label>4º posición</mat-label>
-                    <mat-select name="piloto4" placeholder="4º posicion" [(ngModel)]="prediccion.pos4" required>
-                        <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
-                            [disabled]="deshabilitarPiloto(piloto.id)">
-                            {{piloto.nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
-                    <mat-label>5º posición</mat-label>
-                    <mat-select name="piloto5" placeholder="5º posicion" [(ngModel)]="prediccion.pos5" required>
-                        <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
-                            [disabled]="deshabilitarPiloto(piloto.id)">
-                            {{piloto.nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div>
-                <mat-form-field appearance="fill">
-                    <mat-label>6º posición</mat-label>
-                    <mat-select name="piloto6" placeholder="6º posicion" [(ngModel)]="prediccion.pos6" required>
-                        <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
-                            [disabled]="deshabilitarPiloto(piloto.id)">
-                            {{piloto.nombre}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </mat-card>
+    <h1 style="text-align: center;">Apuestas</h1>
+    <form #formPredicciones="ngForm" class="container">
+        <mat-card class="card" style="text-align: center;">
+            <mat-card-content>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>1º posición</mat-label>
+                        <mat-select name="piloto1" placeholder="1º posicion" [(ngModel)]="prediccion.pos1" required>
+                            <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
+                                [disabled]="deshabilitarPiloto(piloto.id)">
+                                {{piloto.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>2º posición</mat-label>
+                        <mat-select name="piloto2" placeholder="2º posicion" [(ngModel)]="prediccion.pos2" required>
+                            <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
+                                [disabled]="deshabilitarPiloto(piloto.id)">
+                                {{piloto.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>3º posición</mat-label>
+                        <mat-select name="piloto3" placeholder="3º posicion" [(ngModel)]="prediccion.pos3" required>
+                            <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
+                                [disabled]="deshabilitarPiloto(piloto.id)">
+                                {{piloto.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>4º posición</mat-label>
+                        <mat-select name="piloto4" placeholder="4º posicion" [(ngModel)]="prediccion.pos4" required>
+                            <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
+                                [disabled]="deshabilitarPiloto(piloto.id)">
+                                {{piloto.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>5º posición</mat-label>
+                        <mat-select name="piloto5" placeholder="5º posicion" [(ngModel)]="prediccion.pos5" required>
+                            <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
+                                [disabled]="deshabilitarPiloto(piloto.id)">
+                                {{piloto.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>6º posición</mat-label>
+                        <mat-select name="piloto6" placeholder="6º posicion" [(ngModel)]="prediccion.pos6" required>
+                            <mat-option *ngFor="let piloto of pilotos" [value]="piloto.id"
+                                [disabled]="deshabilitarPiloto(piloto.id)">
+                                {{piloto.nombre}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
 
-        <mat-card-actions>
-            <button class="btn btn-secondary submitButton " type="button" (click)="limpiarPredicciones()">Limpiar
-            </button>
-            <button [disabled]="!formPredicciones.valid" class=" btn btn-danger submitButton " type="submit"
-                (click)="enviarPredicciones()" (keyup.enter)="enviarPredicciones()">
-                <span matTooltip="Rellena todas las posiciones" [matTooltipDisabled]="formPredicciones.valid">
-                    Enviar
-                </span>
-            </button>
-        </mat-card-actions>
+            <mat-card-actions>
+                <button class="btn btn-secondary submitButton " type="button" (click)="limpiarPredicciones()">Limpiar
+                </button>
+                <button [disabled]="!formPredicciones.valid" class=" btn btn-danger submitButton " type="submit"
+                    (click)="enviarPredicciones()" (keyup.enter)="enviarPredicciones()">
+                    <span matTooltip="Rellena todas las posiciones" [matTooltipDisabled]="formPredicciones.valid">
+                        Enviar
+                    </span>
+                </button>
+            </mat-card-actions>
+        </mat-card>
     </form>
+
 </ng-template>

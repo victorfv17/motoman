@@ -32,7 +32,7 @@ export class PuntuacionEscuderiaComponent implements OnInit {
 
     this.puntuacionService.getPuntuacionesEscuderias(campo, direct).subscribe(escuderias => {
       this.escuderias = escuderias;
-      if (this.escuderias.find((element) => !isNullOrUndefined(element.puntos))) {
+      if (this.escuderias.find((element) => !isNullOrUndefined(element.puntos_escuderia))) {
         this.isDisabled = false;
       } else {
         this.isDisabled = true;
