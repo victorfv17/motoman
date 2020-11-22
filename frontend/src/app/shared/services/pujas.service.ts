@@ -17,6 +17,10 @@ export class PujasService {
 
     return this.http.get<Array<IPujas>>(`http://127.0.0.1:8000/api/pujas/compras/${idLiga}`);
   }
+  public getPujasUsuario(idUser: number): Observable<Array<IPujas>> {
+
+    return this.http.get<Array<IPujas>>(`http://127.0.0.1:8000/api/pujas/${idUser}`);
+  }
   public guardarPuja(user: number, pujas: Array<IPujas>): Observable<any> {
     const params = {
       usuario: user,
@@ -26,5 +30,8 @@ export class PujasService {
   }
   public deletePujas(): Observable<any> {
     return this.http.delete<any>('http://127.0.0.1:8000/api/pujas/borrar/todas');
+  }
+  public borrarPujasUsuario(usuario: number): Observable<any> {
+    return this.http.delete<any>(`http://127.0.0.1:8000/api/pujas/${usuario}`);
   }
 }

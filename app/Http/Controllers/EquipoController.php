@@ -98,9 +98,10 @@ class EquipoController extends Controller
         //     $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idEscuderia'])->update(['indicadorEnAlineacion'=> '2']);
         // }else{
            
-        $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->update(['indicadorEnAlineacion'=> '0']);
+        $equipoPiloto = Equipo::where('usuario_id', $usuarioId)
+        ->where('indicadorEnAlineacion','<>','2')
+        ->update(['indicadorEnAlineacion'=> '0']);
         foreach($equipo as $item){
-            echo $item;
             Equipo::where('usuario_id', $usuarioId)->where('id',$item)->update(['indicadorEnAlineacion'=> '1']);
         }
         // $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id',$equipo['idPrimerPiloto'])->update(['indicadorEnAlineacion'=> '1']);

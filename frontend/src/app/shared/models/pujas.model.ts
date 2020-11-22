@@ -13,6 +13,7 @@ export interface IPujas {
     pujas?: Array<IPujas>;
     maxPuja?: number;
     visible?: boolean;
+    valorPuja?: number;
 
 
 

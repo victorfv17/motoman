@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, SimpleChange, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IPujas } from 'src/app/shared/models/pujas.model';
 import { MercadoService } from 'src/app/shared/services/mercado.service';
@@ -20,6 +20,8 @@ export class TabEscuderiasComponent implements OnInit {
   public user: IUser;
   public pujas: Array<IPujas> = [];
   public isLoading: boolean = true;
+  public usuario: any;
+  private totalPujado: number = 0;
   constructor(
     private mercadoService: MercadoService,
     private pujasService: PujasService,
@@ -29,12 +31,20 @@ export class TabEscuderiasComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
+    this.usuario = this.user.usuario;
 
     this.getEscuderiasMercado();
   }
 
   public coleccionPujasEscuderias(escuderia: any, puja: number) {
     let index = this.escuderias.findIndex(elem => elem.idMercado === escuderia.idMercado);
+    if (puja === null) {
+      let existeEscuderia = this.pujas.find(((elemento) => elemento.escuderia === escuderia.idMercado));
+      if (existeEscuderia) {
+        this.pujas.splice(this.pujas.indexOf(existeEscuderia), 1);
+      }
+
+    }
     if (!puja) {
       console.log(this.escuderias);
       let existe = this.escuderias.find(element => element.puja > 0);
@@ -53,6 +63,12 @@ export class TabEscuderiasComponent implements OnInit {
       this.escuderias[index].saldoMenorQuePuja = false;
       this.escuderias[index].pujaMenorQueValorMercado = false;
       this.formInvalid = false;
+      let existe = this.pujas.find((elemento) => elemento.escuderia === escuderia.idMercado);
+      if (existe) {
+
+        this.pujas.splice(this.pujas.indexOf(existe), 1);
+
+      }
       let escuderiaPuja: IPujas = {
         escuderia: escuderia.idMercado,
         puja: puja
@@ -65,12 +81,18 @@ export class TabEscuderiasComponent implements OnInit {
 
     let fechaActual = new Date().toISOString().slice(0, 10);
     //fechaActual = '2020-06-02';
-    this.mercadoService.getEscuderiasMercado(this.user.usuario.liga_id).subscribe(escuderias => {
+    this.mercadoService.getEscuderiasMercado(this.user.usuario).subscribe(escuderias => {
 
       if (escuderias && escuderias.length > 0) {
         if (String(escuderias[0].fecha) === fechaActual) {
           this.checkEscuderia(escuderias);
           this.escuderias = escuderias;
+          this.escuderias.forEach(escuderia => {
+            this.totalPujado = this.totalPujado + escuderia.puja;
+          });
+
+          this.usuario.saldoRestante = this.usuario.saldo - this.totalPujado;
+
           this.isLoading = false;
         } else {
           this.isLoading = true;
@@ -110,9 +132,9 @@ export class TabEscuderiasComponent implements OnInit {
     if (this.user) {
       this.authenticationService.loadUser(this.user.usuario.id).subscribe((usuario) => {
         this.user.usuario.saldo = usuario.saldo;
+        this.user.usuario.saldoRestante = usuario.saldo;
         localStorage.setItem('usuario', JSON.stringify(this.user))
-        console.log('obtenido', usuario);
-        this.mercadoService.getEscuderiasMercado(this.user.usuario.liga_id).subscribe(escuderias => {
+        this.mercadoService.getEscuderiasMercado(this.user.usuario).subscribe(escuderias => {
           this.checkEscuderia(escuderias);
           this.escuderias = this.escuderias;
           this.isLoading = false;
@@ -169,21 +191,44 @@ export class TabEscuderiasComponent implements OnInit {
 
   }
   public enviarPujas() {
+    let totalPujas = 0;
+    this.pujas.forEach(element => {
+      totalPujas = totalPujas + element.puja;
+    });
 
-    this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(() => {
-      this.snackBar.open('Pujas realizadas', 'Exito', {
-        duration: 2000,
-      });
-    },
-      (error) => error = this.snackBar.open('Pujas realizadas', 'Exito', {
-        duration: 2000,
-      }));
+    if (totalPujas <= this.usuario.saldo) {
+      this.usuario.saldoRestante = this.usuario.saldo - totalPujas;
+      this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(() => {
+        this.user.usuario = this.usuario;
+        localStorage.setItem('usuario', JSON.stringify(this.usuario));
+        this.snackBar.open('Pujas realizadas', 'Exito', {
+          duration: 2000,
+        });
+      },
+        (error) => {
+          this.user.usuario = this.usuario;
+          localStorage.setItem('usuario', JSON.stringify(this.user));
+          error = this.snackBar.open('Pujas realizadas', 'Exito', {
+            duration: 2000,
+          })
+        });
 
+    } else {
+      this.snackBar.open('No se han realizado las pujas porque no tienes saldo suficiente', 'Error', {
+        duration: 2000,
+      })
+    }
   }
 
   public limpiarDatosPujas(form: NgForm) {
 
-    form.reset();
+    this.pujasService.borrarPujasUsuario(this.user.usuario.id).subscribe(() => {
+      this.snackBar.open('Pujas borradas', 'Exito', {
+        duration: 2000,
+      });
+
+      this.getEscuderiasMercado();
+    })
   }
 
 }

@@ -12,8 +12,8 @@ export class MercadoService {
 
   constructor(private http: HttpClient) { }
 
-  public getPilotosMercado(liga: number): Observable<Array<IMercado>> {
-    return this.http.get<Array<IMercado>>(`http://127.0.0.1:8000/api/mercadoPilotos/${liga}`);
+  public getPilotosMercado(usuario: IUser): Observable<Array<IMercado>> {
+    return this.http.get<Array<IMercado>>(`http://127.0.0.1:8000/api/mercadoPilotos/${usuario.liga_id}/${usuario.id}`);
   }
   public savePilotosMercado(liga: number): Observable<IMercado> {
     return this.http.post('http://127.0.0.1:8000/api/mercadoPilotos', { liga_id: liga });
@@ -21,8 +21,8 @@ export class MercadoService {
   public deletePilotosMercado(liga: number): Observable<IMercado> {
     return this.http.delete('http://127.0.0.1:8000/api/mercadoPilotos/' + liga);
   }
-  public getEscuderiasMercado(liga: number): Observable<Array<IMercado>> {
-    return this.http.get<Array<IMercado>>(`http://127.0.0.1:8000/api/mercadoEscuderias/${liga}`);
+  public getEscuderiasMercado(usuario: IUser): Observable<Array<IMercado>> {
+    return this.http.get<Array<IMercado>>(`http://127.0.0.1:8000/api/mercadoEscuderias/${usuario.liga_id}/${usuario.id}`);
   }
   public saveEscuderiasMercado(liga: number): Observable<IMercado> {
     return this.http.post('http://127.0.0.1:8000/api/mercadoEscuderias', { liga_id: liga });

@@ -1,4 +1,5 @@
 export interface IUser {
+
     id?: number;
     name?: string;
     email?: string;
@@ -8,7 +9,7 @@ export interface IUser {
     token?: string;
     liga_id?: number;
     saldo?: number;
-
+    saldoRestante?: number;
     //extra
     usuario?: IUser;
 

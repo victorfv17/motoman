@@ -3,8 +3,10 @@
     <mat-spinner class="spinner-center"></mat-spinner>
 </ng-template>
 <ng-template #table>
+
     <div class="title">
         <h1>Comprar pilotos</h1>
+
         <mat-card class="card" style="margin-top:10px;margin-right: 50px;">
             <mat-icon style="font-size: 20px;">
                 account_balance
@@ -12,10 +14,25 @@
             <mat-card-title>
                 Saldo:
                 <span>
-                    {{user.usuario.saldo}}
+                    {{usuario.saldo}}
                 </span>
             </mat-card-title>
+
         </mat-card>
+        <mat-card class="card" style="margin-top:10px;margin-right: 50px;">
+            <mat-icon style="font-size: 20px;">
+                account_balance
+            </mat-icon>
+            <mat-card-title>
+                Saldo Restante:
+                <span>
+                    {{usuario.saldoRestante}}
+                </span>
+            </mat-card-title>
+
+        </mat-card>
+
+
 
     </div>
     <form #formPilotos="ngForm">
@@ -54,12 +71,11 @@
                             </mat-card>
                         </td>
                         <td class="align-middle">
-
-                            <input type="number" class="form-control mx-auto" style="width: 70%" id="puja"
-                                name="valorPuja" placeholder="Introducir puja" [(ngModel)]="piloto.valorPuja"
-                                (ngModelChange)="coleccionPujas(piloto, piloto.valorPuja)">
-                            <span class="errors" *ngIf="piloto.valorPuja && piloto.saldoMenorQuePuja"> El saldo es menor
-                                que la puja</span><br>
+                            <input matInput type="number" class="form-control mx-auto" style="width: 70%" id="puja"
+                                name="{{piloto.nombre}}" placeholder="Introducir puja" [(ngModel)]="piloto.valorPuja"
+                                (focusout)="coleccionPujas(piloto, piloto.valorPuja)">
+                            <span class="errors" *ngIf="piloto.valorPuja && piloto.saldoMenorQuePuja"> No tienes
+                                suficiente saldo para realizar esta puja</span><br>
                             <span class="errors" *ngIf="piloto.valorPuja && piloto.pujaMenorQueValorMercado "> La puja
                                 es menor que el valor de mercado</span>
                         </td>
@@ -70,7 +86,7 @@
             </table>
             <mat-card-actions>
                 <button class="btn btn-secondary submitButton " type="button"
-                    (click)="limpiarDatosPujas(formPilotos)">Limpiar
+                    (click)="limpiarDatosPujas(formPilotos)">Borrar pujas
                 </button>
                 <button [disabled]="formInvalid" class=" btn btn-danger submitButton " type="submit"
                     (click)="enviarPujas()" (keyup.enter)="enviarPujas()">

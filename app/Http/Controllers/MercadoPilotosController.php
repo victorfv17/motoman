@@ -18,7 +18,7 @@ class MercadoPilotosController extends Controller
      */
     public function index()
     {
-        
+        $pilotosPujas = [];
         $fecha_actual = date("yy-m-d");
       
         $fecha_anterior = date("yy-m-d",strtotime($fecha_actual."- 7 days")); 
@@ -28,11 +28,12 @@ class MercadoPilotosController extends Controller
         $pilotos = MercadoPiloto::
         join('pilotos', 'mercadoPilotos.piloto_id','=','pilotos.id')->
         join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')-> 
-        select( 'pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos as puntos','pilotos.valorMercado', 'id_escuderia', 'escuderias.nombre as escuderia', 'fecha')
+        select( 'mercadoPilotos.id as idMercado','pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos as puntos','pilotos.valorMercado', 'id_escuderia', 'escuderias.nombre as escuderia', 'fecha')
         ->orderBy('mercadoPilotos.fecha','desc')
         ->where('fecha',$fecha_actual)
         ->get();
 
+       
       
         /*$mercadoPilotos = MercadoPiloto::get();
         foreach($mercadoPilotos as $mercadoPiloto){
@@ -88,9 +89,12 @@ class MercadoPilotosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-     
+    public function show(Request $request)
+    {   
+        
+        $liga = $request->liga;
+        $usuario = $request->usuario;
+    
         $fecha_actual = date("yy-m-d");
       
         $fecha_anterior = date("yy-m-d",strtotime($fecha_actual."- 7 days")); 
@@ -102,12 +106,12 @@ class MercadoPilotosController extends Controller
         join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')-> 
         select( 'pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos as puntos','pilotos.valorMercado', 'id_escuderia', 'escuderias.nombre as escuderia', 'fecha')
         ->orderBy('mercadoPilotos.fecha','desc')
-        ->where('liga_id',$id)
+        ->where('liga_id',$liga)
         ->where('fecha',$fecha_actual)
         ->get();
 
         if(count($pilotos) == 0 ){
-            $liga = $id;
+            
             $fechaActual = new DateTime();
             $pilotos = Pilotos::whereNotExists(function($query)
             {
@@ -126,10 +130,17 @@ class MercadoPilotosController extends Controller
         join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')-> 
         select('mercadoPilotos.id as idMercado', 'pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos as puntos','pilotos.valorMercado', 'id_escuderia', 'escuderias.nombre as escuderia', 'fecha')
         ->orderBy('mercadoPilotos.fecha','desc')
-        ->where('liga_id',$id)
+        ->where('liga_id',$liga)
         ->where('fecha',$fecha_actual)
         ->get();
-      
+        foreach($pilotos as $indice => $piloto){
+            $pilotos[$indice]->valorPuja = null;
+            $puja = Pujas::where('usuario_id',$usuario)->where('mercadoPiloto_id',$piloto['idMercado'])->first();
+    
+            $pilotos[$indice]->valorPuja = $puja ? $puja['valorPuja']:null;
+            //array_push($pujas, $puja);
+         
+        }
         /*$mercadoPilotos = MercadoPiloto::get();
         foreach($mercadoPilotos as $mercadoPiloto){
             $piloto = Pilotos::where('id',$mercadoPiloto['id']);

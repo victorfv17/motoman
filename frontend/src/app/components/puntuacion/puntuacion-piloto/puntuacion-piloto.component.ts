@@ -13,7 +13,7 @@ import { isNullOrUndefined } from 'util';
 })
 export class PuntuacionPilotoComponent implements OnInit {
   isDisabled = true;
-  valores = [25, 20, 16, 13, 11, 10];
+  valores = [25, 20, 16, 13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
   selected: any;
   public pilotos: Array<IPilotos> = [];
   public direct: string = 'asc';

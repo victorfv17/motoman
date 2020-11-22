@@ -16,6 +16,18 @@
                 </span>
             </mat-card-title>
         </mat-card>
+        <mat-card class="card" style="margin-top:10px;margin-right: 50px;">
+            <mat-icon style="font-size: 20px;">
+                account_balance
+            </mat-icon>
+            <mat-card-title>
+                Saldo Restante:
+                <span>
+                    {{usuario.saldoRestante}}
+                </span>
+            </mat-card-title>
+
+        </mat-card>
 
     </div>
     <form #formEscuderias="ngForm">
@@ -52,11 +64,11 @@
                             </mat-card>
                         </td>
                         <td class="align-middle">
-                            <input type="number" class="form-control mx-auto" style="width: 70%" id="puja" name="puja"
-                                placeholder="Introducir puja" [(ngModel)]="escuderia.puja"
-                                (ngModelChange)="coleccionPujasEscuderias(escuderia, escuderia.puja)">
-                            <span class="errors" *ngIf="escuderia.puja && escuderia.saldoMenorQuePuja"> El saldo es
-                                menor que la puja</span><br>
+                            <input matInput type="number" class="form-control mx-auto" style="width: 70%" id="puja"
+                                name="{{escuderia.nombre}}" placeholder="Introducir puja" [(ngModel)]="escuderia.puja"
+                                (focusout)="coleccionPujasEscuderias(escuderia, escuderia.puja)">
+                            <span class="errors" *ngIf="escuderia.puja && escuderia.saldoMenorQuePuja"> No tienes
+                                suficiente saldo para realizar esta puja</span><br>
                             <span class="errors" *ngIf="escuderia.puja && escuderia.pujaMenorQueValorMercado "> La puja
                                 es menor que el valor de mercado</span>
                         </td>
@@ -67,7 +79,7 @@
             </table>
             <mat-card-actions>
                 <button class="btn btn-secondary submitButton " type="button"
-                    (click)="limpiarDatosPujas(formEscuderias)">Limpiar
+                    (click)="limpiarDatosPujas(formEscuderias)">Borrar pujas
                 </button>
                 <button [disabled]="formInvalid" class="btn btn-danger submitButton " type="submit"
                     (click)="enviarPujas()" (keyup.enter)="enviarPujas()">

@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
       this.authenticationService.getUser(this.user).subscribe(usuario => {
         if (usuario) {
           this.tieneError = false;
+
           localStorage.setItem('usuario', JSON.stringify(usuario));
           this.navigate(usuario);
         }

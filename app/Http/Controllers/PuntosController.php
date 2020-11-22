@@ -182,14 +182,15 @@ class PuntosController extends Controller
        $ligas = Ligas::get();
        foreach($ligas as $liga){
          //obtener todos los usuarios de la liga
-        $usuarios = User::where('liga_id',$liga['id_liga'])->get();
+        $usuarios = User::where('liga_id',$liga['id_liga'])->where('saldo','>',0)->get();
+      
         foreach($usuarios as $usuario){
           $puntosTotalesGP = 0 ;
           $puntosTotales = 0;
          
           //obtener alineados del equipo del usuario
            $equipo = Equipo::where('usuario_id',$usuario['id'])->where('indicadorEnAlineacion', 1)->get();//cambiar por true
-  
+           $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->first();
            if(count($equipo) > 0){
      
            foreach($equipo as $row){
@@ -201,7 +202,7 @@ class PuntosController extends Controller
              }
              if($puntos !==null){
                 // foreach($puntos as $puntuacion){
-                    $rowUsuario = Clasificacion::where('id_usuario', $usuario['id'])->first();
+                   
                  // echo $rowUsuario;
                     $puntosTotalesGP =  $puntosTotalesGP + $puntos['puntosGP'];//0 + 5 + 25 = 30; 30 + 5 +16 = 51
                     //5+25;16 + 30
@@ -217,7 +218,7 @@ class PuntosController extends Controller
                 
                 
            }
-           $puntosTotalesGP = $puntosTotalesGP +$rowUsuario['puntosGP'];
+           $puntosTotalesGP = $puntosTotalesGP +$rowUsuario['puntosGP'];//20+16
            $puntosTotales = $rowUsuario['puntosTotales'] +$puntosTotalesGP ;//0+41 = 41
            Clasificacion::where('id_usuario', $usuario['id'])->update(['puntosGP'=> $puntosTotalesGP, 'puntosTotales'=> $puntosTotales]);
           }else{
@@ -233,12 +234,15 @@ class PuntosController extends Controller
     }
     public function updatePuntosPredicciones(){
       $predicciones = Predicciones::get();
-      $puntosTotalesGP = 0 ;
+     
 
       if(count($predicciones)>0){
       foreach($predicciones as $prediccion){
+        $puntosTotalesGP = 0 ;
         $idUser = $prediccion['usuario_id'];
         $piloto = $prediccion['piloto_id'];
+        echo 'id',$idUser;
+        echo 'piloto',$piloto;
         $clasificacion = Clasificacion::where('id_usuario', $idUser)->first();
         $puntos = Puntos::where('id_piloto', $piloto)->select('posicion')->first();
         if(isset($puntos['posicion'])){
@@ -268,7 +272,7 @@ class PuntosController extends Controller
             }
           }
         
-          $puntosTotales = $clasificacion['puntosTotales'] + $puntosTotalesGP;//0+ 5
+          $puntosTotales = $clasificacion['puntosTotales'] + $puntosTotalesGP;
           Clasificacion::where('id_usuario', $idUser)->update(['puntosGP'=> $puntosTotalesGP]);
         }
         

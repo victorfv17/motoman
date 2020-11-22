@@ -125,8 +125,11 @@ class PujasController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-     //
+    {//join('mercadoPilotos', 'mercadoPilotos.id','=','pujas.mercadoPiloto_id')
+     return Pujas::
+     where('usuario_id',$id)->where('visible',null)
+     ->select('mercadoPiloto_id as mercadoPilotoId','mercadoEscuderia_id as mercadoEscuderiaId', 'valorPuja')
+     ->get();
     }
 
     /**
@@ -245,7 +248,7 @@ class PujasController extends Controller
         
     // }
    
-    public function destroy()
+    public function destroyPujas()
     {
         $fecha_actual = date("yy-m-d");
       
@@ -303,7 +306,7 @@ class PujasController extends Controller
                      $maxPuja = 0 ;
                    
                      
-                    $this->destroy();
+                    $this->destroyPujas();
                     //$todasPujas = Pujas::orderBy('mercadoPiloto_id', 'asc' )->get();
                 }
                
@@ -353,7 +356,7 @@ class PujasController extends Controller
                      $maxPuja = 0 ;
                    
                      
-                    $this->destroy();
+                    $this->destroyPujas();
                     //$todasPujas = Pujas::orderBy('mercadoPiloto_id', 'asc' )->get();
                 }
             }
@@ -364,4 +367,9 @@ class PujasController extends Controller
         Equipo::where('indicadorEnAlineacion','2')->delete();
 
     }
+
+    public function destroy($usuarioId){
+        Pujas::where('usuario_id',$usuarioId)->where('visible',null)->delete();
+    }
+
 }

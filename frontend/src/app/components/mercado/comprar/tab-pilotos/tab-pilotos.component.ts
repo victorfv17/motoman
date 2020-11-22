@@ -26,7 +26,8 @@ export class TabPilotosComponent implements OnInit {
   public user: IUser;
   public pujas: Array<IPujas> = [];
   public isLoading: boolean = true;
-
+  public usuario: any;
+  private totalPujado: number = 0;
   constructor(
     private mercadoService: MercadoService,
     private pujasService: PujasService,
@@ -36,16 +37,22 @@ export class TabPilotosComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
-
+    this.usuario = this.user.usuario;
     this.getPilotosMercado();
+
+    // this.fetchPujasUsuario();
 
   }
   public coleccionPujas(piloto?: any, puja?: number) {
-
     let index = this.pilotos.findIndex(elem => elem.idMercado === piloto.idMercado);
+    if (puja === null) {
+      let existePiloto = this.pujas.find(((elemento) => elemento.piloto === piloto.idMercado));
+      if (existePiloto) {
+        this.pujas.splice(this.pujas.indexOf(existePiloto), 1);
+      }
 
+    }
     if (!puja) {
-      console.log(this.pilotos);
       let existe = this.pilotos.find(element => element.valorPuja > 0);
       if (existe) {
         this.formInvalid = false;
@@ -62,17 +69,22 @@ export class TabPilotosComponent implements OnInit {
       this.pilotos[index].saldoMenorQuePuja = false;
       this.pilotos[index].pujaMenorQueValorMercado = false;
       this.formInvalid = false;
+
+      let existe = this.pujas.find((elemento) => elemento.piloto === piloto.idMercado);
+      if (existe) {
+        //  this.usuario.saldoRestante = this.usuario.saldoRestante + existe.puja;
+        this.pujas.splice(this.pujas.indexOf(existe), 1);
+
+      }
+
       let pilotoPuja: IPujas = {
         piloto: piloto.idMercado,
         puja: Number(puja)
       }
       this.pujas.push(pilotoPuja);
+
+      console.log(this.pujas);
     }
-
-
-
-
-
 
   }
 
@@ -82,13 +94,27 @@ export class TabPilotosComponent implements OnInit {
 
     let fechaActual = new Date().toISOString().slice(0, 10);
     //fechaActual = '2020-06-02';
-    this.mercadoService.getPilotosMercado(this.user.usuario.liga_id).subscribe(pilotos => {
-      console.log('pilotos', pilotos);
-
+    this.mercadoService.getPilotosMercado(this.user.usuario).subscribe(pilotos => {
       if (pilotos && pilotos.length > 0) {
         if (String(pilotos[0].fecha) === fechaActual) {
           this.checkPilotoEscuderia(pilotos);
           this.pilotos = pilotos;
+          this.pilotos.forEach(piloto => {
+            this.totalPujado = this.totalPujado + piloto.valorPuja;
+            // if (piloto.valorPuja > 0) {
+            //   let pilotoPuja: IPujas = {
+            //     piloto: piloto.idMercado,
+            //     puja: Number(piloto.valorPuja)
+            //   }
+            //   this.pujas.push(pilotoPuja);
+            // }
+
+
+          });
+
+          this.usuario.saldoRestante = this.usuario.saldo - this.totalPujado;
+
+          // this.fetchPujasUsuario();
           this.isLoading = false;
         } else {
           this.isLoading = true;
@@ -116,6 +142,21 @@ export class TabPilotosComponent implements OnInit {
     });
   }
 
+  // private fetchPujasUsuario() {
+  //   this.pujasService.getPujasUsuario(this.user.usuario.id).subscribe((pujas) => {
+  //     this.pilotos.map((piloto) => {
+  //       let existe = pujas.find((puja) => puja.mercadoPilotoId === piloto.idMercado);
+  //       console.log(existe);
+  //       if (existe) {
+  //         piloto.valorPuja = existe.valorPuja;
+  //         this.formInvalid = false;
+  //       }
+  //     })
+  //     console.log(this.pilotos);
+  //     //this.pujas = pujas;
+  //   });
+  // }
+
   private createPilotosMercado() {
     this.mercadoService.savePilotosMercado(this.user.usuario.liga_id).subscribe(() => this.getPilotosMercado());
   }
@@ -133,9 +174,9 @@ export class TabPilotosComponent implements OnInit {
     if (this.user) {
       this.authenticationService.loadUser(this.user.usuario.id).subscribe((usuario) => {
         this.user.usuario.saldo = usuario.saldo;
-        localStorage.setItem('usuario', JSON.stringify(this.user))
-        console.log('obtenido', usuario);
-        this.mercadoService.getPilotosMercado(this.user.usuario.liga_id).subscribe(pilotos => {
+        this.user.usuario.saldoRestante = usuario.saldo;
+        localStorage.setItem('usuario', JSON.stringify(this.user));
+        this.mercadoService.getPilotosMercado(this.user.usuario).subscribe(pilotos => {
           this.checkPilotoEscuderia(pilotos);
           this.pilotos = pilotos;
           this.isLoading = false;
@@ -194,27 +235,54 @@ export class TabPilotosComponent implements OnInit {
 
 
   public enviarPujas() {
+    let totalPujas = 0;
+    this.pujas.forEach(element => {
+      totalPujas = totalPujas + element.puja;
+    });
 
-    this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(() => {
-      this.snackBar.open('Pujas realizadas', 'Exito', {
-        duration: 2000,
-      });
-
-
-    },
-      (error) => {
-        error = this.snackBar.open('Pujas realizadas', 'Exito', {
+    if (totalPujas <= this.usuario.saldo) {
+      this.usuario.saldoRestante = this.usuario.saldo - totalPujas;
+      this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(() => {
+        this.user.usuario = this.usuario;
+        localStorage.setItem('usuario', JSON.stringify(this.usuario));
+        this.snackBar.open('Pujas realizadas', 'Exito', {
           duration: 2000,
-        })
-      }
-    );
+        });
+
+
+
+      },
+        (error) => {
+          this.user.usuario = this.usuario;
+          localStorage.setItem('usuario', JSON.stringify(this.user));
+          error = this.snackBar.open('Pujas realizadas', 'Exito', {
+            duration: 2000,
+          })
+        }
+      );
+    } else {
+      this.snackBar.open('No se han realizado las pujas porque no tienes saldo suficiente', 'Error', {
+        duration: 2000,
+      })
+    }
 
 
   }
 
   public limpiarDatosPujas(form: NgForm) {
 
-    form.reset();
+    //form.reset();
+    this.pujasService.borrarPujasUsuario(this.user.usuario.id).subscribe(() => {
+      // this.pujas.forEach(element => {
+      //   this.usuario.saldoRestante = this.usuario.saldoRestante + element.puja;
+      // });
+
+      this.snackBar.open('Pujas borradas', 'Exito', {
+        duration: 2000,
+      });
+
+      this.getPilotosMercado();
+    })
   }
 
 
