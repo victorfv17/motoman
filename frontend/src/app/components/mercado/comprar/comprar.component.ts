@@ -15,12 +15,16 @@ import { NgForm } from '@angular/forms';
 })
 export class ComprarComponent implements OnInit {
   isLoading = false;
-
+  saldoRestante: number;
   constructor(
   ) { }
 
   ngOnInit() {
 
+  }
+
+  obtenerSaldoRestante(saldoRestante: number) {
+    this.saldoRestante = saldoRestante;
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChange, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, Output, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IPujas } from 'src/app/shared/models/pujas.model';
 import { MercadoService } from 'src/app/shared/services/mercado.service';
@@ -6,14 +6,17 @@ import { IUser } from 'src/app/shared/models/users.model';
 import { PujasService } from 'src/app/shared/services/pujas.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-tab-escuderias',
   templateUrl: './tab-escuderias.component.html',
   styleUrls: ['./tab-escuderias.component.scss']
 })
-export class TabEscuderiasComponent implements OnInit {
+export class TabEscuderiasComponent implements OnInit, OnChanges {
   @ViewChild('formEscuderias', { static: true }) formEscuderias: NgForm;
+  @Input() saldoRestante: number;
+  @Output() saldo = new EventEmitter();
   formInvalid = false;
   public escuderias: Array<any> = [];
   public puja: number;
@@ -22,6 +25,7 @@ export class TabEscuderiasComponent implements OnInit {
   public isLoading: boolean = true;
   public usuario: any;
   private totalPujado: number = 0;
+  totalPujas: number = 0;
   constructor(
     private mercadoService: MercadoService,
     private pujasService: PujasService,
@@ -35,12 +39,23 @@ export class TabEscuderiasComponent implements OnInit {
 
     this.getEscuderiasMercado();
   }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.saldoRestante.currentValue) {
+      this.usuario.saldoRestante = changes.saldoRestante.currentValue;
+    }
+
+    //this.doSomething(changes.categoryId.currentValue);
+    // You can also use categoryId.previousValue and 
+    // categoryId.firstChange for comparing old and new values
+
+  }
 
   public coleccionPujasEscuderias(escuderia: any, puja: number) {
     let index = this.escuderias.findIndex(elem => elem.idMercado === escuderia.idMercado);
     if (puja === null) {
       let existeEscuderia = this.pujas.find(((elemento) => elemento.escuderia === escuderia.idMercado));
       if (existeEscuderia) {
+        this.usuario.saldoRestante = this.usuario.saldoRestante + existeEscuderia.puja;
         this.pujas.splice(this.pujas.indexOf(existeEscuderia), 1);
       }
 
@@ -65,7 +80,7 @@ export class TabEscuderiasComponent implements OnInit {
       this.formInvalid = false;
       let existe = this.pujas.find((elemento) => elemento.escuderia === escuderia.idMercado);
       if (existe) {
-
+        this.usuario.saldoRestante = this.usuario.saldoRestante + existe.puja;
         this.pujas.splice(this.pujas.indexOf(existe), 1);
 
       }
@@ -74,6 +89,8 @@ export class TabEscuderiasComponent implements OnInit {
         puja: puja
       }
       this.pujas.push(escuderiaPuja);
+      console.log('pujas', this.pujas);
+      this.usuario.saldoRestante = this.usuario.saldoRestante - puja;
     }
   }
 
@@ -89,10 +106,19 @@ export class TabEscuderiasComponent implements OnInit {
           this.escuderias = escuderias;
           this.escuderias.forEach(escuderia => {
             this.totalPujado = this.totalPujado + escuderia.puja;
+            if (escuderia.puja != null) {
+              let escuderiaPuja: IPujas = {
+                escuderia: escuderia.idMercado,
+                puja: escuderia.puja
+              }
+              this.pujas.push(escuderiaPuja);
+              console.log(this.pujas);
+            }
+
           });
 
-          this.usuario.saldoRestante = this.usuario.saldo - this.totalPujado;
-
+          this.usuario.saldoRestante = this.usuario.saldoRestante - this.totalPujado;
+          this.saldo.emit(this.usuario.saldoRestante);
           this.isLoading = false;
         } else {
           this.isLoading = true;
@@ -191,15 +217,11 @@ export class TabEscuderiasComponent implements OnInit {
 
   }
   public enviarPujas() {
-    let totalPujas = 0;
-    this.pujas.forEach(element => {
-      totalPujas = totalPujas + element.puja;
-    });
+    if (this.usuario.saldoRestante >= 0) {
 
-    if (totalPujas <= this.usuario.saldo) {
-      this.usuario.saldoRestante = this.usuario.saldo - totalPujas;
       this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(() => {
         this.user.usuario = this.usuario;
+        this.saldo.emit(this.usuario.saldoRestante);
         localStorage.setItem('usuario', JSON.stringify(this.usuario));
         this.snackBar.open('Pujas realizadas', 'Exito', {
           duration: 2000,
@@ -207,6 +229,7 @@ export class TabEscuderiasComponent implements OnInit {
       },
         (error) => {
           this.user.usuario = this.usuario;
+          this.saldo.emit(this.usuario.saldoRestante);
           localStorage.setItem('usuario', JSON.stringify(this.user));
           error = this.snackBar.open('Pujas realizadas', 'Exito', {
             duration: 2000,
@@ -221,12 +244,19 @@ export class TabEscuderiasComponent implements OnInit {
   }
 
   public limpiarDatosPujas(form: NgForm) {
-
-    this.pujasService.borrarPujasUsuario(this.user.usuario.id).subscribe(() => {
+    let totalPujasBorradas = 0;
+    this.pujas.forEach(element => {
+      totalPujasBorradas = totalPujasBorradas + element.puja;
+    });
+    this.pujasService.borrarPujasUsuario(this.user.usuario.id, 'escuderias').subscribe(() => {
       this.snackBar.open('Pujas borradas', 'Exito', {
         duration: 2000,
       });
-
+      // this.totalPujado = this.usuario.saldo - this.usuario.saldoRestante - totalPujasBorradas;
+      // this.pujas = [];
+      this.totalPujado = 0;
+      this.usuario.saldoRestante = this.usuario.saldoRestante + totalPujasBorradas;
+      this.pujas = [];
       this.getEscuderiasMercado();
     })
   }

@@ -31,7 +31,8 @@ export class PujasService {
   public deletePujas(): Observable<any> {
     return this.http.delete<any>('http://127.0.0.1:8000/api/pujas/borrar/todas');
   }
-  public borrarPujasUsuario(usuario: number): Observable<any> {
-    return this.http.delete<any>(`http://127.0.0.1:8000/api/pujas/${usuario}`);
+  public borrarPujasUsuario(usuario: number, tipo: string): Observable<any> {
+
+    return this.http.delete<any>(`http://127.0.0.1:8000/api/pujas/${usuario}/tipo/${tipo}`);
   }
 }

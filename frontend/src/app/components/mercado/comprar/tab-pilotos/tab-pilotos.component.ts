@@ -1,8 +1,10 @@
 
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { EventEmitter, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm, Form } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { skip } from 'rxjs/operators';
 import { IPilotos } from 'src/app/shared/models/pilotos.model';
 import { IPujas } from 'src/app/shared/models/pujas.model';
@@ -18,8 +20,9 @@ import { PujasService } from 'src/app/shared/services/pujas.service';
 })
 export class TabPilotosComponent implements OnInit {
   @ViewChild('formPilotos', { static: true }) formPilotos: NgForm;
+  @Input() saldoRestante: number;
+  @Output() saldo = new EventEmitter();
   formInvalid: boolean = false;
-
   public pilotos: Array<any> = [];
   public escuderias: any;
   public puja: number;
@@ -43,11 +46,23 @@ export class TabPilotosComponent implements OnInit {
     // this.fetchPujasUsuario();
 
   }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.saldoRestante.currentValue) {
+      this.usuario.saldoRestante = changes.saldoRestante.currentValue;
+    }
+
+    //this.doSomething(changes.categoryId.currentValue);
+    // You can also use categoryId.previousValue and 
+    // categoryId.firstChange for comparing old and new values
+
+  }
+
   public coleccionPujas(piloto?: any, puja?: number) {
     let index = this.pilotos.findIndex(elem => elem.idMercado === piloto.idMercado);
     if (puja === null) {
       let existePiloto = this.pujas.find(((elemento) => elemento.piloto === piloto.idMercado));
       if (existePiloto) {
+        this.usuario.saldoRestante = this.usuario.saldoRestante + existePiloto.puja;
         this.pujas.splice(this.pujas.indexOf(existePiloto), 1);
       }
 
@@ -72,7 +87,7 @@ export class TabPilotosComponent implements OnInit {
 
       let existe = this.pujas.find((elemento) => elemento.piloto === piloto.idMercado);
       if (existe) {
-        //  this.usuario.saldoRestante = this.usuario.saldoRestante + existe.puja;
+        this.usuario.saldoRestante = this.usuario.saldoRestante + existe.puja;
         this.pujas.splice(this.pujas.indexOf(existe), 1);
 
       }
@@ -82,7 +97,7 @@ export class TabPilotosComponent implements OnInit {
         puja: Number(puja)
       }
       this.pujas.push(pilotoPuja);
-
+      this.usuario.saldoRestante = this.usuario.saldoRestante - puja;
       console.log(this.pujas);
     }
 
@@ -101,19 +116,19 @@ export class TabPilotosComponent implements OnInit {
           this.pilotos = pilotos;
           this.pilotos.forEach(piloto => {
             this.totalPujado = this.totalPujado + piloto.valorPuja;
-            // if (piloto.valorPuja > 0) {
-            //   let pilotoPuja: IPujas = {
-            //     piloto: piloto.idMercado,
-            //     puja: Number(piloto.valorPuja)
-            //   }
-            //   this.pujas.push(pilotoPuja);
-            // }
+            if (piloto.valorPuja != null) {
+              let pilotoPuja: IPujas = {
+                piloto: piloto.idMercado,
+                puja: Number(piloto.valorPuja)
+              }
+              this.pujas.push(pilotoPuja);
+            }
 
 
           });
 
           this.usuario.saldoRestante = this.usuario.saldo - this.totalPujado;
-
+          this.saldo.emit(this.usuario.saldoRestante);
           // this.fetchPujasUsuario();
           this.isLoading = false;
         } else {
@@ -235,16 +250,17 @@ export class TabPilotosComponent implements OnInit {
 
 
   public enviarPujas() {
-    let totalPujas = 0;
-    this.pujas.forEach(element => {
-      totalPujas = totalPujas + element.puja;
-    });
+    // let totalPujas = 0;
+    // this.pujas.forEach(element => {
+    //   totalPujas = totalPujas + element.puja;
+    // });
 
-    if (totalPujas <= this.usuario.saldo) {
-      this.usuario.saldoRestante = this.usuario.saldo - totalPujas;
+    if (this.usuario.saldoRestante >= 0) {
+      // this.usuario.saldoRestante = this.usuario.saldo - totalPujas;
       this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(() => {
         this.user.usuario = this.usuario;
-        localStorage.setItem('usuario', JSON.stringify(this.usuario));
+        localStorage.setItem('usuario', JSON.stringify(this.user));
+        this.saldo.emit(this.usuario.saldoRestante);
         this.snackBar.open('Pujas realizadas', 'Exito', {
           duration: 2000,
         });
@@ -254,6 +270,8 @@ export class TabPilotosComponent implements OnInit {
       },
         (error) => {
           this.user.usuario = this.usuario;
+
+          this.saldo.emit(this.usuario.saldoRestante);
           localStorage.setItem('usuario', JSON.stringify(this.user));
           error = this.snackBar.open('Pujas realizadas', 'Exito', {
             duration: 2000,
@@ -271,8 +289,12 @@ export class TabPilotosComponent implements OnInit {
 
   public limpiarDatosPujas(form: NgForm) {
 
+    let totalPujasBorradas = 0;
+    this.pujas.forEach(element => {
+      totalPujasBorradas = totalPujasBorradas + element.puja;
+    });
     //form.reset();
-    this.pujasService.borrarPujasUsuario(this.user.usuario.id).subscribe(() => {
+    this.pujasService.borrarPujasUsuario(this.user.usuario.id, 'pilotos').subscribe(() => {
       // this.pujas.forEach(element => {
       //   this.usuario.saldoRestante = this.usuario.saldoRestante + element.puja;
       // });
@@ -280,9 +302,14 @@ export class TabPilotosComponent implements OnInit {
       this.snackBar.open('Pujas borradas', 'Exito', {
         duration: 2000,
       });
-
+      this.totalPujado = this.usuario.saldo - this.usuario.saldoRestante - totalPujasBorradas;
+      this.pujas = [];
       this.getPilotosMercado();
+
+
+      //this.usuario.saldoRestante = this.usuario.saldo;
     })
+
   }
 
 

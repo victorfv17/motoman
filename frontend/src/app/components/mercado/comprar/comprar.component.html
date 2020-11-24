@@ -5,10 +5,11 @@
 <ng-template #table>
     <mat-tab-group mat-stretch-tabs>
         <mat-tab label="Pilotos">
-            <app-tab-pilotos></app-tab-pilotos>
+            <app-tab-pilotos (saldo)="obtenerSaldoRestante($event)" [saldoRestante]="saldoRestante"></app-tab-pilotos>
         </mat-tab>
         <mat-tab label="Escuderias">
-            <app-tab-escuderias></app-tab-escuderias>
+            <app-tab-escuderias [saldoRestante]="saldoRestante" (saldo)="obtenerSaldoRestante($event)">
+            </app-tab-escuderias>
         </mat-tab>
 
     </mat-tab-group>

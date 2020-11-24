@@ -368,8 +368,13 @@ class PujasController extends Controller
 
     }
 
-    public function destroy($usuarioId){
-        Pujas::where('usuario_id',$usuarioId)->where('visible',null)->delete();
+    public function destroy($usuarioId, $tipo){
+        if($tipo === 'pilotos'){
+            Pujas::where('usuario_id',$usuarioId)->where('mercadoPiloto_id', '<>', null)->where('visible',null)->delete();
+        }else{
+            Pujas::where('usuario_id',$usuarioId)->where('mercadoEscuderia_id', '<>', null)->where('visible',null)->delete();
+        }
+        
     }
 
 }
