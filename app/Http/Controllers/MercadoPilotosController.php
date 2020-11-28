@@ -135,7 +135,7 @@ class MercadoPilotosController extends Controller
         ->get();
         foreach($pilotos as $indice => $piloto){
             $pilotos[$indice]->valorPuja = null;
-            $puja = Pujas::where('usuario_id',$usuario)->where('mercadoPiloto_id',$piloto['idMercado'])->first();
+            $puja = Pujas::where('usuario_id',$usuario)->where('mercadoPiloto_id',$piloto['idMercado'])->where('visible',null)->first();
     
             $pilotos[$indice]->valorPuja = $puja ? $puja['valorPuja']:null;
             //array_push($pujas, $puja);

@@ -241,8 +241,6 @@ class PuntosController extends Controller
         $puntosTotalesGP = 0 ;
         $idUser = $prediccion['usuario_id'];
         $piloto = $prediccion['piloto_id'];
-        echo 'id',$idUser;
-        echo 'piloto',$piloto;
         $clasificacion = Clasificacion::where('id_usuario', $idUser)->first();
         $puntos = Puntos::where('id_piloto', $piloto)->select('posicion')->first();
         if(isset($puntos['posicion'])){

@@ -108,7 +108,6 @@ export class TabPilotosComponent implements OnInit {
   private getPilotosMercado() {
 
     let fechaActual = new Date().toISOString().slice(0, 10);
-    //fechaActual = '2020-06-02';
     this.mercadoService.getPilotosMercado(this.user.usuario).subscribe(pilotos => {
       if (pilotos && pilotos.length > 0) {
         if (String(pilotos[0].fecha) === fechaActual) {
