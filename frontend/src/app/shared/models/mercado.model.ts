@@ -1,3 +1,6 @@
+/**
+ * Interfaz para el modelo de mercado
+ */
 export interface IMercado {
     id?: number;
     piloto?: string;

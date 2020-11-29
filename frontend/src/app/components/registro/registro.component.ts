@@ -10,22 +10,39 @@ import { NgForm } from '@angular/forms';
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss']
 })
+/**
+ * Clase para el componente de registro
+ */
 export class RegistroComponent implements OnInit {
   public usuario: IUser = {};
   deshabilitarForm: boolean = false;
   tieneError: boolean = false;
+  /**
+   * Constructor para el componente de registro
+   * @param  {AuthenticationService} privateauthenticationService
+   * @param  {Router} privaterouter
+   * @param  {MatSnackBar} privatesnackbar
+   */
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
     private snackbar: MatSnackBar
   ) { }
-
+  /**
+   * metodo que se ejecuta al inicio
+   */
   ngOnInit() {
   }
+  /**
+   * Navega a la pantalla de login
+   */
   back() {
     this.router.navigateByUrl('/login');
   }
-
+  /**
+   * Envia la informacion introducida sobre el usuario a registrar
+   * @param  {NgForm} form //formulario con los datos a registrar
+   */
   submitData(form: NgForm) {
 
     this.authenticationService.createUser(this.usuario).subscribe(() => {

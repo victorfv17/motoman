@@ -1,3 +1,6 @@
+/**
+ * Interfaz para el modelo de usuario
+ */
 export interface IUser {
 
     id?: number;

@@ -16,7 +16,7 @@ import { PilotosAddComponent } from './components/pilotos/pilotos-add/pilotos-ad
 import { RegistroComponent } from './components/registro/registro.component';
 import { PrediccionesComponent } from './components/predicciones/predicciones.component';
 
-
+//rutas para los componentes
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AutenticacionGuard] },
   { path: 'login', component: LoginComponent },
@@ -42,4 +42,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+/**
+ * Modulo de rutas de los componentes
+ */
 export class AppRoutingModule { }

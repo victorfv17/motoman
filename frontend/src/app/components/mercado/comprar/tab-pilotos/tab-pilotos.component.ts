@@ -18,6 +18,9 @@ import { PujasService } from 'src/app/shared/services/pujas.service';
   templateUrl: './tab-pilotos.component.html',
   styleUrls: ['./tab-pilotos.component.scss']
 })
+/**
+ * Clase para el componente de comprar pilotos
+ */
 export class TabPilotosComponent implements OnInit {
   @ViewChild('formPilotos', { static: true }) formPilotos: NgForm;
   @Input() saldoRestante: number;
@@ -31,32 +34,48 @@ export class TabPilotosComponent implements OnInit {
   public isLoading: boolean = true;
   public usuario: any;
   private totalPujado: number = 0;
+  /**
+   * Constructor para el componente de comprar pilotos
+   * @param  {MercadoService} privatemercadoService
+   * @param  {PujasService} privatepujasService
+   * @param  {MatSnackBar} privatesnackBar
+   * @param  {AuthenticationService} privateauthenticationService
+   */
   constructor(
     private mercadoService: MercadoService,
     private pujasService: PujasService,
     private snackBar: MatSnackBar,
     private authenticationService: AuthenticationService
   ) { }
-
+  /**
+   * Metodo que se ejecuta al inicio
+   */
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
     this.usuario = this.user.usuario;
     this.getPilotosMercado();
 
-    // this.fetchPujasUsuario();
+
 
   }
+  /**
+   * Metodo que se ejecuta cuando cambia el saldo restante
+   * @param  {SimpleChanges} changes //los cambios que se produjeron
+   */
   ngOnChanges(changes: SimpleChanges) {
     if (changes.saldoRestante.currentValue) {
       this.usuario.saldoRestante = changes.saldoRestante.currentValue;
     }
 
-    //this.doSomething(changes.categoryId.currentValue);
-    // You can also use categoryId.previousValue and 
-    // categoryId.firstChange for comparing old and new values
-
   }
 
+  /**
+   * Coleccion que se va realizando a medida que se van introduciendo pujas
+   * Tiene varias condiciones dependiendo de si existe la puja o no o si ya existe puja para ese piloto
+   * Realiza las validaciones correspondientes sobre el saldo y el valor del mercado
+   * @param  {any} piloto? //piloto sobre el que se realiza la puja
+   * @param  {number} puja? //valor de la puja realizada
+   */
   public coleccionPujas(piloto?: any, puja?: number) {
     let index = this.pilotos.findIndex(elem => elem.idMercado === piloto.idMercado);
     if (puja === null) {
@@ -98,13 +117,15 @@ export class TabPilotosComponent implements OnInit {
       }
       this.pujas.push(pilotoPuja);
       this.usuario.saldoRestante = this.usuario.saldoRestante - puja;
-      console.log(this.pujas);
     }
 
   }
 
 
-
+  /**
+   * Obtiene los pilotos del mercado correspondientes al dia actual
+   * Comprueba las pujas obtenidas para restarlas al saldo
+   */
   private getPilotosMercado() {
 
     let fechaActual = new Date().toISOString().slice(0, 10);
@@ -128,13 +149,10 @@ export class TabPilotosComponent implements OnInit {
 
           this.usuario.saldoRestante = this.usuario.saldo - this.totalPujado;
           this.saldo.emit(this.usuario.saldoRestante);
-          // this.fetchPujasUsuario();
           this.isLoading = false;
         } else {
           this.isLoading = true;
           this.borrarPujas();
-          // this.createPilotosMercado();
-          // this.deletePilotosMercado();
         }
         let existe = pilotos.find(element => element.valorPuja > 0);
         if (existe) {
@@ -142,48 +160,37 @@ export class TabPilotosComponent implements OnInit {
         } else {
           this.formInvalid = true;
         }
-
-        //el create se hace dos veces hay que pensar esto para que no se haga bucle
       } else {
-
-        //this.createPilotosMercado();
-
-        // this.borrarPujas();
-        // this.createPilotosMercado();
 
       }
 
     });
   }
-
-  // private fetchPujasUsuario() {
-  //   this.pujasService.getPujasUsuario(this.user.usuario.id).subscribe((pujas) => {
-  //     this.pilotos.map((piloto) => {
-  //       let existe = pujas.find((puja) => puja.mercadoPilotoId === piloto.idMercado);
-  //       console.log(existe);
-  //       if (existe) {
-  //         piloto.valorPuja = existe.valorPuja;
-  //         this.formInvalid = false;
-  //       }
-  //     })
-  //     console.log(this.pilotos);
-  //     //this.pujas = pujas;
-  //   });
-  // }
-
+  /**
+   * Crea pilotos para el mercado
+   * Se ejecuta cuando no hay pilotos en el mercado en el dia actual
+   */
   private createPilotosMercado() {
     this.mercadoService.savePilotosMercado(this.user.usuario.liga_id).subscribe(() => this.getPilotosMercado());
   }
-
+  /**
+   * Borra los pilotos del mercado
+   */
   private deletePilotosMercado() {
     this.mercadoService.deletePilotosMercado(this.user.usuario.liga_id).subscribe(() => this.createPilotosMercado());
 
   }
+  /**
+   * Borra las pujas 
+   */
   private borrarPujas() {
     this.pujasService.deletePujas().subscribe(() => this.updateSaldo());
 
 
   }
+  /**
+   * Actualiza el saldo del usuario y vuelve a obtener los pilotos
+   */
   private updateSaldo() {
     if (this.user) {
       this.authenticationService.loadUser(this.user.usuario.id).subscribe((usuario) => {
@@ -200,7 +207,10 @@ export class TabPilotosComponent implements OnInit {
 
 
   }
-
+  /**
+   * Comprueba la escuderia del piloto para asignarle el color correspondiente
+   * @param  {any} pilotos //coleccion de pilotos
+   */
   private checkPilotoEscuderia(pilotos: any) {
     for (var i = 0; i < pilotos.length; i++) {
 
@@ -247,15 +257,11 @@ export class TabPilotosComponent implements OnInit {
   }
 
 
-
+  /**
+   * Envia las pujas del usuario  y actualiza el saldo
+   */
   public enviarPujas() {
-    // let totalPujas = 0;
-    // this.pujas.forEach(element => {
-    //   totalPujas = totalPujas + element.puja;
-    // });
-
     if (this.usuario.saldoRestante >= 0) {
-      // this.usuario.saldoRestante = this.usuario.saldo - totalPujas;
       this.pujasService.guardarPuja(this.user.usuario.id, this.pujas).subscribe(() => {
         this.user.usuario = this.usuario;
         localStorage.setItem('usuario', JSON.stringify(this.user));
@@ -285,28 +291,24 @@ export class TabPilotosComponent implements OnInit {
 
 
   }
-
+  /**
+   * Borra las pujas y actualiza el saldo dependiendo de las pujas borradas
+   * @param  {NgForm} form
+   */
   public limpiarDatosPujas(form: NgForm) {
 
     let totalPujasBorradas = 0;
     this.pujas.forEach(element => {
       totalPujasBorradas = totalPujasBorradas + element.puja;
     });
-    //form.reset();
-    this.pujasService.borrarPujasUsuario(this.user.usuario.id, 'pilotos').subscribe(() => {
-      // this.pujas.forEach(element => {
-      //   this.usuario.saldoRestante = this.usuario.saldoRestante + element.puja;
-      // });
 
+    this.pujasService.borrarPujasUsuario(this.user.usuario.id, 'pilotos').subscribe(() => {
       this.snackBar.open('Pujas borradas', 'Exito', {
         duration: 2000,
       });
       this.totalPujado = this.usuario.saldo - this.usuario.saldoRestante - totalPujasBorradas;
       this.pujas = [];
       this.getPilotosMercado();
-
-
-      //this.usuario.saldoRestante = this.usuario.saldo;
     })
 
   }

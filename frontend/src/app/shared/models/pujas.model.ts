@@ -1,4 +1,6 @@
-
+/**
+ * Interfaz para el modelo de pujas
+ */
 export interface IPujas {
     id?: number;
     usuarioId?: number;

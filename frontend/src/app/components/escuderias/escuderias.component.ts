@@ -11,6 +11,9 @@ import { DialogEliminarComponent } from '../pilotos/dialog-eliminar/dialog-elimi
   templateUrl: './escuderias.component.html',
   styleUrls: ['./escuderias.component.scss']
 })
+/**
+ * Clase para el componente de escuderias
+ */
 export class EscuderiasComponent implements OnInit {
   public escuderias: Array<IEscuderias> = [];
   public escuderia: IEscuderias;
@@ -21,12 +24,20 @@ export class EscuderiasComponent implements OnInit {
 
   sorted: IEscuderias;
   public rolPermitido = false;
+  /**
+   * Constructor para el componente de escuderias
+   * @param  {EscuderiasService} privateescuderiasService
+   * @param  {AuthenticationService} privateauthenticationService
+   * @param  {MatDialog} privatedialog
+   */
   constructor(
     private escuderiasService: EscuderiasService,
     private authenticationService: AuthenticationService,
     private dialog: MatDialog
   ) { }
-
+  /**
+   * Metodo que se ejecuta al inicio
+   */
   ngOnInit() {
 
     this.fetchEscuderias(this.campo);
@@ -34,6 +45,10 @@ export class EscuderiasComponent implements OnInit {
     this.checkRolUser(user.usuario);
 
   }
+  /**
+   * Abre modal para la confirmación de eliminar el piloto
+   * @param  {string} escuderiaId
+   */
   public delete(escuderiaId: string) {
     const dialogRef = this.dialog.open(DialogEliminarComponent, {
       width: '500px',
@@ -47,7 +62,10 @@ export class EscuderiasComponent implements OnInit {
     });
   }
 
-
+  /**
+   * Obtiene las escuderias y las ordena
+   * @param  {string} campo? //campo por el que ordenar
+   */
   fetchEscuderias(campo?: string) {
     if (this.direct === 'asc') {
       this.direct = 'desc';
@@ -62,6 +80,10 @@ export class EscuderiasComponent implements OnInit {
     });
 
   }
+  /**
+   * Comprueba el rol de usuario para que sean visibles o no ciertas acciones
+   * @param  {any} usuario //usuario a comprobar
+   */
   private checkRolUser(usuario: any) {
     if (usuario.rol === 'admin') {
       this.rolPermitido = true;

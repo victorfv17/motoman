@@ -12,6 +12,9 @@ import { DialogEliminarComponent } from './dialog-eliminar/dialog-eliminar.compo
   templateUrl: './pilotos.component.html',
   styleUrls: ['./pilotos.component.scss']
 })
+/**
+ * clase para el componente de pilotos
+ */
 export class PilotosComponent implements OnInit {
   public pilotos: Array<IPilotos> = [];
   public escuderias: Array<IEscuderias>;
@@ -24,12 +27,20 @@ export class PilotosComponent implements OnInit {
   private cont = 0;
   sorted: IPilotos;
   public rolPermitido = false;
+  /**
+   * Constructor para el componente de pilotos
+   * @param  {PilotosService} privatepilotosService
+   * @param  {AuthenticationService} privateauthenticationService
+   * @param  {MatDialog} privatedialog
+   */
   constructor(
     private pilotosService: PilotosService,
     private authenticationService: AuthenticationService,
     private dialog: MatDialog
   ) { }
-
+  /**
+   * Metodo que se ejecuta al inicio
+   */
   ngOnInit() {
 
     this.getPilotos(this.campo);
@@ -37,7 +48,10 @@ export class PilotosComponent implements OnInit {
     this.checkRolUser(user.usuario);
 
   }
-
+  /**
+   * Abre la modal para confirmar la eliminacion del piloto
+   * @param  {string} pilotoId
+   */
   public delete(pilotoId: string) {
     const dialogRef = this.dialog.open(DialogEliminarComponent, {
       width: '500px',
@@ -51,7 +65,10 @@ export class PilotosComponent implements OnInit {
     });
   }
 
-
+  /**
+   * Obtiene los pilotos y los ordena
+   * @param  {string} campo? //campo por el que ordenar los pilotos
+   */
   getPilotos(campo?: string) {
     if (this.direct === 'asc') {
       this.direct = 'desc';
@@ -66,6 +83,10 @@ export class PilotosComponent implements OnInit {
     });
 
   }
+  /**
+   * Comprobacion del rol del usuario para la visibilidad de ciertas acciones
+   * @param  {any} usuario
+   */
   private checkRolUser(usuario: any) {
     if (usuario.rol === 'admin') {
       this.rolPermitido = true;

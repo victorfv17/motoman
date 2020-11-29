@@ -13,7 +13,9 @@ import { TabVenderPilotosComponent } from './vender/tab-vender-pilotos/tab-vende
 import { TabVenderEscuderiasComponent } from './vender/tab-vender-escuderias/tab-vender-escuderias.component';
 
 
-
+/**
+ * Declaracion y importaciones de los modulos del mercado
+ */
 @NgModule({
   declarations: [MercadoComponent, ComprarComponent, VenderComponent, TabPilotosComponent, TabEscuderiasComponent, TabVenderPilotosComponent, TabVenderEscuderiasComponent],
   imports: [
@@ -24,4 +26,7 @@ import { TabVenderEscuderiasComponent } from './vender/tab-vender-escuderias/tab
     MercadoRoutingModule
   ]
 })
+/**
+ * Clase para los modulos del mercado
+ */
 export class MercadoModule { }

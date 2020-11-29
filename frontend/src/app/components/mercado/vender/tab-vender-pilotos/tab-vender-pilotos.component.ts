@@ -11,21 +11,35 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './tab-vender-pilotos.component.html',
   styleUrls: ['./tab-vender-pilotos.component.scss']
 })
+/**
+ * Clase para el componente de vender pilotos
+ */
 export class TabVenderPilotosComponent implements OnInit {
   usuario: any;
   equipos: Array<IEquipo> = [];
   public isLoading = true;
+  /**
+   * Constructor para el componente de vender pilotos
+   * @param  {EquipoService} privateequipoService
+   * @param  {PujasService} privatepujasService
+   * @param  {MatSnackBar} privatesnackBar
+   */
   constructor(
     private equipoService: EquipoService,
     private pujasService: PujasService,
     private snackBar: MatSnackBar
 
   ) { }
-
+  /**
+   * Metodo que se ejecuta al inicio
+   */
   ngOnInit() {
     this.usuario = JSON.parse(localStorage.getItem('usuario'));
     this.getEquipo();
   }
+  /**
+   * Obtiene los pilotos del equipo del usuario
+   */
   private getEquipo() {
     this.isLoading = true;
     this.equipoService.getEquipo(this.usuario.usuario.id, 'pilotos').subscribe((equipo) => {
@@ -33,7 +47,10 @@ export class TabVenderPilotosComponent implements OnInit {
       this.isLoading = false;
     });
   }
-
+  /**
+   * Ejecuta la venta del piloto y actualiza el saldo
+   * @param  {any} piloto
+   */
   public venderPiloto(piloto: any) {
     this.equipoService.venta(piloto.idEquipo).subscribe(() => {
       this.usuario.usuario.saldo = this.usuario.usuario.saldo + piloto.valorMercado;

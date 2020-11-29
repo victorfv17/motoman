@@ -1,3 +1,4 @@
+//Estilos para la alineación
 table th{
     border:none;
 }
@@ -10,15 +11,6 @@ table td{
     }
 }
 
-// .container{
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-// }
-// .actionButtons{
-//     display: flex;
-//     justify-content: space-evenly;
-// }
 .container{
     display:flex;
     align-items:center;

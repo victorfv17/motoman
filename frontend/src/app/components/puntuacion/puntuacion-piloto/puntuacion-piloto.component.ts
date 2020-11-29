@@ -11,6 +11,9 @@ import { isNullOrUndefined } from 'util';
   templateUrl: './puntuacion-piloto.component.html',
   styleUrls: ['./puntuacion-piloto.component.scss']
 })
+/**
+ * Clase para el componente de puntuaciones de los pilotos
+ */
 export class PuntuacionPilotoComponent implements OnInit {
   isDisabled = true;
   valores = [25, 20, 16, 13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
@@ -22,17 +25,29 @@ export class PuntuacionPilotoComponent implements OnInit {
   public isLoading: boolean = true;
   sorted: IPilotos;
   puntuaciones: Array<any> = [];
+  /**
+   * Constructor para el componente de puntuaciones de pilotos
+   * @param  {PilotosService} privatepilotosService
+   * @param  {PuntuacionService} privatepuntuacionService
+   * @param  {MatSnackBar} privatesnackbar
+   */
   constructor(
     private pilotosService: PilotosService,
     private puntuacionService: PuntuacionService,
     private snackbar: MatSnackBar
   ) { }
-
+  /**
+   * Metodo que se ejecuta al inicio
+   */
   ngOnInit() {
 
     this.fetchPuntuacionesPilotos(this.campo, this.direct);
   }
-
+  /**
+   * Obtiene los pilotos con sus puntuaciones
+   * @param  {string} campo
+   * @param  {string} direct
+   */
   public fetchPuntuacionesPilotos(campo: string, direct: string) {
 
     this.puntuacionService.getPuntuacionesPilotos(campo, direct).subscribe(pilotos => {
@@ -47,6 +62,10 @@ export class PuntuacionPilotoComponent implements OnInit {
     });
 
   }
+  /**
+   * Asigna la puntuacion al piloto y comprueba si ya existe puntuacion para ese piloto
+   * @param  {any} piloto
+   */
   public puntuacionPiloto(piloto: any) {
     if (piloto.puntos) {
       this.isDisabled = false;
@@ -61,6 +80,10 @@ export class PuntuacionPilotoComponent implements OnInit {
       this.puntuaciones.splice(this.puntuaciones.indexOf(piloto), 1);
     }
   }
+  /**
+   * Obtiene las puntuaciones de los pilotos y las ordena
+   * @param  {string} campo? // campo por el que ordenar
+   */
   sort(campo?: string) {
     if (this.direct === 'asc') {
       this.direct = 'desc';
@@ -70,6 +93,9 @@ export class PuntuacionPilotoComponent implements OnInit {
     this.fetchPuntuacionesPilotos(campo, this.direct);
 
   }
+  /**
+   * Envia las puntuaciones de los pilotos para guardarlas
+   */
   public enviarPuntos() {
     this.puntuacionService.addPuntos(this.puntuaciones).subscribe(() => {
       this.snackbar.open('Puntuaciones añadidas', null, {
@@ -77,6 +103,9 @@ export class PuntuacionPilotoComponent implements OnInit {
       })
     });
   }
+  /**
+   * Metodo para actualizar las puntuaciones de los usuarios y pilotos 
+   */
   public updatePuntos() {
     this.puntuacionService.actualizarPuntos().subscribe(() => {
       this.snackbar.open('Puntuaciones actualizadas', null, {
@@ -84,6 +113,10 @@ export class PuntuacionPilotoComponent implements OnInit {
       })
     });
   }
+  /**
+   * Borra las puntuaciones de los pilotos
+   * @param  {NgForm} form
+   */
   public limpiarPuntos(form: NgForm) {
     form.reset();
     this.pilotos.map((element) => element.puntos = null);
@@ -94,7 +127,11 @@ export class PuntuacionPilotoComponent implements OnInit {
     });
     this.isDisabled = true;
   }
-
+  /**
+   * Deshabilita los valores que ya han sido elegidos
+   * @param  {number} valor
+   * @returns boolean
+   */
   public deshabilitarValores(valor: number): boolean {
     const existe = this.pilotos.find((piloto) => piloto.puntos === valor);
     if (existe) {

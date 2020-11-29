@@ -13,6 +13,9 @@ import { EventEmitter } from '@angular/core';
   templateUrl: './tab-escuderias.component.html',
   styleUrls: ['./tab-escuderias.component.scss']
 })
+/**
+ * Clase para el componente de comprar escuderias
+ */
 export class TabEscuderiasComponent implements OnInit, OnChanges {
   @ViewChild('formEscuderias', { static: true }) formEscuderias: NgForm;
   @Input() saldoRestante: number;
@@ -26,30 +29,44 @@ export class TabEscuderiasComponent implements OnInit, OnChanges {
   public usuario: any;
   private totalPujado: number = 0;
   totalPujas: number = 0;
+  /**
+   * Constructor para el componente de comprar escuderias
+   * @param  {MercadoService} privatemercadoService
+   * @param  {PujasService} privatepujasService
+   * @param  {MatSnackBar} privatesnackBar
+   * @param  {AuthenticationService} privateauthenticationService
+   */
   constructor(
     private mercadoService: MercadoService,
     private pujasService: PujasService,
     private snackBar: MatSnackBar,
     private authenticationService: AuthenticationService
   ) { }
-
+  /**
+   * metodo que se ejecuta al inicio
+   */
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
     this.usuario = this.user.usuario;
 
     this.getEscuderiasMercado();
   }
+  /**
+   * Metodo que se ejecuta cuando cambia el saldo restante
+   * @param  {SimpleChanges} changes //cambios producidos
+   */
   ngOnChanges(changes: SimpleChanges) {
     if (changes.saldoRestante.currentValue) {
       this.usuario.saldoRestante = changes.saldoRestante.currentValue;
     }
-
-    //this.doSomething(changes.categoryId.currentValue);
-    // You can also use categoryId.previousValue and 
-    // categoryId.firstChange for comparing old and new values
-
   }
-
+  /**
+   * Coleccion que se va actualizando a medida que se van añadiendo pujas
+   * Tiene varias condiciones dependiendo de si tiene pujas o no y si ya existe puja para esa escuderia
+   * Actualiza el saldo restante
+   * @param  {any} escuderia
+   * @param  {number} puja
+   */
   public coleccionPujasEscuderias(escuderia: any, puja: number) {
     let index = this.escuderias.findIndex(elem => elem.idMercado === escuderia.idMercado);
     if (puja === null) {
@@ -89,11 +106,13 @@ export class TabEscuderiasComponent implements OnInit, OnChanges {
         puja: puja
       }
       this.pujas.push(escuderiaPuja);
-      console.log('pujas', this.pujas);
       this.usuario.saldoRestante = this.usuario.saldoRestante - puja;
     }
   }
-
+  /**
+   * Obtiene las escuderias del mercado correspondientes al dia actual
+   * Comprueba las pujas y actualiza el saldo
+   */
   private getEscuderiasMercado() {
 
     let fechaActual = new Date().toISOString().slice(0, 10);
@@ -141,19 +160,29 @@ export class TabEscuderiasComponent implements OnInit, OnChanges {
 
     });
   }
-
+  /**
+   * Crea escuderias para el mercado correspondientes al dia actual
+   * Se ejecuta cuando no hay escuderias en el dia actual
+   */
   private createEscuderiasMercado() {
     this.mercadoService.saveEscuderiasMercado(this.user.usuario.liga_id).subscribe(() => this.getEscuderiasMercado());
   }
-
+  /**
+   * Borra las escuderias del mercado
+   */
   private deleteEscuderiasMercado() {
     this.mercadoService.deleteEscuderiasMercado(this.user.usuario.liga_id).subscribe(() => this.createEscuderiasMercado());
 
   }
-
+  /**
+   * Borra las pujas de las escuderias
+   */
   private borrarPujas() {
     this.pujasService.deletePujas().subscribe(() => this.updateSaldo());
   }
+  /**
+   * Actualiza el saldo del usuario y vuelve obtener las escuderias del mercado
+   */
   private updateSaldo() {
     if (this.user) {
       this.authenticationService.loadUser(this.user.usuario.id).subscribe((usuario) => {
@@ -170,7 +199,10 @@ export class TabEscuderiasComponent implements OnInit, OnChanges {
 
 
   }
-
+  /**
+   * Comprueba la escuderia para asignarle el color correspondiente
+   * @param  {any} escuderias //escuderias a comprobar
+   */
   private checkEscuderia(escuderias: any) {
     for (var i = 0; i < escuderias.length; i++) {
 
@@ -216,6 +248,9 @@ export class TabEscuderiasComponent implements OnInit, OnChanges {
     }
 
   }
+  /**
+   * Envia las pujas del usuario para que se guarden y actualiza el saldo del usuario
+   */
   public enviarPujas() {
     if (this.usuario.saldoRestante >= 0) {
 
@@ -242,7 +277,10 @@ export class TabEscuderiasComponent implements OnInit, OnChanges {
       })
     }
   }
-
+  /**
+   * Limpia las pujas de las escuderias y actualiza el saldo correspondiente a las pujas borradas
+   * @param  {NgForm} form
+   */
   public limpiarDatosPujas(form: NgForm) {
     let totalPujasBorradas = 0;
     this.pujas.forEach(element => {

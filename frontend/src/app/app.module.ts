@@ -26,7 +26,9 @@ import { PuntuacionEscuderiaComponent } from './components/puntuacion/puntuacion
 
 
 
-
+/**
+ * Declaraciones y importaciones de los componentes y modulos
+ */
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,4 +67,7 @@ import { PuntuacionEscuderiaComponent } from './components/puntuacion/puntuacion
   bootstrap: [AppComponent],
   entryComponents: [AlineacionDialogComponent, DialogEliminarComponent]
 })
+/**
+ * Modulo para la clase principal
+ */
 export class AppModule { }

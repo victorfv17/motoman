@@ -11,19 +11,30 @@ import { Location } from '@angular/common';
   templateUrl: './pilotos-detail.component.html',
   styleUrls: ['./pilotos-detail.component.scss']
 })
+/**
+ * Clase para el componente de detalle del piloto
+ */
 export class PilotosDetailComponent implements OnInit {
   public idPiloto: number;
   public piloto: IPilotos;
   public escuderia: IEscuderias;
   public isLoading: boolean = false;
+  /**
+   * Constructor para el componente de detalle del piloto
+   * @param  {ActivatedRoute} privateactivatedRoute
+   * @param  {PilotosService} privatepilotosService
+   * @param  {EscuderiasService} privateescuderiasService
+   * @param  {Location} privatelocation
+   */
   constructor(
     private activatedRoute: ActivatedRoute,
     private pilotosService: PilotosService,
     private escuderiasService: EscuderiasService,
     private location: Location) { }
-
+  /**
+   * Metodo que se ejecuta al inicio y que trae los pilotos con su escuderia
+   */
   ngOnInit() {
-    //Añadir foto al detail
     this.isLoading = true;
     this.idPiloto = parseInt(this.activatedRoute.snapshot.paramMap.get('id'));
 
@@ -38,6 +49,9 @@ export class PilotosDetailComponent implements OnInit {
       })
     }));
   }
+  /**
+   * navega a la anterior pantalla
+   */
   public back() {
     this.location.back();
   }

@@ -1,4 +1,6 @@
-
+/**
+ * Interfaz para el modelo de apuesta
+ */
 
 export interface IPrediccion {
     id?: number;

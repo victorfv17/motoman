@@ -13,16 +13,27 @@ import { NgForm } from '@angular/forms';
   templateUrl: './comprar.component.html',
   styleUrls: ['./comprar.component.scss']
 })
+/**
+ * Clase padre para el componente de comprar
+ */
 export class ComprarComponent implements OnInit {
   isLoading = false;
   saldoRestante: number;
+  /**
+   * Constructor para el componente de comprar
+   */
   constructor(
   ) { }
-
+  /**
+   * Se ejecuta al inicio
+   */
   ngOnInit() {
 
   }
-
+  /**
+   * Actualiza el saldo restante para los dos componentes hijo(tab-pilotos y tab-escuderias)
+   * @param saldoRestante 
+   */
   obtenerSaldoRestante(saldoRestante: number) {
     this.saldoRestante = saldoRestante;
   }

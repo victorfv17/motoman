@@ -13,11 +13,22 @@ import { NgForm } from '@angular/forms';
   templateUrl: './pilotos-add.component.html',
   styleUrls: ['./pilotos-add.component.scss']
 })
+/**
+ * Clase para el componente de añadir pilotos
+ */
 export class PilotosAddComponent implements OnInit {
   public piloto: IPilotos = {};
   public escuderias: Array<IEscuderias> = [];
   private pilotoId: string;
   public isLoading: boolean = true;
+  /**
+   * Constructor para el componente de añadir pilotos
+   * @param  {PilotosService} privatepilotosService
+   * @param  {EscuderiasService} privateescuderiasService
+   * @param  {ActivatedRoute} privateroute
+   * @param  {Location} privatelocation
+   * @param  {MatSnackBar} privatesnackbar
+   */
   constructor(
     private pilotosService: PilotosService,
     private escuderiasService: EscuderiasService,
@@ -25,12 +36,17 @@ export class PilotosAddComponent implements OnInit {
     private location: Location,
     private snackbar: MatSnackBar
   ) { }
-
+  /**
+   * Metodo que se ejecuta al inicio
+   */
   ngOnInit() {
     this.pilotoId = this.route.snapshot.paramMap.get('id');
     this.fetchEscuderias();
   }
-
+  /**
+   * Añade el piloto con los datos introducidos
+   * @param  {NgForm} form
+   */
   create(form: NgForm) {
     this.pilotosService.addPiloto(this.piloto).subscribe(() => {
       form.reset();
@@ -39,6 +55,9 @@ export class PilotosAddComponent implements OnInit {
       })
     });
   }
+  /**
+   * Modifica los datos del piloto 
+   */
   edit() {
     this.pilotosService.editPiloto(this.piloto, this.pilotoId).subscribe(() => {
       this.snackbar.open('Piloto actualizado', null, {
@@ -46,7 +65,9 @@ export class PilotosAddComponent implements OnInit {
       })
     });
   }
-
+  /**
+   * Obtiene las escuderias
+   */
   private fetchEscuderias() {
     this.escuderiasService.getAll().subscribe((escuderias) => {
       this.escuderias = escuderias;
@@ -58,15 +79,19 @@ export class PilotosAddComponent implements OnInit {
 
     });
   }
-
+  /**
+   * Obtiene los pilotos
+   */
   private fetchPiloto() {
     this.pilotosService.getPiloto(parseInt(this.pilotoId)).subscribe((piloto) => {
       this.piloto = piloto;
-      //this.piloto.nombre_escuderia = this.escuderias[this.piloto.id_escuderia].nombre;
       this.isLoading = false;
     });
   }
-
+  /**
+   * Edita o crea dependiendo de si ya existe el piloto
+   * @param  {NgForm} form 
+   */
   submitData(form: NgForm) {
     if (this.pilotoId) {
       this.edit();
@@ -77,7 +102,9 @@ export class PilotosAddComponent implements OnInit {
 
     }
   }
-
+  /**
+   * Navega a la pantalla anterior
+   */
   back() {
     this.location.back();
   }

@@ -1,5 +1,7 @@
 import { IEscuderias } from './escuderias.model';
-
+/**
+ * Interfaz para el modelo de piloto
+ */
 export interface IPilotos {
     id?: number;
     nombre?: string;

@@ -11,6 +11,9 @@ import { isNullOrUndefined } from 'util';
   templateUrl: './puntuacion-escuderia.component.html',
   styleUrls: ['./puntuacion-escuderia.component.scss']
 })
+/**
+ * Clase para el componente de puntuaciones de esucderias
+ */
 export class PuntuacionEscuderiaComponent implements OnInit {
   isDisabled = true;
   valores = [25, 20, 16, 13, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
@@ -20,14 +23,27 @@ export class PuntuacionEscuderiaComponent implements OnInit {
   public isLoading: boolean = true;
   public direct: string = 'asc';
   public campo: string = 'nombre_escuderia';
+  /**
+   * Constructor para el componente de puntuaciones de esucderias
+   * @param  {PuntuacionService} privatepuntuacionService
+   * @param  {MatSnackBar} privatesnackbar
+   */
   constructor(
     private puntuacionService: PuntuacionService,
     private snackbar: MatSnackBar
   ) { }
-
+  /**
+   * Metodo que se ejecuta al inicio 
+   */
   ngOnInit() {
     this.fetchEscuderias(this.campo, this.direct);
   }
+
+  /**
+   * Obtiene las escuderias con sus puntuaciones
+   * @param campo 
+   * @param direct 
+   */
   private fetchEscuderias(campo: string, direct: string) {
 
     this.puntuacionService.getPuntuacionesEscuderias(campo, direct).subscribe(escuderias => {
@@ -43,6 +59,10 @@ export class PuntuacionEscuderiaComponent implements OnInit {
 
 
   }
+  /**
+   * Asigna la puntuacion a la escuderia y comprueba si ya existe puntuacion para esa escuderia
+   * @param  {any} escuderia
+   */
   public puntuacionEscuderia(escuderia: any) {
     if (escuderia.puntos_escuderia) {
       this.isDisabled = false;
@@ -57,6 +77,10 @@ export class PuntuacionEscuderiaComponent implements OnInit {
       this.puntuaciones.splice(this.puntuaciones.indexOf(escuderia), 1);
     }
   }
+  /**
+   * Obtiene las escudrias y las ordena
+   * @param  {string} campo? //campo a ordenar
+   */
   sort(campo?: string) {
     if (this.direct === 'asc') {
       this.direct = 'desc';
@@ -67,6 +91,9 @@ export class PuntuacionEscuderiaComponent implements OnInit {
     this.fetchEscuderias(campo, this.direct);
 
   }
+  /**
+   * Añade las puntuaciones a las escuderias
+   */
   public enviarPuntos() {
     this.puntuacionService.addPuntos(this.puntuaciones).subscribe(() => {
       this.snackbar.open('Puntuaciones añadidas', null, {
@@ -74,6 +101,9 @@ export class PuntuacionEscuderiaComponent implements OnInit {
       })
     });
   }
+  /**
+   * Actualiza las puntuaciones de las escuderias
+   */
   public updatePuntos() {
     this.puntuacionService.actualizarPuntos().subscribe(() => {
       this.snackbar.open('Puntuaciones actualizadas', null, {
@@ -81,6 +111,10 @@ export class PuntuacionEscuderiaComponent implements OnInit {
       })
     });
   }
+  /**
+   * Borra todas las puntuaciones de las escuderias
+   * @param  {NgForm} form
+   */
   public limpiarPuntos(form: NgForm) {
     form.reset();
     this.escuderias.map((element) => element.puntos_escuderia = null);
@@ -91,7 +125,11 @@ export class PuntuacionEscuderiaComponent implements OnInit {
     });
     this.isDisabled = true;
   }
-
+  /**
+   * Deshabilita la puntuacion que se ha elegido para no introducirla varias veces
+   * @param  {number} valor
+   * @returns boolean
+   */
   public deshabilitarValores(valor: number): boolean {
     const existe = this.escuderias.find((escuderia) => escuderia.puntos_escuderia === valor);
     if (existe) {

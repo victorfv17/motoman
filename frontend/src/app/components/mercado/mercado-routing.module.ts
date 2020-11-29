@@ -4,7 +4,7 @@ import { ComprarComponent } from './comprar/comprar.component';
 import { MercadoComponent } from './mercado.component';
 import { VenderComponent } from './vender/vender.component';
 
-
+//rutas del mercado
 const routes: Routes = [
   { path: '', component: MercadoComponent },
   { path: 'comprar', component: ComprarComponent },
@@ -16,4 +16,7 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
+/**
+ * Clase para las rutas del mercado
+ */
 export class MercadoRoutingModule { }

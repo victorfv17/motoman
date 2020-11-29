@@ -10,6 +10,9 @@ import { IUser } from '../shared/models/users.model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+/**
+ * Clase para el componente de noticias
+ */
 export class HomeComponent implements OnInit {
   public pujas: Array<IPujas> = [];
   public maxPuja: number;
@@ -20,11 +23,18 @@ export class HomeComponent implements OnInit {
   public isLoadingPujas: boolean = true;
   public isLoadingVentas: boolean = true;
   public isLoading: boolean = true;
+  /**
+   * Constructor para el componente de noticias
+   * @param pujasService 
+   * @param equipoService 
+   */
   constructor(
     private pujasService: PujasService,
     private equipoService: EquipoService
   ) { }
-
+  /**
+   * Metodo que se ejecuta al inicio y obtiene el usuario de la storage
+   */
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
     this.fetchPujas();
@@ -33,7 +43,9 @@ export class HomeComponent implements OnInit {
       this.isLoading = false;
     }
   }
-
+  /**
+   * Obtiene las compras del ultimo dia
+   */
   private fetchPujas() {
     this.pujasService.getPujas(this.user.usuario.liga_id).subscribe((pujas) => {
       this.pujas = pujas;
@@ -60,6 +72,10 @@ export class HomeComponent implements OnInit {
 
     });
   }
+
+  /**
+   * Obtiene las ventas del ultimo dia
+   */
   private fetchVentas() {
     this.equipoService.getVentas(this.user.usuario.liga_id).subscribe((ventas) => {
       this.ventas = ventas;

@@ -10,7 +10,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from 'src/app/core/material-module';
 import { LigaSearchComponent } from './liga-search/liga-search.component';
 
-
+/**
+ * Modulos declarados y importados para los componentes de liga
+ */
 @NgModule({
   declarations: [LigaComponent, LigaCreateComponent, LigaSearchComponent],
   imports: [
@@ -21,4 +23,7 @@ import { LigaSearchComponent } from './liga-search/liga-search.component';
     LigaRoutingModule
   ]
 })
+/**
+ * Clase para los modulos de la liga
+ */
 export class LigaModule { }

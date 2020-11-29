@@ -1,3 +1,6 @@
+/**
+ * Interfaz para el modelo de escuderias
+ */
 export interface IEscuderias {
     id_escuderia?: number;
     nombre_escuderia?: string;

@@ -6,19 +6,29 @@ import { AuthenticationService } from '../shared/services/authentication.service
 @Injectable({
   providedIn: 'root'
 })
+/**
+ * Clase para la autenticacion
+ */
 export class AutenticacionGuard implements CanActivate {
   public user: any;
+  /**
+   * Constructor para la autenticación
+   * @param  {AuthenticationService} privateauth
+   * @param  {Router} privaterouter
+   */
   constructor(private auth: AuthenticationService,
     private router: Router) {
-    console.log('ahjsdfklasdjf')
+
   }
+  /**
+   * Comprueba si esta autenticado
+   * @returns boolean
+   */
   canActivate(): boolean {
     if (!this.auth.isAuthenticated()) {
       this.router.navigate(['login']);
       return false;
     }
-
-    console.log('entro')
     return true;
   }
 

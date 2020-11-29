@@ -1,3 +1,4 @@
+<!--Pantalla de alineacion-->
 <ng-container *ngIf="isLoading; then spinner; else table"></ng-container>
 <ng-template #spinner>
     <mat-spinner class="spinner-center"></mat-spinner>
@@ -13,8 +14,6 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <!-- <th style="text-align: center;">Piloto</th>
-                    <th style="text-align: center;">Escuderia</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -27,11 +26,6 @@
                                     {{alineaciones.primerPiloto}}
                                 </mat-card>
                             </td>
-                            <!-- <td>
-                        <mat-card style="background-color: green;" (click)="openDialog('escuderiasMotoGp')">
-                            {{equipo.escuderiasMotoGp}}
-                        </mat-card>
-                    </td> -->
                         </tr>
                         <tr>
                             <td style="width: 22%;padding-top:20px">

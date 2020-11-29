@@ -10,6 +10,9 @@ import { PuntuacionService } from 'src/app/shared/services/puntuacion.service';
   templateUrl: './clasificacion.component.html',
   styleUrls: ['./clasificacion.component.scss']
 })
+/*
+* Clase para el componente de clasificacion
+*/
 export class ClasificacionComponent implements OnInit {
   public user: IUser;
   public users: Array<IUser> = [];
@@ -18,16 +21,26 @@ export class ClasificacionComponent implements OnInit {
   public campo: string = 'puntosTotales';
   public isLoading: boolean = true;
   public direct: string = 'asc';
+  /**
+   * Constructos para el componente de clasificacion
+   * @param  {PuntuacionService} privatepuntuacionService
+   */
   constructor(
     private puntuacionService: PuntuacionService
   ) { }
-
+  /**
+   * Metodo que se ejecuta al inicio
+   */
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('usuario'));
     this.sort(this.campo);
 
 
   }
+  /**
+   * Obtiene los datos de los usuarios de la liga y sus puntuaciones
+   * @param  {string} campo //campo por el que ordenar los datos
+   */
   sort(campo: string) {
     if (this.direct === 'asc') {
       this.direct = 'desc';

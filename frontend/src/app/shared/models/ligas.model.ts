@@ -1,3 +1,6 @@
+/**
+ * Interfaz para el modelo de ligas
+ */
 export interface ILigas {
     id?: number;
     id_liga?: number;

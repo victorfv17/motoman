@@ -1,3 +1,6 @@
+/**
+ * Interfaz para el modelo de equipo
+ */
 export interface IEquipo {
     idEquipo?: number;
     nombre?: string;

@@ -8,19 +8,32 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+/**
+ * Clase para el componente de login
+ */
 export class LoginComponent implements OnInit {
   public isLoading: boolean = false;
   public user: IUser = {};
   public usuario: string;
   public tieneError: boolean = false;
+  /**
+   * Constructor para el componente de login
+   * @param  {AuthenticationService} privateauthenticationService
+   * @param  {Router} privaterouter
+   */
   constructor(private authenticationService: AuthenticationService, private router: Router) {
 
   }
-
+  /**
+   * Metodo que se ejecuta al inicio
+   */
   ngOnInit() {
     this.usuario = localStorage.getItem('usuario');
 
   }
+  /**
+   * Envia la informacion introducida por el usuario para comprobar que es correcta
+   */
   public checkLogin() {
     if (this.user) {
 
@@ -35,8 +48,13 @@ export class LoginComponent implements OnInit {
       }, (error) => this.tieneError = true);
     };
   }
+
+
+  /**
+   * Navega a la pantalla de inicio de liga o a la pantalla de liga dependiendo de si el usuario pertenece a una liga
+   * @param  {IUser} usuario //usuario a comprobar 
+   */
   private navigate(usuario: IUser) {
-    console.log('usuario', usuario);
     if (usuario.usuario.liga_id) {
       this.router.navigateByUrl('/');
     } else {
