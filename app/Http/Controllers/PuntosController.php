@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class PuntosController extends Controller
 {  
   /**
-  *  Display a listing of the resource.
+  *  Obtener puntuaciones pilotos
   *
   * @return \Illuminate\Http\Response
   */
@@ -27,7 +27,7 @@ class PuntosController extends Controller
       ->get();
     }
     /**
-    *  Display a listing of the resource.
+    *  Obtiene puntuaciones escuderias
     *
     * @return \Illuminate\Http\Response
     */
@@ -42,7 +42,7 @@ class PuntosController extends Controller
 
  
      /**
-     * Store a newly created resource in storage.
+     * Guarda las puntuaciones
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -63,6 +63,9 @@ class PuntosController extends Controller
      
 
     }
+    /**
+     * Guarda la puntuacion de la escuderia
+     */
     private function puntuacionEscuderia($row){
      
       $existeEscuderia = Puntos::where('id_escuderia',$row['id_escuderia'])-> first();
@@ -80,6 +83,9 @@ class PuntosController extends Controller
       ]);
 
     }
+    /**
+     * Guarda la puntuacion del piloto
+     */
     private function puntuacionPiloto($row){
     
       $existe = Puntos::where('id_piloto',$row['id'])-> first();
@@ -97,7 +103,9 @@ class PuntosController extends Controller
       ]);
      
     }
-
+    /**
+     * Actualiza los puntos de los pilotos y escuderias
+     */
     private function updatePuntosPilotoEscuderia(){
       $coleccionPuntos = Puntos::get();
       foreach($coleccionPuntos as $puntos){
@@ -114,10 +122,16 @@ class PuntosController extends Controller
       }
       
     }
+    /**
+     * Elimina las puntuaciones
+     */
     public function destroyPuntos(){
     
       Puntos::where('id','>',0)->delete();
     }
+    /**
+     * Asigna posicion segun puntuacion
+     */
     private function asignarPosicion($puntos){
       switch($puntos){
         case "25":
@@ -169,7 +183,7 @@ class PuntosController extends Controller
       return $row['posicion'];
     }
      /**
-     * Store a newly created resource in storage.
+     * Actualiza las puntuaciones de los usuarios
      *
      * @return \Illuminate\Http\Response
      */
@@ -232,6 +246,9 @@ class PuntosController extends Controller
        }
      
     }
+    /**
+     * Actualiza las puntuaciones mediante las apeustas
+     */
     public function updatePuntosPredicciones(){
       $predicciones = Predicciones::get();
      

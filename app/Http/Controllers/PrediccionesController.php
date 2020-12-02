@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class PrediccionesController extends Controller
 {
      /**
-     * Display a listing of the resource.
+     * Obtener las apuestas
      *
      * @return \Illuminate\Http\Response
      */
@@ -15,7 +15,7 @@ class PrediccionesController extends Controller
         return Predicciones::get();
     }
       /**
-     * Display a listing of the resource.
+     * Obtener una apuesta
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +23,7 @@ class PrediccionesController extends Controller
         return Predicciones::where('usuario_id',$id)->select('piloto_id')->orderBy('posicion')->get();
     }
      /**
-     * Display a listing of the resource.
+     * Crear apuesta
      *
      * @return \Illuminate\Http\Response
      */
@@ -46,7 +46,7 @@ class PrediccionesController extends Controller
      
     }
     /**
-     * Update the specified resource in storage.
+     * Modificar apuesta
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -59,7 +59,7 @@ class PrediccionesController extends Controller
         $this->store($request);
     }
      /**
-     * Display a listing of the resource.
+     * Eliminar apuesta
      *
      * @return \Illuminate\Http\Response
      */

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class MercadoPilotosController extends Controller
 {
       /**
-     * Display a listing of the resource.
+     * Obtiene los pilotos del mercado
      *
      * @return \Illuminate\Http\Response
      */
@@ -33,30 +33,12 @@ class MercadoPilotosController extends Controller
         ->where('fecha',$fecha_actual)
         ->get();
 
-       
-      
-        /*$mercadoPilotos = MercadoPiloto::get();
-        foreach($mercadoPilotos as $mercadoPiloto){
-            $piloto = Pilotos::where('id',$mercadoPiloto['id']);
-            var_dump($piloto);
-        }*/
-        //return 
         return $pilotos;
       
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Guarda los pilotos en el mercado
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -84,7 +66,7 @@ class MercadoPilotosController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     *Obtiene los pilotos del mercado
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -138,43 +120,17 @@ class MercadoPilotosController extends Controller
             $puja = Pujas::where('usuario_id',$usuario)->where('mercadoPiloto_id',$piloto['idMercado'])->where('visible',null)->first();
     
             $pilotos[$indice]->valorPuja = $puja ? $puja['valorPuja']:null;
-            //array_push($pujas, $puja);
+
          
         }
-        /*$mercadoPilotos = MercadoPiloto::get();
-        foreach($mercadoPilotos as $mercadoPiloto){
-            $piloto = Pilotos::where('id',$mercadoPiloto['id']);
-            var_dump($piloto);
-        }*/
-        //return 
+
         return $pilotos;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+   
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Elimina los pilotos del mercado
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -183,9 +139,7 @@ class MercadoPilotosController extends Controller
     {
        
         MercadoPiloto::where('liga_id',$idLiga)->delete();
-        // foreach($itemsMercado as $item){
-        //     Pujas::where('mercadoPiloto_id',$item['id'])
-        // }
+
         
     }
 }

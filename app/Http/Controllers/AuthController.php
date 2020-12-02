@@ -8,9 +8,14 @@ use App\Ligas;
 use App\Clasificacion;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+/**
+ * Controlador de autenticacion
+ */
 class AuthController extends Controller
 {
-    
+    /**
+	 * Metodo para registrar un usuario
+	 */
    public function register(Request $request)
    {
 	   
@@ -30,18 +35,27 @@ class AuthController extends Controller
        $success['name'] =  $user->name;
        return response()->json(['success'=>$success]);
    }
+   /**
+	* Obtiene un usuario
+    */
     public function getUser()
    {
        $user = Auth::user();
 	 
        return response()->json(['success' => $user]);
    }
+   /**
+	* Obtiene los usuarios de una liga
+    */
    public function getUsersByLiga($liga)
    {
        
 	 return User::where('liga_id',$liga)->get();
        
    }
+   /**
+	* Comprueba si el login es correcto
+    */
 	public function login(Request $request){
 		
 		$request-> validate([
@@ -66,7 +80,9 @@ class AuthController extends Controller
 		}
 
 	}
-	
+	/**
+	 * Crea un usuario
+	 */
 	public function create(array $data){
 		return User::create([
 			'name' => $data['name'],
@@ -77,6 +93,9 @@ class AuthController extends Controller
 		
 
 	}
+	/**
+	 * Actualiza la informacion de un usuario
+	 */
 	public function update(Request $request){
 		User::where('id',$request['id'])
 		->update(['liga_id'=> $request['liga_id']]);
@@ -86,7 +105,9 @@ class AuthController extends Controller
 		return User::where('id',$request['id'])->first();
 	
 	}
-
+	/**
+	 * Obtiene un usuario
+	 */
 	public function loadUser($id){
 		return User::where('id',$id)->first();
 	}

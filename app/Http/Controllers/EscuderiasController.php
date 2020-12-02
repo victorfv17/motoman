@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Escuderias;
 header('Access-Control-Allow-Origin: *');
+/**
+ * Controlador para las escuderias
+ */
 class EscuderiasController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Obtiene todas las escuderias
      *
      * @return \Illuminate\Http\Response
      */
@@ -16,34 +19,26 @@ class EscuderiasController extends Controller
     {
         return Escuderias::get();
     }
+    /**
+     * Obtiene todas las escuderias ordenadas por un campo y en un sentido
+     * @param $campo
+     * @param $direct
+     * @return \Illuminate\Http\Response
+     */
     public function indexSort($campo,$direct)
     {
         return Escuderias::orderBy($campo, $direct )->select('id as id_escuderia', 'nombre as nombre_escuderia', 'valorMercado as valorMercado_escuderia', 'puntos as puntos_escuderia')->get();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
+     * Crea la escuderia 
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        // $escuderias = $request->all();
-        // //Escuderias::create($escuderias);
-        // foreach($escuderias as $escuderia){
-        //     Escuderias::create($escuderia);
-        // }
         Escuderias::insert([
             'nombre'=>$request['nombre'],
             'puntos'=>$request['puntos'],
@@ -52,10 +47,13 @@ class EscuderiasController extends Controller
      
        
     }
+    /**
+     * Crea varias escuderias de una sola vez (postman)
+     */
     public function storeAll(Request $request)
     {
         $escuderias = $request->all();
-        //Escuderias::create($escuderias);
+     
         foreach($escuderias as $escuderia){
             Escuderias::create($escuderia);
         }
@@ -65,7 +63,7 @@ class EscuderiasController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Obtiene una escuderia
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -75,19 +73,9 @@ class EscuderiasController extends Controller
          return Escuderias::where('id',$id)->get();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza una escuderia
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -101,7 +89,7 @@ class EscuderiasController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una escuderia
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

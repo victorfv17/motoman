@@ -7,10 +7,13 @@ use App\Equipo;
 use App\User;
 use App\Pilotos;
 use App\Escuderias;
+/**
+ * Controlador de equipo
+ */
 class EquipoController extends Controller
 {
-      /**
-     * Display a listing of the resource.
+    /**
+     * Obtiene la alineacion de un usuario
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -40,8 +43,8 @@ class EquipoController extends Controller
         return $equipo;
     }
       /**
-     * Display a listing of the resource.
-     *
+     * Obtiene las ventas del dia de la liga
+     *  @param $liga
      * @return \Illuminate\Http\Response
      */
     public function showVentas($idLiga)
@@ -72,17 +75,7 @@ class EquipoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Guarda la alineacion del usuario
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -91,46 +84,20 @@ class EquipoController extends Controller
     {
         $usuarioId = $request->usuario;
         $equipo = $request->equipo;
-     
-        // if(date("l") == 'Saturday' ||date("l") == 'Sunday'){
-        //     $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idPrimerPiloto'])->update(['indicadorEnAlineacion'=> '2']);
-        //     $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idSegundoPiloto'])->update(['indicadorEnAlineacion'=> '2']);
-        //     $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id', $equipo['idEscuderia'])->update(['indicadorEnAlineacion'=> '2']);
-        // }else{
-           
+                
         $equipoPiloto = Equipo::where('usuario_id', $usuarioId)
         ->where('indicadorEnAlineacion','<>','2')
         ->update(['indicadorEnAlineacion'=> '0']);
         foreach($equipo as $item){
             Equipo::where('usuario_id', $usuarioId)->where('id',$item)->update(['indicadorEnAlineacion'=> '1']);
         }
-        // $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id',$equipo['idPrimerPiloto'])->update(['indicadorEnAlineacion'=> '1']);
-        // $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id',array_key_exists('idSegundoPiloto', $equipo))->update(['indicadorEnAlineacion'=> '1']);
-        // $equipoPiloto = Equipo::where('usuario_id', $usuarioId)->where('id',array_key_exists('idEscuderia', $equipo))->update(['indicadorEnAlineacion'=> '1']);
-    
-          
-        // }
        
+    }
   
-       // $equipoEscuderia = Equipo::where('usuario_id', $usuarioId)->where('escuderia_id', $equipo['idEscuderia'])->update(['indicadorEnAlineacion'=> true]);
-       
-       
-    }
     /**
-     * Display the specified resource.
+     * Obtiene los pilotos del equipo del usuario
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($user_id)
-    {
-      
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
+     * @param  int  $user_id
      * @return \Illuminate\Http\Response
      */
     public function showPilotos($user_id)
@@ -149,7 +116,7 @@ class EquipoController extends Controller
         return $listEquipos;
     }
      /**
-     * Display the specified resource.
+     * Obtiene las escuderias del equipo del usuario
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -169,30 +136,8 @@ class EquipoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Elimina un piloto escuderia del equipo del usuario
+     * Es decir se realiza una venta y se actualiza el saldo
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -211,7 +156,6 @@ class EquipoController extends Controller
         }
         
         User::where('id', $rowUser['id'])->update(['saldo' => $saldo]);
-       // Equipo::where('id',$id)->delete();
         
     }
 }

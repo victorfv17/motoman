@@ -11,51 +11,33 @@ class PilotosController extends Controller
 {
     
     /**
-     * Display a listing of the resource.
+     * Obtiene los pilotos
      *
      * @return \Illuminate\Http\Response
      */
     public function index(){
         return Pilotos::get();
     }
+    /**
+     * Obtiene los pilotos con sus escuderias ordenados
+     */
     public function join($campo,$direct)
     {   
         return Pilotos::join('escuderias', 'escuderias.id','=','pilotos.id_escuderia')->select( 'pilotos.id as id','pilotos.nombre as nombre','pilotos.puntos','escuderias.nombre as escuderia', 'pais')->orderBy($campo, $direct )->get();
         
-       // return Pilotos::with('escuderias')->select( 'nombre','puntos','id_escuderia as id')->orderBy(Escuderias::'nombre', $direct )->get();
-        /*$todos =  Escuderias::get();
-        foreach($todos as $esc){
-            echo 
-        }*/
-       //return Pilotos::where('id_escuderia', $esc['id'])->get();
-
-        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+  
 
     /**
-     * Store a newly created resource in storage.
+     * Crear un piloto
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-		// $todos = $request->all();
-        // //Pilotos::create($todos);
-		
-		// foreach($todos as $pil){
-        //     Pilotos::create($pil);
-        // }
+	
         Pilotos::insert([
             'nombre'=>$request['nombre'],
             'edad'=>$request['edad'],
@@ -67,10 +49,13 @@ class PilotosController extends Controller
         ]);
      
     }
+    /**
+     * Crear colecccion de pilotos
+     */
     public function storeAll(Request $request)
     {
 		$todos = $request->all();
-        //Pilotos::create($todos);
+       
 		
 		foreach($todos as $pil){
             Pilotos::create($pil);
@@ -80,7 +65,7 @@ class PilotosController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Obtener un piloto
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -90,19 +75,9 @@ class PilotosController extends Controller
         return Pilotos::where('id',$id)->first();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-       
-    }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar un piloto
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -116,7 +91,7 @@ class PilotosController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Borrar un piloto
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

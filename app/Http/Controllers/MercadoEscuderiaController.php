@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class MercadoEscuderiaController extends Controller
 {
       /**
-     * Display a listing of the resource.
+     * Obtiene las escuderias del mercado
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,28 +27,13 @@ class MercadoEscuderiaController extends Controller
         ->where('fecha',$fecha_actual)
         ->get();
         
-        /*$mercadoPilotos = MercadoPiloto::get();
-        foreach($mercadoPilotos as $mercadoPiloto){
-            $piloto = Pilotos::where('id',$mercadoPiloto['id']);
-            var_dump($piloto);
-        }*/
-        //return 
         return $escuderias;
       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
 
     /**
-     * Store a newly created resource in storage.
+     * Crea escuderias para el mercado
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -76,7 +61,7 @@ class MercadoEscuderiaController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Obtiene las escuderias del mercado
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -139,30 +124,7 @@ class MercadoEscuderiaController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * Borra las escuderias del mercado
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

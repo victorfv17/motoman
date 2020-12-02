@@ -10,7 +10,7 @@ use App\Clasificacion;
 class LigasController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Obtiene las ligas
      *
      * @return \Illuminate\Http\Response
      */
@@ -18,29 +18,12 @@ class LigasController extends Controller
     {
         $ligas = Ligas::get();
        return $ligas;
-       /* foreach($ligas as  $key => $value){
-           
-          if($value['maxParticipantes'] == $value['numParticipantes']){
-           
-               unset($ligas[$key]);
-               return $ligas;
-           } 
-        }*/
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
-     * Store a newly created resource in storage.
+     * Guarda la liga
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -55,10 +38,6 @@ class LigasController extends Controller
         $liga->numParticipantes =$requestLiga['numParticipantes'];
        
         $liga->save();
-      // Ligas::insert(['nombre_liga'=> $requestLiga['nombre_liga'], 'maxParticipantes'=>$requestLiga['maxParticipantes'], 'numParticipantes'=>$requestLiga['numParticipantes']]);
-        //$liga =Ligas::get()->last();
-        //Clasificacion::insert(['puntosGP'=> 0, 'puntosMes'=> 0, 'puntosCategoria' => 0, 'puntosTotales' => 0, 'id_usuario' => $usuario]);
-        //User::where('id',$usuario)->update(['rol'=>'admin']);
         
         return $liga;
         
@@ -66,7 +45,7 @@ class LigasController extends Controller
    
 
     /**
-     * Display the specified resource.
+     * Obtiene la liga
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -76,39 +55,4 @@ class LigasController extends Controller
         return Ligas::where('id_liga',$id)->get();
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        
-        
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
